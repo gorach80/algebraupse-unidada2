@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 3: Ecuaciones, Inecuaciones y Sucesiones - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar Glassmorphism */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Bloques teóricos */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* Paneles */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .coeff-inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .number-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .number-input:focus {
+            border-color: var(--primary);
+        }
+
+        .action-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: var(--font-main);
+            margin-top: 1rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Displays de salida */
+        .solver-output-wrapper {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .formula-display {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: rgba(0,0,0,0.2);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .steps-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .steps-box p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Pascal Canvas */
+        .canvas-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        canvas {
+            background: #0b0f19;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+            cursor: crosshair;
+        }
+
+        /* Glosario list */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .glossary-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+        }
+
+        .glossary-card h3 {
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        footer p a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <button class="nav-tab active" onclick="switchTab('ecuacion')">
+                <i data-lucide="help-circle"></i> Ecuaciones
+            </button>
+            <button class="nav-tab" onclick="switchTab('binomio')">
+                <i data-lucide="layers"></i> Binomio
+            </button>
+            <button class="nav-tab" onclick="switchTab('glosario')">
+                <i data-lucide="book-open"></i> Glosario
+            </button>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="actividad_inecuaciones.html" class="nav-tab" style="text-decoration: none;">
+                <i data-lucide="activity"></i> Act. 1
+            </a>
+            <a href="actividad_sucesiones.html" class="nav-tab" style="text-decoration: none;">
+                <i data-lucide="trending-up"></i> Act. 2
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <header>
+            <h1>Tema 3: Ecuaciones, Inecuaciones y Sucesiones</h1>
+            <p>Unidad 2: Estudio analítico de igualdades, inecuaciones racionales, Teorema del binomio y convergencia</p>
+        </header>
+
+        <!-- TAB 1: SOLUCIONADOR ECUACIONES -->
+        <div id="tab-ecuacion" class="card active">
+            <h2><i data-lucide="help-circle" style="color:var(--primary);"></i> Ecuaciones Cuadráticas Completa</h2>
+            <p class="intro-text">
+                Una ecuación cuadrática completa es una igualdad polinómica de segundo grado. El comportamiento y naturaleza de sus raíces reales o complejas está gobernado por el valor algebraico de su discriminante \(\Delta\).
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--primary);"></i> Fundamento Formal y Discriminante
+                </div>
+                <p>Sea \(ax^2 + bx + c = 0\) una ecuación cuadrática sobre el cuerpo real, con \(a, b, c \in \mathbb{R}\) y \(a \neq 0\). Las soluciones se determinan mediante la fórmula general:</p>
+                <div class="formal-definition">
+                    \[x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\]
+                </div>
+                <p>El discriminante se define como \(\Delta = b^2 - 4ac\). De acuerdo con el orden en \(\mathbb{R}\), se derivan tres proposiciones estructurales:</p>
+                <p style="margin-top: 5px; color: var(--text-muted); font-size: 0.95rem;">
+                    1. **Si \(\Delta > 0\)**: Existen dos raíces reales y distintas: \(x_1, x_2 \in \mathbb{R}\) con \(x_1 \neq x_2\).<br>
+                    2. **Si \(\Delta = 0\)**: Existe una raíz real de multiplicidad 2 (raíz doble): \(x_1 = x_2 = -\frac{b}{2a} \in \mathbb{R}\).<br>
+                    3. **Si \(\Delta < 0\)**: No existen raíces reales. Las soluciones pertenecen al cuerpo complejo \(\mathbb{C}\) y son conjugadas: \(x_1, x_2 = \alpha \pm \beta i\), donde \(\alpha = -\frac{b}{2a}\) y \(\beta = \frac{\sqrt{-\Delta}}{2a}\).
+                </p>
+            </div>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Configurar Coeficientes</div>
+                    
+                    <div class="input-group">
+                        <div class="input-label">Coeficientes de \(ax^2 + bx + c = 0\):</div>
+                        <div class="coeff-inputs">
+                            <div>
+                                <span class="input-label" style="text-align:center;">a</span>
+                                <input type="number" id="coeff-eq-a" class="number-input" value="1">
+                            </div>
+                            <div>
+                                <span class="input-label" style="text-align:center;">b</span>
+                                <input type="number" id="coeff-eq-b" class="number-input" value="-5">
+                            </div>
+                            <div>
+                                <span class="input-label" style="text-align:center;">c</span>
+                                <input type="number" id="coeff-eq-c" class="number-input" value="6">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="action-btn" id="btn-resolver-eq" onclick="resolverEcuacion()">
+                        <i data-lucide="cpu"></i> Resolver Ecuación
+                    </button>
+                </div>
+
+                <div class="solver-output-wrapper">
+                    <div class="formula-display" id="eq-display">
+                        <!-- Ecuación KaTeX -->
+                    </div>
+                    
+                    <div class="steps-box" id="eq-steps">
+                        Configura los coeficientes reales y haz clic en "Resolver Ecuación" para ver el procedimiento formal de cálculo.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: BINOMIO Y PASCAL -->
+        <div id="tab-binomio" class="card">
+            <h2><i data-lucide="layers" style="color:var(--primary);"></i> Teorema del Binomio y Triángulo de Pascal</h2>
+            <p class="intro-text">
+                El Teorema del Binomio (o Binomio de Newton) formaliza la expansión de potencias algebraicas de un binomio de la forma \((x+y)^n\). Los coeficientes de la expansión corresponden a los términos combinatorios representados en el Triángulo de Pascal.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--secondary);"></i> Definición Combinatoria y Expansión
+                </div>
+                <p>Para todo \(n \in \mathbb{N}\) y para cualesquiera \(x, y \in \mathbb{R}\), la expansión del binomio se define mediante la sumatoria:</p>
+                <div class="formal-definition">
+                    \[(x + y)^n = \sum_{k=0}^{n} \binom{n}{k} x^{n-k} y^k\]
+                </div>
+                <p>El término \(\binom{n}{k}\) representa el coeficiente binomial y se define mediante factoriales de números enteros:</p>
+                <div class="formal-definition">
+                    \[\binom{n}{k} = \frac{n!}{k!(n-k)!} \quad \text{donde } 0 \le k \le n\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">
+                    <strong>Regla de Pascal (Identidad de Pascal):</strong> Los coeficientes adyacentes satisfacen la relación aditiva:
+                    \[\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}\]
+                    Esta recurrencia forma la base geométrica del Triángulo de Pascal.
+                </p>
+            </div>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Parámetros de la Expansión</div>
+                    
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Exponente (\(n\))</span>
+                            <span id="label-exponente" style="color:var(--primary-light); font-weight:700;">4</span>
+                        </div>
+                        <input type="range" id="slider-exponente" class="math-slider" min="1" max="8" step="1" value="4" oninput="updateBinomio()">
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); margin-top: 1rem;">
+                        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 5px; font-weight:700;">Visualizador combinatorio de celda:</div>
+                        <div id="pascal-info" style="font-size: 0.95rem; min-height: 80px;">
+                            Pasa el cursor sobre los círculos del triángulo para ver el análisis combinatorio.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <div class="formula-display" id="binom-display" style="width:100%;">
+                        <!-- KaTeX de la expansión -->
+                    </div>
+                    <canvas id="pascal-canvas" width="800" height="480" style="width: 100%; height: 280px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: GLOSARIO FORMAL -->
+        <div id="tab-glosario" class="card">
+            <h2><i data-lucide="book-open" style="color:var(--primary);"></i> Glosario y Lenguaje Formal</h2>
+            <p class="intro-text">
+                Definiciones matemáticas rigurosas que rigen las igualdades, la expansión binomial y el comportamiento límite de sucesiones reales.
+            </p>
+
+            <div class="glossary-grid">
+                <div class="glossary-card">
+                    <h3><i data-lucide="database" style="color:var(--primary);"></i> Propiedades de la Igualdad</h3>
+                    <p>La relación de igualdad \("="\) sobre el conjunto de los reales \(\mathbb{R}\) es una relación de equivalencia, cumpliendo los axiomas:</p>
+                    <p style="margin-top: 8px; font-size: 0.95rem; color: var(--text-muted);">
+                        1. **Reflexiva**: \(\forall x \in \mathbb{R}, \quad x = x\).<br>
+                        2. **Simétrica**: \(\forall x, y \in \mathbb{R}, \quad x = y \implies y = x\).<br>
+                        3. **Transitiva**: \(\forall x, y, z \in \mathbb{R}, \quad (x = y \land y = z) \implies x = z\).<br>
+                        4. **Sustitutiva**: Sean \(x, y \in \mathbb{R}\). Si \(x = y\), entonces para cualquier función \(f\), se cumple \(f(x) = f(y)\).
+                    </p>
+                </div>
+                
+                <div class="glossary-card">
+                    <h3><i data-lucide="activity" style="color:var(--secondary);"></i> Sucesión Real</h3>
+                    <p>Una sucesión de números reales es una función cuyo dominio es el conjunto de los números enteros positivos (naturales) y su codominio es \(\mathbb{R}\):</p>
+                    <div class="formal-definition" style="margin: 8px 0 0 0;">
+                        \[a: \mathbb{N} \to \mathbb{R}, \quad n \mapsto a_n\]
+                    </div>
+                    <p style="margin-top: 8px; font-size: 0.95rem; color: var(--text-muted);">
+                        Denotada por \(\{a_n\}_{n=1}^{\infty}\), representa una secuencia infinita ordenada \((a_1, a_2, a_3, \dots)\).
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <h3><i data-lucide="trending-up" style="color:var(--accent);"></i> Convergencia de Sucesiones (Definición Límite \(\epsilon-N\))</h3>
+                    <p>Se dice que una sucesión \(\{a_n\}\) converge a un límite real \(L \in \mathbb{R}\), denotado \(\lim_{n \to \infty} a_n = L\), si se satisface la siguiente proposición formal:</p>
+                    <div class="formal-definition" style="margin: 8px 0 0 0;">
+                        \[\forall \epsilon > 0, \quad \exists N \in \mathbb{N} \quad \text{tal que} \quad \forall n \ge N, \quad |a_n - L| < \epsilon\]
+                    </div>
+                    <p style="margin-top: 8px; font-size: 0.95rem; color: var(--text-muted);">
+                        Geométricamente, significa que a partir del término \(N\), todos los términos subsecuentes \(a_n\) de la sucesión se encuentran confinados dentro de una vecindad de radio \(\epsilon\) centrada en \(L\).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 2 · Tema 3: Ecuaciones, Inecuaciones y Sucesiones<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ========== CONFIGURACIÓN GLOBAL KATEX ==========
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== CONTROL DE TABS ==========
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            const btn = Array.from(document.querySelectorAll('.nav-tab')).find(tab => 
+                tab.getAttribute('onclick') && tab.getAttribute('onclick').includes(tabId)
+            );
+            if (btn) btn.classList.add('active');
+
+            const activeCard = document.getElementById(`tab-${tabId}`);
+            if (activeCard) activeCard.classList.add('active');
+
+            if (tabId === 'binomio') {
+                setTimeout(() => {
+                    initPascalCanvas();
+                    updateBinomio();
+                }, 50);
+            }
+        };
+
+        // ========== SOLUCIONADOR ECUACIONES CUADRÁTICAS ==========
+        function resolverEcuacion() {
+            const a = parseFloat(document.getElementById('coeff-eq-a').value);
+            const b = parseFloat(document.getElementById('coeff-eq-b').value);
+            const c = parseFloat(document.getElementById('coeff-eq-c').value);
+
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                alert("Introduce coeficientes numéricos válidos.");
+                return;
+            }
+
+            if (a === 0) {
+                // Ecuación lineal degenerada bx + c = 0
+                const root = -c / b;
+                const eqText = `\\[0x^2 ${b >= 0 ? '+ ' + b : '- ' + (-b)}x ${c >= 0 ? '+ ' + c : '- ' + (-c)} = 0\\]`;
+                document.getElementById('eq-display').innerHTML = eqText;
+
+                let steps = `<strong>Caso especial (Ecuación Lineal, a = 0):</strong><br>`;
+                if (b === 0) {
+                    steps += c === 0 ? "La ecuación es una identidad: \\(0 = 0\\) (infinitas soluciones)." : "Inconsistencia lógica: \\(" + c + " = 0\\) (sin soluciones).";
+                } else {
+                    steps += `Despejando el término lineal: \\(x = -\\frac{c}{b} = -\\frac{${c}}{${b}} = \\mathbf{${root.toFixed(4)}}\\).`;
+                }
+
+                document.getElementById('eq-steps').innerHTML = steps;
+                
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.getElementById('eq-display'), katexOptions);
+                    renderMathInElement(document.getElementById('eq-steps'), katexOptions);
+                }
+                return;
+            }
+
+            // Mostrar ecuación en display
+            const formatEq = `${a !== 1 ? (a === -1 ? '-' : a) : ''}x^2 ${b >= 0 ? '+ ' + b : '- ' + (-b)}x ${c >= 0 ? '+ ' + c : '- ' + (-c)} = 0`;
+            document.getElementById('eq-display').innerHTML = `\\[${formatEq.replace(/\s+/g, '')}\\]`;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('eq-display'), katexOptions);
+            }
+
+            // Calcular discriminante
+            const discriminant = b * b - 4 * a * c;
+            
+            let steps = `<strong>1. Calcular el Discriminante (\\(\\Delta\\)):</strong><br>`;
+            steps += `\\(\\Delta = b^2 - 4ac = (${b})^2 - 4(${a})(${c})\\)<br>`;
+            steps += `\\(\\Delta = ${b * b} - ${4 * a * c} = \\mathbf{${discriminant}}\\)<br><br>`;
+
+            if (discriminant > 0) {
+                const root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                const root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                
+                steps += `<strong>2. Análisis de raíces (\\(\\Delta > 0\\)):</strong><br>`;
+                steps += `Existen dos raíces reales y distintas.<br><br>`;
+                steps += `<strong>3. Aplicar fórmula cuadrática general:</strong><br>`;
+                steps += `\\(x_1 = \\frac{-(${b}) + \\sqrt{${discriminant}}}{2(${a})} = \\frac{${-b} + ${Math.sqrt(discriminant).toFixed(4)}}{${2*a}} = \\mathbf{${root1.toFixed(4)}}\\)<br>`;
+                steps += `\\(x_2 = \\frac{-(${b}) - \\sqrt{${discriminant}}}{2(${a})} = \\frac{${-b} - ${Math.sqrt(discriminant).toFixed(4)}}{${2*a}} = \\mathbf{${root2.toFixed(4)}}\\)`;
+            } 
+            else if (discriminant === 0) {
+                const root = -b / (2 * a);
+                
+                steps += `<strong>2. Análisis de raíces (\\(\\Delta = 0\\)):</strong><br>`;
+                steps += `Existe una raíz real única de multiplicidad 2 (raíz doble).<br><br>`;
+                steps += `<strong>3. Aplicar fórmula cuadrática general:</strong><br>`;
+                steps += `\\(x_{1,2} = \\frac{-b}{2a} = \\frac{-(${b})}{2(${a})} = \\mathbf{${root.toFixed(4)}}\\)`;
+            } 
+            else {
+                // Discriminante negativo (raíces complejas conjugadas)
+                const realPart = -b / (2 * a);
+                const imagPart = Math.sqrt(-discriminant) / (2 * a);
+                
+                steps += `<strong>2. Análisis de raíces (\\(\\Delta < 0\\)):</strong><br>`;
+                steps += `No existen raíces reales. Las raíces pertenecen al cuerpo complejo \\(\\mathbb{C}\\) y son conjugadas.<br><br>`;
+                steps += `<strong>3. Formular raíces complejas conjugadas:</strong><br>`;
+                steps += `\\(x_1 = \\alpha + \\beta i = ${realPart.toFixed(4)} + ${Math.abs(imagPart).toFixed(4)}i\\)<br>`;
+                steps += `\\(x_2 = \\alpha - \\beta i = ${realPart.toFixed(4)} - ${Math.abs(imagPart).toFixed(4)}i\\)`;
+            }
+
+            document.getElementById('eq-steps').innerHTML = steps;
+
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('eq-steps'), katexOptions);
+            }
+        }
+
+        // ========== EXPANSOR BINOMIO DE NEWTON Y PASCAL ==========
+        let pascalData = [];
+        let hoveredCell = null;
+
+        function factoriales(num) {
+            if (num <= 1) return 1;
+            return num * factoriales(num - 1);
+        }
+
+        function combinaciones(n, k) {
+            return Math.round(factoriales(n) / (factoriales(k) * factoriales(n - k)));
+        }
+
+        // Construir datos de Pascal hasta la fila 8
+        function buildPascal() {
+            pascalData = [];
+            for (let n = 0; n <= 8; n++) {
+                const row = [];
+                for (let k = 0; k <= n; k++) {
+                    row.push(combinaciones(n, k));
+                }
+                pascalData.push(row);
+            }
+        }
+
+        function updateBinomio() {
+            const n = parseInt(document.getElementById('slider-exponente').value);
+            document.getElementById('label-exponente').innerText = n;
+
+            // Formular la expansión en LaTeX
+            let terms = [];
+            for (let k = 0; k <= n; k++) {
+                const coeff = combinaciones(n, k);
+                const powerX = n - k;
+                const powerY = k;
+
+                let coeffStr = coeff === 1 ? "" : coeff.toString();
+                let xStr = powerX === 0 ? "" : (powerX === 1 ? "x" : `x^{${powerX}}`);
+                let yStr = powerY === 0 ? "" : (powerY === 1 ? "y" : `y^{${powerY}}`);
+                
+                // Si el coeficiente es 1 pero x e y no están, debe mostrar 1
+                if (coeff === 1 && powerX === 0 && powerY === 0) coeffStr = "1";
+
+                terms.push(`${coeffStr}${xStr}${yStr}`);
+            }
+
+            const rawLatex = `\\[(x + y)^{${n}} = ${terms.join(" + ")}\\]`;
+            document.getElementById('binom-display').innerHTML = rawLatex;
+
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('binom-display'), katexOptions);
+            }
+
+            drawPascal(n);
+        }
+
+        function drawPascal(activeRow) {
+            const canvas = document.getElementById('pascal-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const width = canvas.width;
+            const height = canvas.height;
+            ctx.clearRect(0, 0, width, height);
+
+            // Fondo gradiente oscuro
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
+            bgGrad.addColorStop(0, '#0c101b');
+            bgGrad.addColorStop(1, '#080a12');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            const dx = 66; // Separación horizontal
+            const dy = 44; // Separación vertical
+            const startY = 50;
+            const cx = width / 2;
+            const radius = 18;
+
+            // Dibujar las líneas de conexión primero
+            ctx.lineWidth = 2;
+            for (let n = 1; n <= 8; n++) {
+                for (let k = 0; k <= n; k++) {
+                    const childX = cx - (n * dx) / 2 + k * dx;
+                    const childY = startY + n * dy;
+
+                    // Conexión con padre izquierdo (n-1, k-1)
+                    if (k > 0) {
+                        const parentX1 = cx - ((n - 1) * dx) / 2 + (k - 1) * dx;
+                        const parentY1 = startY + (n - 1) * dy;
+                        ctx.beginPath();
+                        ctx.moveTo(parentX1, parentY1);
+                        ctx.lineTo(childX, childY);
+                        ctx.strokeStyle = (n === activeRow) ? 'rgba(99, 102, 241, 0.4)' : 'rgba(255, 255, 255, 0.05)';
+                        ctx.stroke();
+                    }
+
+                    // Conexión con padre derecho (n-1, k)
+                    if (k < n) {
+                        const parentX2 = cx - ((n - 1) * dx) / 2 + k * dx;
+                        const parentY2 = startY + (n - 1) * dy;
+                        ctx.beginPath();
+                        ctx.moveTo(parentX2, parentY2);
+                        ctx.lineTo(childX, childY);
+                        ctx.strokeStyle = (n === activeRow) ? 'rgba(99, 102, 241, 0.4)' : 'rgba(255, 255, 255, 0.05)';
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Dibujar los nodos circulares
+            for (let n = 0; n <= 8; n++) {
+                for (let k = 0; k <= n; k++) {
+                    const nodeX = cx - (n * dx) / 2 + k * dx;
+                    const nodeY = startY + n * dy;
+                    const val = pascalData[n][k];
+
+                    // Estilo del nodo según su relación
+                    let isHovered = hoveredCell && hoveredCell.n === n && hoveredCell.k === k;
+                    let isParentOfHovered = hoveredCell && (hoveredCell.n === n + 1) && (hoveredCell.k === k || hoveredCell.k === k + 1);
+                    let isActiveRow = (n === activeRow);
+
+                    if (isHovered) {
+                        ctx.fillStyle = '#f59e0b'; // Amarillo ámbar para hovered
+                        ctx.strokeStyle = '#ffffff';
+                    } else if (isParentOfHovered) {
+                        ctx.fillStyle = '#10b981'; // Verde para padres de hovered
+                        ctx.strokeStyle = '#a7f3d0';
+                    } else if (isActiveRow) {
+                        ctx.fillStyle = '#6366f1'; // Índigo para la fila activa
+                        ctx.strokeStyle = '#818cf8';
+                    } else {
+                        ctx.fillStyle = '#1e293b'; // Slate estándar
+                        ctx.strokeStyle = '#475569';
+                    }
+
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(nodeX, nodeY, radius, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Escribir el número
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = 'bold 12px "Outfit"';
+                    ctx.fillText(val, nodeX, nodeY);
+                }
+            }
+        }
+
+        function initPascalCanvas() {
+            const canvas = document.getElementById('pascal-canvas');
+            if (!canvas) return;
+
+            // Manejador de movimiento del ratón
+            canvas.addEventListener('mousemove', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = ((e.clientX - rect.left) / rect.width) * canvas.width;
+                const mouseY = ((e.clientY - rect.top) / rect.height) * canvas.height;
+
+                const dx = 66;
+                const dy = 44;
+                const startY = 50;
+                const cx = canvas.width / 2;
+                const radius = 18;
+
+                let cellFound = null;
+
+                for (let n = 0; n <= 8; n++) {
+                    for (let k = 0; k <= n; k++) {
+                        const nodeX = cx - (n * dx) / 2 + k * dx;
+                        const nodeY = startY + n * dy;
+
+                        const dist = Math.sqrt((mouseX - nodeX)**2 + (mouseY - nodeY)**2);
+                        if (dist <= radius) {
+                            cellFound = { n, k };
+                            break;
+                        }
+                    }
+                    if (cellFound) break;
+                }
+
+                if (cellFound) {
+                    if (!hoveredCell || hoveredCell.n !== cellFound.n || hoveredCell.k !== cellFound.k) {
+                        hoveredCell = cellFound;
+                        
+                        // Actualizar información
+                        const n = cellFound.n;
+                        const k = cellFound.k;
+                        const val = pascalData[n][k];
+                        
+                        let infoText = `<strong>Fila \\(n = ${n}\\), Posición \\(k = ${k}\\)</strong>:<br>`;
+                        infoText += `Término combinatorio: \\(\\binom{${n}}{${k}} = \\mathbf{${val}}\\)<br>`;
+                        infoText += `Cálculo formal: \\(\\frac{${n}!}{${k}!(${n}-${k})!} = ${val}\\)<br>`;
+                        
+                        if (n > 0) {
+                            const pLeft = k > 0 ? pascalData[n-1][k-1] : 0;
+                            const pRight = k < n ? pascalData[n-1][k] : 0;
+                            
+                            infoText += `Suma de celdas superiores: `;
+                            if (k === 0) {
+                                infoText += `\\(\\binom{${n-1}}{${k}} = ${pRight}\\) (extremo).`;
+                            } else if (k === n) {
+                                infoText += `\\(\\binom{${n-1}}{${k-1}} = ${pLeft}\\) (extremo).`;
+                            } else {
+                                infoText += `\\(\\binom{${n-1}}{${k-1}} + \\binom{${n-1}}{${k}} = ${pLeft} + ${pRight} = ${val}\\).`;
+                            }
+                        }
+
+                        document.getElementById('pascal-info').innerHTML = infoText;
+                        if (window.renderMathInElement) {
+                            renderMathInElement(document.getElementById('pascal-info'), katexOptions);
+                        }
+
+                        const activeRow = parseInt(document.getElementById('slider-exponente').value);
+                        drawPascal(activeRow);
+                    }
+                } else {
+                    if (hoveredCell) {
+                        hoveredCell = null;
+                        document.getElementById('pascal-info').innerHTML = "Pasa el cursor sobre los círculos del triángulo para ver el análisis combinatorio.";
+                        const activeRow = parseInt(document.getElementById('slider-exponente').value);
+                        drawPascal(activeRow);
+                    }
+                }
+            });
+
+            // Restablecer si el ratón sale del canvas
+            canvas.addEventListener('mouseleave', function() {
+                hoveredCell = null;
+                document.getElementById('pascal-info').innerHTML = "Pasa el cursor sobre los círculos del triángulo para ver el análisis combinatorio.";
+                const activeRow = parseInt(document.getElementById('slider-exponente').value);
+                drawPascal(activeRow);
+            });
+        }
+
+        // ========== INICIALIZACIÓN POR POLLING ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Construir Pascal inicial
+            buildPascal();
+
+            // Resolver ecuación cuadrática estática inicial
+            resolverEcuacion();
+
+            // Comprobar parámetros de consulta para cambiar de pestaña
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab === 'ecuacion' || tab === 'binomio' || tab === 'glosario') {
+                switchTab(tab);
+            }
+        }
+
+        function verificarLibreriasYIniciar() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                if (!window.intentosCarga) window.intentosCarga = 0;
+                window.intentosCarga++;
+                if (window.intentosCarga < 50) {
+                    setTimeout(verificarLibreriasYIniciar, 100);
+                } else {
+                    console.error("Fallo de carga de CDNs.");
+                    inicializarTodo();
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', verificarLibreriasYIniciar);
+        } else {
+            verificarLibreriasYIniciar();
+        }
+    </script>
+</body>
+</html>
