@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 2: Funciones Lineales, Cuadráticas y por Tramos - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1; /* Índigo */
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981; /* Esmeralda */
+            --secondary-hover: #059669;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b; /* Ámbar */
+            --danger: #ef4444; /* Rojo */
+            --bg: #0f172a; /* Pizarra oscuro */
+            --card-bg: #1e293b; /* Tarjeta esmerilada */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR GLASSMORPHISM */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* TARJETAS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* BLOQUES DE TEORÍA */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* SECCIONES INTERACTIVAS */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .input-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .number-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            color: #fff;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            transition: all 0.3s;
+        }
+
+        .number-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .points-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: var(--font-main);
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* LIENZOS DE GRÁFICA */
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            background: #0b0f19;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+            width: 100%;
+            height: 320px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .canvas-tooltip {
+            position: absolute;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+            font-family: var(--font-main);
+            color: #fff;
+        }
+
+        .math-formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 1rem;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: -0.5rem;
+        }
+
+        .zoom-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .zoom-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* PASOS DE RESOLUCIÓN */
+        .solver-output-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .steps-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step-item {
+            border-left: 2px solid var(--primary);
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 0.25rem;
+        }
+
+        /* GLOSARIO */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .glossary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .glossary-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: transform 0.3s;
+        }
+
+        .glossary-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .glossary-term {
+            font-family: var(--font-title);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <button class="nav-tab active" onclick="switchTab('lineal')">
+                <i data-lucide="activity"></i> Solucionador Lineal
+            </button>
+            <button class="nav-tab" onclick="switchTab('cuadratica')">
+                <i data-lucide="trending-up"></i> Optimizador Cuadrático
+            </button>
+            <button class="nav-tab" onclick="switchTab('glosario')">
+                <i data-lucide="book-open"></i> Glosario
+            </button>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="actividad_tramos.html" class="nav-tab">
+                <i data-lucide="shapes"></i> Act. 1
+            </a>
+            <a href="actividad_aplicaciones.html" class="nav-tab">
+                <i data-lucide="award"></i> Act. 2
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container">
+        <header>
+            <h1>Unidad 3: Funciones de una Variable Real</h1>
+            <p>Tema 2: Funciones Lineales, Cuadráticas, Tramos y Transformaciones Geométricas</p>
+        </header>
+
+        <!-- TAB 1: SOLUCIONADOR LINEAL -->
+        <div id="tab-lineal" class="card active">
+            <h2><i data-lucide="activity" style="color:var(--primary);"></i> Ecuaciones y Gráficas de la Recta</h2>
+            <p class="intro-text">
+                Una función lineal es una regla polinómica de primer grado que representa una recta en el plano cartesiano. Su inclinación está determinada por la pendiente.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--primary);"></i> Fundamentos de la Línea Recta
+                </div>
+                <p>Sean \(P_1(x_1, y_1)\) y \(P_2(x_2, y_2)\) dos puntos en el plano real con \(x_1 \neq x_2\). La **pendiente** \(m\) se define como la razón de cambio vertical respecto al horizontal:</p>
+                <div class="formal-definition">
+                    \[m = \frac{y_2 - y_1}{x_2 - x_1}\]
+                </div>
+                <p>La **ecuación punto-pendiente** se formula usando uno de los puntos:</p>
+                <div class="formal-definition">
+                    \[y - y_1 = m(x - x_1) \implies y = mx + b\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">
+                    * La ordenada al origen se define como \(b = y_1 - mx_1\), representando el corte con el eje Y en \((0, b)\).<br>
+                    * Criterio geométrico: Dos rectas son paralelas si \(m_1 = m_2\), y perpendiculares si \(m_1 \cdot m_2 = -1\).
+                </p>
+            </div>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Coordenadas de los Puntos</div>
+                    
+                    <div class="points-grid">
+                        <div class="input-group">
+                            <span class="input-label">P1: x₁</span>
+                            <input type="number" id="line-x1" class="number-input" value="-2">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">P1: y₁</span>
+                            <input type="number" id="line-y1" class="number-input" value="-1">
+                        </div>
+                    </div>
+
+                    <div class="points-grid">
+                        <div class="input-group">
+                            <span class="input-label">P2: x₂</span>
+                            <input type="number" id="line-x2" class="number-input" value="3">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">P2: y₂</span>
+                            <input type="number" id="line-y2" class="number-input" value="4">
+                        </div>
+                    </div>
+
+                    <button class="action-btn" onclick="resolverRecta()">
+                        <i data-lucide="cpu"></i> Resolver y Graficar Recta
+                    </button>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="line-formula-box">
+                        \[y = x + 1\]
+                    </div>
+                    <div class="canvas-wrapper">
+                        <canvas id="line-canvas" width="600" height="320"></canvas>
+                        <div class="canvas-tooltip" id="line-tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="steps-box" id="line-steps" style="margin-top: 1.5rem;">
+                Configura los puntos y haz clic en "Resolver y Graficar Recta" para observar el análisis analítico formal.
+            </div>
+        </div>
+
+        <!-- TAB 2: OPTIMIZADOR CUADRÁTICO -->
+        <div id="tab-cuadratica" class="card">
+            <h2><i data-lucide="trending-up" style="color:var(--secondary);"></i> Extremos y Análisis de la Parábola</h2>
+            <p class="intro-text">
+                Una función cuadrática es una regla polinómica de segundo grado. Su gráfica describe una parábola y su vértice representa el valor extremo máximo o mínimo del modelo.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--secondary);"></i> Análisis del Vértice y Concavidad
+                </div>
+                <p>Sea \(f(x) = ax^2 + bx + c\) con \(a, b, c \in \mathbb{R}\) y \(a \neq 0\). La forma del vértice o forma estándar se define como:</p>
+                <div class="formal-definition" style="border-left-color: var(--secondary); background: rgba(16, 185, 129, 0.03);">
+                    \[f(x) = a(x - h)^2 + k\]
+                </div>
+                <p>Las coordenadas del vértice \((h, k)\) representan la localización del valor extremo:</p>
+                <div class="formal-definition" style="border-left-color: var(--secondary); background: rgba(16, 185, 129, 0.03);">
+                    \[h = -\frac{b}{2a} \quad \text{y} \quad k = f(h) = c - \frac{b^2}{4a}\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">
+                    * **Si \(a > 0\)**: La parábola es cóncava hacia arriba. El vértice \((h, k)\) es el **Mínimo Absoluto** de la función, con rango \([k, +\infty)\).<br>
+                    * **Si \(a < 0\)**: La parábola es cóncava hacia abajo. El vértice \((h, k)\) es el **Máximo Absoluto** de la función, con rango \((-\infty, k]\).
+                </p>
+            </div>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Coeficientes de \(ax^2 + bx + c\)</div>
+                    
+                    <div class="points-grid">
+                        <div class="input-group">
+                            <span class="input-label">a</span>
+                            <input type="number" id="quad-a" class="number-input" value="-1" step="0.5">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-label">b</span>
+                            <input type="number" id="quad-b" class="number-input" value="4">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-label">c</span>
+                        <input type="number" id="quad-c" class="number-input" value="-1">
+                    </div>
+
+                    <button class="action-btn" style="background: var(--secondary);" onclick="resolverParabola()">
+                        <i data-lucide="calculator"></i> Optimizar y Graficar
+                    </button>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="quad-formula-box" style="border-left-color: var(--secondary);">
+                        \[f(x) = -x^2 + 4x - 1\]
+                    </div>
+                    <div class="canvas-wrapper">
+                        <canvas id="quad-canvas" width="600" height="320"></canvas>
+                        <div class="canvas-tooltip" id="quad-tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="steps-box" id="quad-steps" style="margin-top: 1.5rem;">
+                Configura los coeficientes cuadráticos para calcular el vértice óptimo, la concavidad y raíces reales.
+            </div>
+        </div>
+
+        <!-- TAB 3: GLOSARIO -->
+        <div id="tab-glosario" class="card">
+            <h2><i data-lucide="book-open" style="color:var(--primary);"></i> Glosario de Conceptos Formales</h2>
+            <p class="intro-text">
+                Definiciones precisas fundamentales para las funciones lineales y cuadráticas.
+            </p>
+
+            <div class="glossary-grid">
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--primary);"></i> Pendiente (\(m\))
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Medida de inclinación de una recta. Expresa la tasa de cambio constante de la variable dependiente por cada unidad de cambio de la independiente:
+                        \[m = \tan(\theta)\]
+                        donde \(\theta\) es el ángulo de inclinación medido desde el eje X positivo.
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--secondary);"></i> Vértice de una Parábola
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Punto singular en el cual la parábola cruza su eje de simetría y cambia de sentido de crecimiento (monotonía). Representa analíticamente el extremo local y global absoluto de la función.
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--secondary);"></i> Concavidad
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Propiedad geométrica que indica hacia dónde se abre la parábola. Está determinada por el signo del coeficiente principal \(a\). Si \(a > 0\), posee concavidad positiva (hacia arriba); si \(a < 0\), concavidad negativa (hacia abajo).
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--primary);"></i> Punto de Equilibrio (Break-even)
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Punto del dominio donde el ingreso total de una empresa iguala al costo total de producción:
+                        \[I(x) = C(x) \implies U(x) = 0\]
+                        No se obtienen utilidades ni pérdidas. Es una aplicación lineal clave en la economía y la ingeniería industrial.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 3 · Tema 2: Funciones Lineales y Cuadráticas<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== SWITCH TABS ==========
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            const btn = Array.from(document.querySelectorAll('.nav-tab')).find(tab => 
+                tab.getAttribute('onclick') && tab.getAttribute('onclick').includes(tabId)
+            );
+            if (btn) btn.classList.add('active');
+
+            const activeCard = document.getElementById(`tab-${tabId}`);
+            if (activeCard) activeCard.classList.add('active');
+
+            if (tabId === 'lineal') {
+                setTimeout(resolverRecta, 50);
+            } else if (tabId === 'cuadratica') {
+                setTimeout(resolverParabola, 50);
+            }
+        };
+
+        // ========== SOLUCIONADOR LINEAL ==========
+        let zoomScaleLine = 40;
+        let lineData = { m: 1, b: 1, x1: -2, y1: -1, x2: 3, y2: 4 };
+
+        function drawLinePlot() {
+            const canvas = document.getElementById('line-canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            // Rejilla
+            ctx.strokeStyle = '#223047';
+            ctx.lineWidth = 1;
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = '#64748b';
+
+            for (let x = -10; x <= 10; x++) {
+                const px = cx + x * zoomScaleLine;
+                ctx.beginPath();
+                ctx.moveTo(px, 0); ctx.lineTo(px, height);
+                ctx.stroke();
+                if (x !== 0) ctx.fillText(x, px + 2, cy - 2);
+            }
+
+            for (let y = -5; y <= 5; y++) {
+                const py = cy - y * zoomScaleLine;
+                ctx.beginPath();
+                ctx.moveTo(0, py); ctx.lineTo(width, py);
+                ctx.stroke();
+                if (y !== 0) ctx.fillText(y, cx + 4, py - 2);
+            }
+
+            // Ejes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(width, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, height);
+            ctx.stroke();
+            ctx.fillText("0", cx + 4, cy - 2);
+
+            // Dibujar Recta
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            const xStart = -10;
+            const yStart = lineData.m * xStart + lineData.b;
+            const xEnd = 10;
+            const yEnd = lineData.m * xEnd + lineData.b;
+
+            const pStart = { px: cx + xStart * zoomScaleLine, py: cy - yStart * zoomScaleLine };
+            const pEnd = { px: cx + xEnd * zoomScaleLine, py: cy - yEnd * zoomScaleLine };
+
+            ctx.moveTo(pStart.px, pStart.py);
+            ctx.lineTo(pEnd.px, pEnd.py);
+            ctx.stroke();
+
+            // Dibujar Puntos P1 y P2
+            const px1 = cx + lineData.x1 * zoomScaleLine;
+            const py1 = cy - lineData.y1 * zoomScaleLine;
+            const px2 = cx + lineData.x2 * zoomScaleLine;
+            const py2 = cy - lineData.y2 * zoomScaleLine;
+
+            ctx.fillStyle = '#ef4444'; // P1 en rojo
+            ctx.beginPath(); ctx.arc(px1, py1, 6, 0, 2*Math.PI); ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.fillText(`P1(${lineData.x1}, ${lineData.y1})`, px1 + 8, py1 - 5);
+
+            ctx.fillStyle = '#f59e0b'; // P2 en ámbar
+            ctx.beginPath(); ctx.arc(px2, py2, 6, 0, 2*Math.PI); ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.fillText(`P2(${lineData.x2}, ${lineData.y2})`, px2 + 8, py2 - 5);
+        }
+
+        function resolverRecta() {
+            const x1 = parseFloat(document.getElementById('line-x1').value);
+            const y1 = parseFloat(document.getElementById('line-y1').value);
+            const x2 = parseFloat(document.getElementById('line-x2').value);
+            const y2 = parseFloat(document.getElementById('line-y2').value);
+
+            if (isNaN(x1) || isNaN(y1) || isNaN(x2) || isNaN(y2)) {
+                alert("Introduce coordenadas válidas.");
+                return;
+            }
+
+            if (x1 === x2) {
+                // Recta vertical no es función real y = f(x), pero sí es recta en el plano.
+                document.getElementById('line-formula-box').innerHTML = `\\[x = ${x1}\\]`;
+                document.getElementById('line-steps').innerHTML = `
+                    <div class="step-item">
+                        <div class="step-title">Recta Vertical (Ecuación degenerada)</div>
+                        <p>Los puntos tienen la misma coordenada en X: \(x_1 = x_2 = ${x1}\).<br>
+                        La pendiente \(m\) no está definida (división por cero). La recta es vertical con ecuación: **\\(x = ${x1}\\)**.</p>
+                    </div>`;
+                lineData = { m: 99999, b: 0, x1, y1, x2, y2 };
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.getElementById('line-formula-box'), katexOptions);
+                    renderMathInElement(document.getElementById('line-steps'), katexOptions);
+                }
+                drawLinePlot();
+                return;
+            }
+
+            const m = (y2 - y1) / (x2 - x1);
+            const b = y1 - m * x1;
+
+            lineData = { m, b, x1, y1, x2, y2 };
+
+            // Mostrar ecuación
+            document.getElementById('line-formula-box').innerHTML = `\\[y = ${m === 1 ? '' : m === -1 ? '-' : m.toFixed(2)}x ${b >= 0 ? '+ ' + b.toFixed(2) : '- ' + Math.abs(b).toFixed(2)}\\]`;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('line-formula-box'), katexOptions);
+            }
+
+            // Explicación analítica
+            let stepsHTML = `<div class="step-item">`;
+            stepsHTML += `<div class="step-title">1. Cálculo de la Pendiente (m)</div>`;
+            stepsHTML += `<p>Dividimos el cambio vertical entre el cambio horizontal:</p>`;
+            stepsHTML += `\\[m = \\frac{${y2} - (${y1})}{${x2} - (${x1})} = \\frac{${y2 - y1}}{${x2 - x1}} = ${m.toFixed(4)}\\]`;
+            stepsHTML += `</div>`;
+
+            stepsHTML += `<div class="step-item">`;
+            stepsHTML += `<div class="step-title">2. Ecuación Punto-Pendiente y Ordenada al Origen</div>`;
+            stepsHTML += `<p>Usando el punto \(P_1(${x1}, ${y1})\):</p>`;
+            stepsHTML += `\\[y - (${y1}) = ${m.toFixed(2)}(x - (${x1}))\\]`;
+            stepsHTML += `\\[y = ${m.toFixed(2)}x ${m*x1 >= 0 ? '+ ' + (m*x1).toFixed(2) : '- ' + Math.abs(m*x1).toFixed(2)} + (${y1})\\]`;
+            stepsHTML += `\\[y = ${m.toFixed(2)}x ${b >= 0 ? '+ ' + b.toFixed(2) : '- ' + Math.abs(b).toFixed(2)}\\]`;
+            stepsHTML += `</div>`;
+
+            // Intercepto X
+            const xInt = -b / m;
+            stepsHTML += `<div class="step-item">`;
+            stepsHTML += `<div class="step-title">3. Intersecciones con los Ejes</div>`;
+            stepsHTML += `<p>Corte con el eje Y: \((0; ${b.toFixed(2)})\).<br>`;
+            stepsHTML += `Corte con el eje X (\(y=0\)): \\(0 = ${m.toFixed(2)}x ${b >= 0 ? '+ ' + b.toFixed(2) : '- ' + Math.abs(b).toFixed(2)} \\implies x = ${xInt.toFixed(2)}\\), es decir, el punto \(( ${xInt.toFixed(2)}; 0 )\).</p>`;
+            stepsHTML += `</div>`;
+
+            document.getElementById('line-steps').innerHTML = stepsHTML;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('line-steps'), katexOptions);
+            }
+
+            drawLinePlot();
+        }
+
+        // Hover coordenadas linea
+        const lineCanvas = document.getElementById('line-canvas');
+        const lineTooltip = document.getElementById('line-tooltip');
+        lineCanvas.addEventListener('mousemove', function(e) {
+            const rect = lineCanvas.getBoundingClientRect();
+            const px = e.clientX - rect.left;
+            const py = e.clientY - rect.top;
+            const cx = lineCanvas.width / 2;
+            const cy = lineCanvas.height / 2;
+
+            const xVal = (px - cx) / zoomScaleLine;
+            const yVal = lineData.m * xVal + lineData.b;
+            const screenPy = cy - yVal * zoomScaleLine;
+
+            if (screenPy >= 0 && screenPy <= lineCanvas.height) {
+                lineTooltip.style.display = 'block';
+                lineTooltip.style.left = (px + 15) + 'px';
+                lineTooltip.style.top = (screenPy - 35) + 'px';
+                lineTooltip.innerHTML = `x: ${xVal.toFixed(2)}<br>y: ${yVal.toFixed(2)}`;
+            } else {
+                lineTooltip.style.display = 'none';
+            }
+        });
+        lineCanvas.addEventListener('mouseleave', () => lineTooltip.style.display = 'none');
+
+        // ========== SOLUCIONADOR CUADRÁTICO ==========
+        let zoomScaleQuad = 35;
+        let quadData = { a: -1, b: 4, c: -1 };
+
+        function drawQuadPlot() {
+            const canvas = document.getElementById('quad-canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            // Rejilla
+            ctx.strokeStyle = '#223047';
+            ctx.lineWidth = 1;
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = '#64748b';
+
+            for (let x = -10; x <= 10; x++) {
+                const px = cx + x * zoomScaleQuad;
+                ctx.beginPath();
+                ctx.moveTo(px, 0); ctx.lineTo(px, height);
+                ctx.stroke();
+                if (x !== 0) ctx.fillText(x, px + 2, cy - 2);
+            }
+
+            for (let y = -5; y <= 5; y++) {
+                const py = cy - y * zoomScaleQuad;
+                ctx.beginPath();
+                ctx.moveTo(0, py); ctx.lineTo(width, py);
+                ctx.stroke();
+                if (y !== 0) ctx.fillText(y, cx + 4, py - 2);
+            }
+
+            // Ejes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(width, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, height);
+            ctx.stroke();
+            ctx.fillText("0", cx + 4, cy - 2);
+
+            // Graficar Parábola
+            ctx.strokeStyle = '#10b981'; // Esmeralda
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            let first = true;
+            for (let px = 0; px < width; px++) {
+                const x = (px - cx) / zoomScaleQuad;
+                const y = quadData.a * x**2 + quadData.b * x + quadData.c;
+                const py = cy - y * zoomScaleQuad;
+
+                if (py >= -500 && py <= height + 500) {
+                    if (first) {
+                        ctx.moveTo(px, py);
+                        first = false;
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                }
+            }
+            ctx.stroke();
+
+            // Dibujar Eje de simetría (Dashed Amber)
+            const h = -quadData.b / (2 * quadData.a);
+            const k = quadData.a * h**2 + quadData.b * h + quadData.c;
+            const phX = cx + h * zoomScaleQuad;
+            ctx.strokeStyle = 'rgba(245, 158, 11, 0.5)';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(phX, 0); ctx.lineTo(phX, height);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Dibujar Vértice (Nodo Esmeralda)
+            const pyV = cy - k * zoomScaleQuad;
+            ctx.fillStyle = '#10b981';
+            ctx.beginPath(); ctx.arc(phX, pyV, 6, 0, 2*Math.PI); ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.fillText(`V(${h.toFixed(2)}, ${k.toFixed(2)})`, phX + 8, pyV - 5);
+        }
+
+        function resolverParabola() {
+            const a = parseFloat(document.getElementById('quad-a').value);
+            const b = parseFloat(document.getElementById('quad-b').value);
+            const c = parseFloat(document.getElementById('quad-c').value);
+
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                alert("Introduce coeficientes cuadráticos válidos.");
+                return;
+            }
+
+            if (a === 0) {
+                alert("El coeficiente cuadrático 'a' no puede ser cero.");
+                return;
+            }
+
+            quadData = { a, b, c };
+
+            // Mostrar Ecuación
+            document.getElementById('quad-formula-box').innerHTML = `\\[f(x) = ${a === 1 ? '' : a === -1 ? '-' : a.toFixed(1)}x^2 ${b >= 0 ? '+ ' + b.toFixed(1) : '- ' + Math.abs(b).toFixed(1)}x ${c >= 0 ? '+ ' + c.toFixed(1) : '- ' + Math.abs(c).toFixed(1)}\\]`;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('quad-formula-box'), katexOptions);
+            }
+
+            // Cálculos
+            const h = -b / (2 * a);
+            const k = a * h**2 + b * h + c;
+            const delta = b**2 - 4 * a * c;
+            const extremeType = a > 0 ? "Mínimo Absoluto" : "Máximo Absoluto";
+
+            let stepsHTML = `<div class="step-item" style="border-left-color: var(--secondary);">`;
+            stepsHTML += `<div class="step-title" style="color: var(--secondary);">1. Coordenadas del Vértice y Extremo</div>`;
+            stepsHTML += `<p>El vértice \((h, k)\) representa el punto extremo de la parábola:</p>`;
+            stepsHTML += `\\[h = -\\frac{b}{2a} = -\\frac{${b}}{2(${a})} = ${h.toFixed(4)}\\]`;
+            stepsHTML += `\\[k = f(${h.toFixed(2)}) = ${a}(${h.toFixed(2)})^2 + ${b}(${h.toFixed(2)}) + ${c} = ${k.toFixed(4)}\\]`;
+            stepsHTML += `<p>Dado que \(a = ${a} ${a > 0 ? '> 0' : '< 0'}\), la parábola es cóncava hacia ${a > 0 ? 'arriba' : 'abajo'}.<br>`;
+            stepsHTML += `El vértice **\\(V(${h.toFixed(2)}; ${k.toFixed(2)})\\)** es un **${extremeType}**. El rango de la función es **\\(${a > 0 ? '[' + k.toFixed(2) + '; +\\infty)' : '(-\\infty; ' + k.toFixed(2) + ']'}\\)**.</p>`;
+            stepsHTML += `</div>`;
+
+            stepsHTML += `<div class="step-item" style="border-left-color: var(--secondary);">`;
+            stepsHTML += `<div class="step-title" style="color: var(--secondary);">2. Eje de Simetría y Cortes con los Ejes</div>`;
+            stepsHTML += `<p>Eje de simetría: recta vertical **\\(x = ${h.toFixed(2)}\\)**.<br>`;
+            stepsHTML += `Corte con el eje Y: \((0; ${c.toFixed(2)})\).</p>`;
+            stepsHTML += `</div>`;
+
+            stepsHTML += `<div class="step-item" style="border-left-color: var(--secondary);">`;
+            stepsHTML += `<div class="step-title" style="color: var(--secondary);">3. Determinación de Raíces Reales (Ceros)</div>`;
+            stepsHTML += `<p>Calculamos el discriminante \(\\Delta\):</p>`;
+            stepsHTML += `\\[\\Delta = b^2 - 4ac = (${b})^2 - 4(${a})(${c}) = ${delta.toFixed(2)}\\]`;
+
+            if (delta > 0) {
+                const x1 = (-b - Math.sqrt(delta)) / (2 * a);
+                const x2 = (-b + Math.sqrt(delta)) / (2 * a);
+                stepsHTML += `<p>Como \(\\Delta > 0\), existen dos raíces reales y distintas:</p>`;
+                stepsHTML += `\\[x_{1,2} = \\frac{-(${b}) \\pm \\sqrt{${delta.toFixed(2)}}}{2(${a})}\\]`;
+                stepsHTML += `<p>Raíces: **\\(x_1 = ${x1.toFixed(3)}\\)** y **\\(x_2 = ${x2.toFixed(3)}\\)**.</p>`;
+            } else if (delta === 0) {
+                stepsHTML += `<p>Como \(\\Delta = 0\), existe una raíz real de multiplicidad 2 (raíz doble):</p>`;
+                stepsHTML += `\\[x_1 = x_2 = -\\frac{b}{2a} = ${h.toFixed(3)}\\]`;
+            } else {
+                const realPart = -b / (2 * a);
+                const imagPart = Math.sqrt(-delta) / (2 * a);
+                stepsHTML += `<p>Como \(\\Delta < 0\), no existen raíces en los reales. Las soluciones pertenecen al cuerpo complejo \(\\mathbb{C}\):</p>`;
+                stepsHTML += `\\[x_{1,2} = ${realPart.toFixed(3)} \\pm ${Math.abs(imagPart).toFixed(3)}i\\]`;
+            }
+            stepsHTML += `</div>`;
+
+            document.getElementById('quad-steps').innerHTML = stepsHTML;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('quad-steps'), katexOptions);
+            }
+
+            drawQuadPlot();
+        }
+
+        // Hover coordenadas parábola
+        const quadCanvas = document.getElementById('quad-canvas');
+        const quadTooltip = document.getElementById('quad-tooltip');
+        quadCanvas.addEventListener('mousemove', function(e) {
+            const rect = quadCanvas.getBoundingClientRect();
+            const px = e.clientX - rect.left;
+            const cy = quadCanvas.height / 2;
+            const cx = quadCanvas.width / 2;
+
+            const xVal = (px - cx) / zoomScaleQuad;
+            const yVal = quadData.a * xVal**2 + quadData.b * xVal + quadData.c;
+            const screenPy = cy - yVal * zoomScaleQuad;
+
+            if (screenPy >= 0 && screenPy <= quadCanvas.height) {
+                quadTooltip.style.display = 'block';
+                quadTooltip.style.left = (px + 15) + 'px';
+                quadTooltip.style.top = (screenPy - 35) + 'px';
+                quadTooltip.innerHTML = `x: ${xVal.toFixed(2)}<br>y: ${yVal.toFixed(2)}`;
+            } else {
+                quadTooltip.style.display = 'none';
+            }
+        });
+        quadCanvas.addEventListener('mouseleave', () => quadTooltip.style.display = 'none');
+
+        // ========== INICIALIZACIÓN POR POLLING ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            resolverRecta();
+            resolverParabola();
+
+            // Comprobar parámetros de consulta para cambiar de pestaña
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab === 'lineal' || tab === 'cuadratica' || tab === 'glosario') {
+                switchTab(tab);
+            }
+        }
+
+        function verificarLibreriasYIniciar() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                setTimeout(verificarLibreriasYIniciar, 100);
+            }
+        }
+
+        verificarLibreriasYIniciar();
+    </script>
+</body>
+</html>
