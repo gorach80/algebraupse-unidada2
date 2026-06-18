@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 2: Cálculo de Asíntotas y Aplicación en Ingeniería - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1; /* Índigo */
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981; /* Esmeralda */
+            --secondary-hover: #059669;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b; /* Ámbar */
+            --danger: #ef4444; /* Rojo */
+            --bg: #0f172a; /* Pizarra oscuro */
+            --card-bg: #1e293b; /* Tarjeta esmerilada */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR GLASSMORPHISM */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* TARJETAS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* BLOQUES DE TEORÍA */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* SECCIONES INTERACTIVAS */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .input-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .text-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: #fff;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            transition: all 0.3s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .math-formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        /* AUTOEVALUACIÓN Y QUIZ */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .quiz-card.correct {
+            border-color: var(--secondary);
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .quiz-question {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-context {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.9rem 1.2rem;
+            color: var(--text-main);
+            text-align: left;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .option-btn.selected-correct {
+            border-color: var(--secondary) !important;
+            background: rgba(16, 185, 129, 0.1) !important;
+            color: #fff;
+        }
+
+        .option-btn.selected-incorrect {
+            border-color: var(--danger) !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+            color: #fff;
+        }
+
+        .feedback-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .feedback-box.correct {
+            display: block;
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--secondary);
+            color: var(--text-main);
+        }
+
+        .feedback-box.incorrect {
+            display: block;
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid var(--danger);
+            color: var(--text-main);
+        }
+
+        .quiz-score-banner {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        /* ACCIONES */
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: var(--font-main);
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <a href="index.html?tab=conceptos" class="nav-tab">
+                <i data-lucide="line-chart"></i> Conceptos y Gráficas
+            </a>
+            <a href="index.html?tab=asintotas" class="nav-tab">
+                <i data-lucide="infinity"></i> Asíntotas Racionales
+            </a>
+            <a href="index.html?tab=glosario" class="nav-tab">
+                <i data-lucide="book-open"></i> Glosario
+            </a>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="actividad_tipos.html" class="nav-tab">
+                <i data-lucide="shapes"></i> Act. 1
+            </a>
+            <button class="nav-tab active">
+                <i data-lucide="help-circle"></i> Act. 2
+            </button>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container">
+        <header>
+            <h1>Actividad 2: Límites y Asíntotas Racionales</h1>
+            <p>Resuelve el reto deductivo de límites laterales y completa la autoevaluación aplicada a la ingeniería</p>
+        </header>
+
+        <!-- CARD 1: MARCO TEÓRICO -->
+        <div class="card">
+            <h2><i data-lucide="book" style="color:var(--accent);"></i> Comportamiento Asintótico a través de Límites</h2>
+            <p class="intro-text">
+                El comportamiento asintótico de una curva racional es el estudio del comportamiento de la función en la frontera de su dominio.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--accent);"></i> Rigurosidad Matemática en Límites Racionales
+                </div>
+                <p>Las asíntotas se caracterizan por las tendencias de su variable independiente:</p>
+                <div class="formal-definition" style="border-left-color: var(--accent);">
+                    <p><strong>1. Asíntota Vertical en \(x = a\):</strong> Se produce un crecimiento o decrecimiento ilimitado:</p>
+                    \[\lim_{x \to a^-} f(x) = \pm\infty \quad \text{o} \quad \lim_{x \to a^+} f(x) = \pm\infty\]
+                    Esto ocurre analíticamente cuando el denominador se anula y el numerador no se anula.
+                    
+                    <p style="margin-top: 10px;"><strong>2. Asíntota Horizontal en \(y = L\):</strong> Estabilización de la función a largo plazo:</p>
+                    \[\lim_{x \to \infty} f(x) = L \quad \text{o} \quad \lim_{x \to -\infty} f(x) = L\]
+                    
+                    <p style="margin-top: 10px;"><strong>3. Asíntota Oblicua en \(y = mx + n\):</strong> Representa una aproximación lineal no paralela a los ejes:</p>
+                    \[\lim_{x \to \infty} [f(x) - (mx + n)] = 0\]
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: DETECTIVE DE ASÍNTOTAS -->
+        <div class="card">
+            <h2><i data-lucide="eye" style="color:var(--primary);"></i> Reto Interactivo: Detective de Asíntotas</h2>
+            <p class="intro-text">
+                Calcula las ecuaciones de las asíntotas para la función racional provista de forma aleatoria. Escribe tus respuestas usando minúsculas sin espacios (ej. <code>x=2</code>, <code>y=-1</code> o <code>ninguna</code>).
+            </p>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="edit-3"></i> Registrar Ecuaciones</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label" for="ans-av">Asíntota Vertical (A.V.):</label>
+                        <input type="text" id="ans-av" class="text-input" placeholder="Ej: x=2">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="ans-ah">Asíntota Horizontal (A.H.):</label>
+                        <input type="text" id="ans-ah" class="text-input" placeholder="Ej: y=0 o ninguna">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="ans-ao">Asíntota Oblicua (A.O.):</label>
+                        <input type="text" id="ans-ao" class="text-input" placeholder="Ej: y=x+1 o ninguna">
+                    </div>
+
+                    <button class="action-btn" id="btn-verificar-reto" onclick="checkDetectiveChallenge()">
+                        <i data-lucide="check-circle-2"></i> Verificar Respuestas
+                    </button>
+                    
+                    <button class="action-btn" id="btn-next-reto" style="background:var(--secondary); display:none;" onclick="loadDetectiveChallenge()">
+                        <i data-lucide="arrow-right"></i> Siguiente Ejercicio
+                    </button>
+                </div>
+
+                <div class="solver-output-wrapper">
+                    <div class="math-formula-box" id="detective-formula-box">
+                        <!-- f(x) LaTeX -->
+                    </div>
+                    
+                    <div class="steps-box" id="detective-feedback" style="max-height: 280px;">
+                        Calcula las asíntotas y registra tus respuestas en los campos correspondientes.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: QUIZ DE INGENIERÍA -->
+        <div class="card">
+            <h2><i data-lucide="award" style="color:var(--accent);"></i> Autoevaluación Aplicada a la Ingeniería</h2>
+            <p class="intro-text">
+                Resuelve los problemas sobre aplicaciones prácticas del cálculo de límites y comportamiento asintótico en escenarios reales de ingeniería.
+            </p>
+
+            <div class="quiz-container">
+                <!-- Pregunta 1 -->
+                <div class="quiz-card" id="q1-card">
+                    <div class="quiz-question">1. Ingeniería Industrial: Economía de Escala en Producción</div>
+                    <div class="quiz-context">
+                        El costo total para producir \(x\) lotes de un artículo químico está dado por \(C(x) = 15x + 3000\) dólares. La función de costo promedio por unidad es \(C_{prom}(x) = \frac{15x + 3000}{x}\). Evalúa \(\lim_{x \to \infty} C_{prom}(x)\) para determinar el comportamiento a largo plazo del costo promedio unitario.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(1, 'A')">
+                            <span>A) \(\lim_{x \to \infty} C_{prom}(x) = 0\text{ USD}\); el costo promedio desaparece.</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'B')">
+                            <span>B) \(\lim_{x \to \infty} C_{prom}(x) = 15\text{ USD}\); representa el costo variable marginal mínimo por unidad.</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'C')">
+                            <span>C) \(\lim_{x \to \infty} C_{prom}(x) = 3000\text{ USD}\); representa el impacto de los costos fijos iniciales.</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'D')">
+                            <span>D) El límite diverge al infinito debido al aumento de insumos.</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q1-feedback"></div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="quiz-card" id="q2-card">
+                    <div class="quiz-question">2. Ingeniería Electromecánica: Carga de Corriente en Solenoide RL</div>
+                    <div class="quiz-context">
+                        La corriente \(I(t)\) (en amperios) en un circuito resistivo-inductivo RL tras su conexión está dada por \(I(t) = \frac{6t}{2t + 0.5}\) para \(t \ge 0\) segundos. Calcula la corriente de saturación final del solenoide (así como la asíntota horizontal).
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(2, 'A')">
+                            <span>A) \(I_{lím} = 12\text{ Amperios}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'B')">
+                            <span>B) \(I_{lím} = 3\text{ Amperios}\) (así que la A.H. es \(y=3\)).</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'C')">
+                            <span>C) \(I_{lím} = 0.5\text{ Amperios}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'D')">
+                            <span>D) \(I_{lím} = 6\text{ Amperios}\)</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q2-feedback"></div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="quiz-card" id="q3-card">
+                    <div class="quiz-question">3. Ingeniería de Automatización: Estabilización de Voltaje de Sensor</div>
+                    <div class="quiz-context">
+                        Un transductor de temperatura de primer orden genera una señal eléctrica de salida de voltaje modelada por \(V(t) = \frac{5t^2 + 3t}{t^2 + 2}\) voltios para \(t \ge 0\) segundos. Encuentra el valor de voltaje en estado estacionario de estabilización.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(3, 'A')">
+                            <span>A) \(V_{est} = 2.5\text{ V}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'B')">
+                            <span>B) \(V_{est} = 5\text{ V}\) (así que la A.H. es \(y=5\)).</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'C')">
+                            <span>C) \(V_{est} = 0\text{ V}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'D')">
+                            <span>D) El sensor es divergente y continuará incrementando su voltaje.</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q3-feedback"></div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="quiz-card" id="q4-card">
+                    <div class="quiz-question">4. Seguridad Industrial: Fiabilidad y Tendencia de Fallos</div>
+                    <div class="quiz-context">
+                        La tasa acumulada de incidentes de desgaste de una banda transportadora se modela por \(F(t) = \frac{2t^2 + 5t}{t + 1}\) incidentes/año para \(t \ge 0\) años. Determina la ecuación de la trayectoria lineal a largo plazo de desgaste (asíntota oblicua).
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(4, 'A')">
+                            <span>A) \(y = 2t + 3\) (asíntota oblicua \(y = 2t + 3\)).</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'B')">
+                            <span>B) \(y = 2t + 5\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'C')">
+                            <span>C) \(y = 2t\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'D')">
+                            <span>D) No existe tendencia lineal ya que es cuadrática divergente.</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q4-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Banner de puntaje final -->
+            <div class="quiz-score-banner" style="margin-top: 2.5rem;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 8px;">Puntaje de Autoevaluación</div>
+                <div style="font-size: 2.2rem; font-weight: 800; color: var(--secondary);" id="score-text">0 / 4</div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Selecciona la respuesta de cada pregunta para registrar tu puntaje.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 3 · Tema 1: Funciones de Variable Real · Actividad 2<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== DETECTIVE DE ASÍNTOTAS (INTERACTIVO) ==========
+        const poolDesafios = [
+            {
+                formula: "f(x) = \\frac{3}{x-2}",
+                av: "x=2",
+                ah: "y=0",
+                ao: "ninguna",
+                sol: "El denominador se anula en \\(x=2\\), donde el numerador es 3. Por lo tanto, \\(x=2\\) es la A.V. <br> Dado que \\(\\text{grado}(P)=0 < \\text{grado}(Q)=1\\), la A.H. es \\(y=0\\). No posee asíntota oblicua."
+            },
+            {
+                formula: "f(x) = \\frac{2x+4}{x+1}",
+                av: "x=-1",
+                ah: "y=2",
+                ao: "ninguna",
+                sol: "El denominador se anula en \\(x=-1\\), donde el numerador es 2. Por lo tanto, \\(x=-1\\) es la A.V. <br> Al tener igual grado, \\(\\lim_{x\\to\\infty} \\frac{2x+4}{x+1} = 2\\), de modo que la A.H. es \\(y=2\\). No posee asíntota oblicua."
+            },
+            {
+                formula: "f(x) = \\frac{x^2-1}{x}",
+                av: "x=0",
+                ah: "ninguna",
+                ao: "y=x",
+                sol: "El denominador se anula en \\(x=0\\). Por lo tanto, \\(x=0\\) es la A.V. <br> El grado del numerador supera por 1 al del denominador. Al dividir: \\(\\frac{x^2-1}{x} = x - \\frac{1}{x}\\), lo que da una A.O. en \\(y=x\\). No posee asíntota horizontal."
+            },
+            {
+                formula: "f(x) = \\frac{x^2+2x-1}{x-1}",
+                av: "x=1",
+                ah: "ninguna",
+                ao: "y=x+3",
+                sol: "El denominador se anula en \\(x=1\\), por lo que \\(x=1\\) es la A.V. <br> Realizando la división polinomial: \\(x^2+2x-1 = (x+3)(x-1) + 2\\). Así, la función es \\((x+3) + \\frac{2}{x-1}\\), revelando una A.O. en \\(y=x+3\\). No posee asíntota horizontal."
+            }
+        ];
+
+        let indexRetoActual = 0;
+
+        function loadDetectiveChallenge() {
+            // Limpiar inputs
+            document.getElementById('ans-av').value = "";
+            document.getElementById('ans-ah').value = "";
+            document.getElementById('ans-ao').value = "";
+            
+            document.getElementById('ans-av').disabled = false;
+            document.getElementById('ans-ah').disabled = false;
+            document.getElementById('ans-ao').disabled = false;
+            
+            document.getElementById('btn-verificar-reto').style.display = 'block';
+            document.getElementById('btn-next-reto').style.display = 'none';
+
+            // Cargar desafío
+            const d = poolDesafios[indexRetoActual];
+            document.getElementById('detective-formula-box').innerHTML = `\\[${d.formula}\\]`;
+            document.getElementById('detective-feedback').innerHTML = "Calcula las asíntotas y registra tus respuestas.";
+            
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('detective-formula-box'), katexOptions);
+            }
+        }
+
+        function checkDetectiveChallenge() {
+            const d = poolDesafios[indexRetoActual];
+            const uAv = document.getElementById('ans-av').value.trim().toLowerCase().replace(/\s/g, '');
+            const uAh = document.getElementById('ans-ah').value.trim().toLowerCase().replace(/\s/g, '');
+            const uAo = document.getElementById('ans-ao').value.trim().toLowerCase().replace(/\s/g, '');
+
+            const isCorrect = (uAv === d.av) && (uAh === d.ah) && (uAo === d.ao);
+
+            document.getElementById('ans-av').disabled = true;
+            document.getElementById('ans-ah').disabled = true;
+            document.getElementById('ans-ao').disabled = true;
+
+            document.getElementById('btn-verificar-reto').style.display = 'none';
+            document.getElementById('btn-next-reto').style.display = 'block';
+
+            let feedbackStr = "";
+            if (isCorrect) {
+                feedbackStr = `<span style="color:var(--secondary); font-weight:700;">¡Respuesta Correcta! Detective Acreditado.</span><br><br>`;
+            } else {
+                feedbackStr = `<span style="color:var(--danger); font-weight:700;">Incorrecto. Revisa los pasos.</span><br>Respuestas esperadas: AV: <code>${d.av}</code>, AH: <code>${d.ah}</code>, AO: <code>${d.ao}</code>.<br><br>`;
+            }
+            feedbackStr += `<strong>Explicación:</strong><br>${d.sol}`;
+
+            document.getElementById('detective-feedback').innerHTML = feedbackStr;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('detective-feedback'), katexOptions);
+            }
+
+            // Incrementar índice circularmente
+            indexRetoActual = (indexRetoActual + 1) % poolDesafios.length;
+        }
+
+        // ========== QUIZ DE INGENIERÍA ==========
+        const quizAnswers = {
+            1: 'B',
+            2: 'B',
+            3: 'B',
+            4: 'A'
+        };
+
+        const quizFeedbacks = {
+            1: {
+                'A': 'Incorrecto. La parte constante de la producción no permite que el costo promedio sea nulo.',
+                'B': '<strong>¡Correcto!</strong> \\[\\lim_{x \\to \\infty} \\frac{15x + 3000}{x} = \\lim_{x \\to \\infty} \\left(15 + \\frac{3000}{x}\\right) = 15 + 0 = 15\\] Geométricamente, la recta \(y = 15\) representa la asíntota horizontal del costo medio unitario mínimo.',
+                'C': 'Incorrecto. El valor de 3000 representa el costo fijo total de la planta industrial, no el costo unitario a gran escala.',
+                'D': 'Incorrecto. El límite converge de manera estable a la asíntota horizontal \(y = 15\).'
+            },
+            2: {
+                'A': 'Incorrecto. Ese valor resulta de un mal cálculo multiplicativo.',
+                'B': '<strong>¡Correcto!</strong> Dividiendo por la variable \(t\): \\[\\lim_{t \\to \\infty} \\frac{6t}{2t + 0.5} = \\lim_{t \\to \\infty} \\frac{6}{2 + \\frac{0.5}{t}} = \\frac{6}{2} = 3\\text{ A}\\] Representa la saturación de corriente del solenoide electromecánico.',
+                'C': 'Incorrecto. 0.5 representa la constante de tiempo transitoria del circuito RL.',
+                'D': 'Incorrecto. 6 es la tasa de cambio instantánea en el arranque de la corriente.'
+            },
+            3: {
+                'A': 'Incorrecto. Revisa el grado de las potencias dominantes.',
+                'B': '<strong>¡Correcto!</strong> Al ser del mismo grado (cuadrático), calculamos el límite al infinito: \\[\\lim_{t \\to \\infty} \\frac{5t^2 + 3t}{t^2 + 2} = \\frac{5}{1} = 5\\text{ V}\\] A largo plazo, el voltaje de automatización se estabiliza de manera asintótica en \(5\\text{ V}\).',
+                'C': 'Incorrecto. El voltaje tiende asintóticamente a saturación a largo plazo.',
+                'D': 'Incorrecto. El sensor es estable ya que su voltaje converge a la asíntota horizontal.'
+            },
+            4: {
+                'A': '<strong>¡Correcto!</strong> Realizando la división ordinaria: \\[\\frac{2t^2+5t}{t+1} = 2t + 3 - \\frac{3}{t+1}\\] Al tender \(t \\to \\infty\), el residuo tiende a 0, revelando una tendencia de envejecimiento asintótica lineal en \\(y = 2t + 3\\).',
+                'B': 'Incorrecto. Revisa la constante del cociente en la división sintética.',
+                'C': 'Incorrecto. Falta el término independiente de la trayectoria lineal de desgaste.',
+                'D': 'Incorrecto. Al ser \(\\text{grado}(P) = \\text{grado}(Q)+1\), posee una asíntota oblicua lineal exacta.'
+            }
+        };
+
+        const userScore = { 1: null, 2: null, 3: null, 4: null };
+
+        function checkAnswer(questionId, option) {
+            if (userScore[questionId] !== null) return; // ya contestado
+
+            const card = document.getElementById(`q${questionId}-card`);
+            const feedback = document.getElementById(`q${questionId}-feedback`);
+            const btns = card.querySelectorAll('.option-btn');
+
+            userScore[questionId] = (option === quizAnswers[questionId]) ? 1 : 0;
+
+            btns.forEach(btn => {
+                btn.disabled = true;
+                if (btn.outerHTML.includes(`checkAnswer(${questionId}, '${option}')`)) {
+                    if (option === quizAnswers[questionId]) {
+                        btn.classList.add('selected-correct');
+                    } else {
+                        btn.classList.add('selected-incorrect');
+                    }
+                }
+            });
+
+            if (option === quizAnswers[questionId]) {
+                card.classList.add('correct');
+                feedback.className = 'feedback-box correct';
+            } else {
+                feedback.className = 'feedback-box incorrect';
+            }
+
+            feedback.innerHTML = quizFeedbacks[questionId][option];
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, katexOptions);
+            }
+
+            updateScore();
+        }
+
+        function updateScore() {
+            let total = 0;
+            let answered = 0;
+            for (let q in userScore) {
+                if (userScore[q] !== null) {
+                    total += userScore[q];
+                    answered++;
+                }
+            }
+
+            document.getElementById('score-text').innerText = `${total} / 4`;
+            
+            const bannerP = document.querySelector('.quiz-score-banner p');
+            if (answered === 4) {
+                if (total === 4) {
+                    bannerP.innerHTML = `<span style="color:var(--secondary); font-weight:700;">¡Excelente! Dominas perfectamente las asíntotas y límites en ingeniería.</span>`;
+                } else {
+                    bannerP.innerHTML = `<span style="color:var(--accent); font-weight:700;">Buen intento. Repasa las explicaciones de los errores.</span>`;
+                }
+            }
+        }
+
+        // ========== INICIALIZACIÓN ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            loadDetectiveChallenge();
+        }
+
+        function verificarLibrerias() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                setTimeout(verificarLibrerias, 100);
+            }
+        }
+
+        verificarLibrerias();
+    </script>
+</body>
+</html>

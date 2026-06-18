@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 1: Funciones de Variable Real - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1; /* Índigo */
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981; /* Esmeralda */
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b; /* Ámbar */
+            --danger: #ef4444; /* Rojo */
+            --bg: #0f172a; /* Pizarra oscuro */
+            --card-bg: #1e293b; /* Tarjeta esmerilada */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR GLASSMORPHISM */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* TARJETAS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* BLOQUES DE TEORÍA */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* SECCIONES INTERACTIVAS */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .input-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .text-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: #fff;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            transition: all 0.3s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .coeff-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .coeff-input-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .coeff-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .coeff-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.4rem;
+            color: #fff;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: var(--font-main);
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* LIENZOS DE GRÁFICA */
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            background: #0b0f19;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+            width: 100%;
+            height: 320px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .canvas-tooltip {
+            position: absolute;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+            font-family: var(--font-main);
+            color: #fff;
+        }
+
+        .math-formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 1rem;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: -0.5rem;
+        }
+
+        .zoom-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .zoom-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* PASOS DE RESOLUCIÓN */
+        .solver-output-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .steps-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step-item {
+            border-left: 2px solid var(--primary);
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 0.25rem;
+        }
+
+        /* GLOSARIO */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .glossary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .glossary-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: transform 0.3s;
+        }
+
+        .glossary-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .glossary-term {
+            font-family: var(--font-title);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <button class="nav-tab active" onclick="switchTab('conceptos')">
+                <i data-lucide="line-chart"></i> Conceptos y Gráficas
+            </button>
+            <button class="nav-tab" onclick="switchTab('asintotas')">
+                <i data-lucide="infinity"></i> Asíntotas Racionales
+            </button>
+            <button class="nav-tab" onclick="switchTab('glosario')">
+                <i data-lucide="book-open"></i> Glosario
+            </button>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="actividad_tipos.html" class="nav-tab">
+                <i data-lucide="shapes"></i> Act. 1
+            </a>
+            <a href="actividad_asintotas.html" class="nav-tab">
+                <i data-lucide="help-circle"></i> Act. 2
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container">
+        <header>
+            <h1>Unidad 3: Funciones de una Variable Real</h1>
+            <p>Tema 1: Concepto de Función, Representación Gráfica, Tipos y Comportamiento Asintótico</p>
+        </header>
+
+        <!-- TAB 1: CONCEPTOS Y GRÁFICAS -->
+        <div id="tab-conceptos" class="card active">
+            <h2><i data-lucide="line-chart" style="color:var(--primary);"></i> Funciones y Representación Cartesiana</h2>
+            <p class="intro-text">
+                Una función de variable real es una regla de correspondencia que asocia cada elemento de un conjunto de partida (dominio) con un único elemento en un conjunto de llegada.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--primary);"></i> Definición Matemática Formal
+                </div>
+                <p>Sea \(D \subseteq \mathbb{R}\). Una función real de variable real es una regla \(f\) que asigna a cada elemento \(x \in D\) un único número real \(y = f(x)\). Se denota formalmente como:</p>
+                <div class="formal-definition">
+                    \[f: D \to \mathbb{R}\]
+                    \[x \mapsto f(x)\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">
+                    * El conjunto \(D\) se denomina **Dominio** de la función, denotado por \(\text{Dom}(f)\). Representa el conjunto de todos los valores de entrada reales para los cuales la regla está definida y produce un resultado real.<br>
+                    * El conjunto de todos los valores de salida reales se denomina **Rango** o **Imagen**, denotado por \(\text{Ran}(f)\):
+                    \[\text{Ran}(f) = \{y \in \mathbb{R} \mid \exists x \in D \text{ tal que } f(x) = y\}\]
+                </p>
+            </div>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Graficar Función Personalizada</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label" for="function-expr">Expresión Matemática \(f(x)\):</label>
+                        <input type="text" id="function-expr" class="text-input" value="x^3 - 3*x" placeholder="Ej: x^2 - 2*x + 1">
+                        <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
+                            Soporta: <code>x</code>, <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code> (potencia), <code>sin()</code>, <code>cos()</code>, <code>tan()</code>, <code>exp()</code>, <code>log()</code> (natural), <code>sqrt()</code>, <code>abs()</code>.
+                        </span>
+                    </div>
+
+                    <button class="action-btn" onclick="plotCustomFunction()">
+                        <i data-lucide="cpu"></i> Renderizar Gráfica
+                    </button>
+                    
+                    <div class="theory-block" style="margin-bottom:0; padding:1rem; font-size:0.9rem;">
+                        <span style="font-weight:700; color:var(--primary-light);">Análisis Analítico Estimado:</span>
+                        <div id="custom-analysis" style="margin-top:0.5rem; line-height: 1.5; color: var(--text-muted);">
+                            Introduce la expresión para ver su análisis.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="plot-formula-box">
+                        \[f(x) = x^3 - 3x\]
+                    </div>
+                    <div class="canvas-wrapper" id="custom-canvas-wrapper">
+                        <canvas id="custom-plot-canvas" width="600" height="320"></canvas>
+                        <div class="canvas-tooltip" id="custom-plot-tooltip"></div>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="zoomPlot(1.2)"><i data-lucide="zoom-in"></i></button>
+                        <button class="zoom-btn" onclick="zoomPlot(0.8)"><i data-lucide="zoom-out"></i></button>
+                        <button class="zoom-btn" onclick="resetZoomPlot()"><i data-lucide="rotate-ccw"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ASÍNTOTAS RACIONALES -->
+        <div id="tab-asintotas" class="card">
+            <h2><i data-lucide="infinity" style="color:var(--accent);"></i> Asíntotas de Funciones Racionales</h2>
+            <p class="intro-text">
+                Las asíntotas son rectas a las cuales se aproxima la gráfica de una función cuando los valores de la variable independiente o de la dependiente crecen o decrecen ilimitadamente.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--accent);"></i> Tipos de Asíntotas y Definiciones por Límites
+                </div>
+                <p>Consideremos la función racional \(f(x) = \frac{P(x)}{Q(x)}\) donde \(P(x)\) y \(Q(x)\) son polinomios sin factores comunes:</p>
+                <div class="formal-definition" style="border-left-color: var(--accent);">
+                    <p><strong>1. Asíntota Vertical (A.V.):</strong> La recta \(x = x_0\) es una asíntota vertical de \(f\) si se cumple al menos uno de los límites laterales:</p>
+                    \[\lim_{x \to x_0^+} f(x) = \pm\infty \quad \text{o} \quad \lim_{x \to x_0^-} f(x) = \pm\infty\]
+                    <p style="margin-top: 10px;"><strong>2. Asíntota Horizontal (A.H.):</strong> La recta \(y = L\) es una asíntota horizontal de \(f\) si se cumple:</p>
+                    \[\lim_{x \to +\infty} f(x) = L \quad \text{o} \quad \lim_{x \to -\infty} f(x) = L\]
+                    <p style="margin-top: 10px;"><strong>3. Asíntota Oblicua (A.O.):</strong> La recta \(y = mx + n\) (con \(m \neq 0\)) es una asíntota oblicua si:</p>
+                    \[\lim_{x \to \pm\infty} [f(x) - (mx + n)] = 0\]
+                    Donde los coeficientes son: \(m = \lim_{x \to \pm\infty} \frac{f(x)}{x}\) y \(n = \lim_{x \to \pm\infty} [f(x) - mx]\).
+                </div>
+            </div>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Definir Coeficientes Racionales</div>
+                    
+                    <div class="input-group">
+                        <span class="input-label">Numerador \(P(x) = a_3x^3 + a_2x^2 + a_1x + a_0\):</span>
+                        <div class="coeff-grid">
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">a₃</span>
+                                <input type="number" id="coeff-a3" class="coeff-input" value="0">
+                            </div>
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">a₂</span>
+                                <input type="number" id="coeff-a2" class="coeff-input" value="1">
+                            </div>
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">a₁</span>
+                                <input type="number" id="coeff-a1" class="coeff-input" value="0">
+                            </div>
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">a₀</span>
+                                <input type="number" id="coeff-a0" class="coeff-input" value="-1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-label">Denominador \(Q(x) = b_3x^3 + b_2x^2 + b_1x + b_0\):</span>
+                        <div class="coeff-grid">
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">b₃</span>
+                                <input type="number" id="coeff-b3" class="coeff-input" value="0">
+                            </div>
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">b₂</span>
+                                <input type="number" id="coeff-b2" class="coeff-input" value="0">
+                            </div>
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">b₁</span>
+                                <input type="number" id="coeff-b1" class="coeff-input" value="1">
+                            </div>
+                            <div class="coeff-input-wrapper">
+                                <span class="coeff-label">b₀</span>
+                                <input type="number" id="coeff-b0" class="coeff-input" value="2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="action-btn" style="background: var(--accent);" onclick="resolverAsintotas()">
+                        <i data-lucide="calculator"></i> Analizar Asíntotas
+                    </button>
+
+                    <div class="zoom-controls" style="justify-content: flex-start;">
+                        <button class="zoom-btn" onclick="zoomRat(1.2)"><i data-lucide="zoom-in"></i></button>
+                        <button class="zoom-btn" onclick="zoomRat(0.8)"><i data-lucide="zoom-out"></i></button>
+                        <button class="zoom-btn" onclick="resetZoomRat()"><i data-lucide="rotate-ccw"></i></button>
+                    </div>
+
+                    <div class="canvas-wrapper" id="rat-canvas-wrapper" style="height: 250px;">
+                        <canvas id="rat-plot-canvas" width="600" height="250"></canvas>
+                        <div class="canvas-tooltip" id="rat-plot-tooltip"></div>
+                    </div>
+                </div>
+
+                <div class="solver-output-wrapper">
+                    <div class="math-formula-box" id="rat-formula-box" style="border-left-color: var(--accent);">
+                        \[f(x) = \frac{x^2 - 1}{x + 2}\]
+                    </div>
+                    
+                    <div class="steps-box" id="rat-steps">
+                        Haz clic en "Analizar Asíntotas" para observar el análisis analítico y el límite formal de la función racional seleccionada.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: GLOSARIO -->
+        <div id="tab-glosario" class="card">
+            <h2><i data-lucide="book-open" style="color:var(--primary);"></i> Glosario de Conceptos Formales</h2>
+            <p class="intro-text">
+                Definiciones matemáticas precisas bajo la teoría de conjuntos y el análisis real para formalizar las funciones reales de variable real.
+            </p>
+
+            <div class="glossary-grid">
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--primary);"></i> Dominio de Definición
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Es el subconjunto maximal de números reales para los cuales la expresión algebraica \(f(x)\) puede ser evaluada.
+                        \[\text{Dom}(f) = \{x \in \mathbb{R} \mid f(x) \in \mathbb{R}\}\]
+                        Las restricciones comunes incluyen la división por cero, raíces de índice par de números negativos y logaritmos de números no positivos.
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--primary);"></i> Inyectividad (Uno a Uno)
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Una función \(f\) es inyectiva si elementos distintos del dominio tienen imágenes distintas en el rango:
+                        \[\forall x_1, x_2 \in D, \quad f(x_1) = f(x_2) \implies x_1 = x_2\]
+                        Geométricamente, cualquier línea horizontal intersecta a la gráfica de la función a lo más una vez.
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--primary);"></i> Sobreyectividad (Sobre)
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Una función \(f: D \to Y\) es sobreyectiva si su rango coincide con el codominio \(Y\):
+                        \[\forall y \in Y, \quad \exists x \in D \text{ tal que } f(x) = y\]
+                        Es decir, todo elemento del conjunto de llegada es imagen de al menos un elemento del dominio.
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--primary);"></i> Biyectividad
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Una función \(f\) es biyectiva si es simultáneamente inyectiva y sobreyectiva.
+                        La biyectividad es la condición necesaria y suficiente para asegurar la existencia de una función inversa \(f^{-1}: Y \to D\).
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--accent);"></i> Removabilidad de Singularidades
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Ocurre en una discontinuidad racional en \(x = x_0\) si el límite existe y es finito:
+                        \[\lim_{x \to x_0} f(x) = L \in \mathbb{R}\]
+                        Esto sucede si el factor \((x-x_0)\) tiene igual o mayor multiplicidad en el numerador que en el denominador, formando geométricamente un punto vacío (agujero) en lugar de una asíntota vertical.
+                    </p>
+                </div>
+
+                <div class="glossary-card">
+                    <div class="glossary-term">
+                        <i data-lucide="arrow-right-circle" style="color: var(--accent);"></i> Asíntota Oblicua
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Una recta inclinada a la cual se aproxima la curva infinitamente. En funciones racionales \(\frac{P(x)}{Q(x)}\), ocurre si y solo si:
+                        \[\text{grado}(P) = \text{grado}(Q) + 1\]
+                        Se halla mediante división sintética u ordinaria, donde la parte entera del cociente \(mx+n\) define la asíntota oblicua.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 3 · Tema 1: Funciones de Variable Real<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ========== CONFIGURACIÓN GLOBAL KATEX ==========
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== CONTROL DE TABS ==========
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            const btn = Array.from(document.querySelectorAll('.nav-tab')).find(tab => 
+                tab.getAttribute('onclick') && tab.getAttribute('onclick').includes(tabId)
+            );
+            if (btn) btn.classList.add('active');
+
+            const activeCard = document.getElementById(`tab-${tabId}`);
+            if (activeCard) activeCard.classList.add('active');
+
+            if (tabId === 'conceptos') {
+                setTimeout(drawCustomPlot, 50);
+            } else if (tabId === 'asintotas') {
+                setTimeout(resolverAsintotas, 50);
+            }
+        };
+
+        // ========== PARSER SEGURO DE EXPRESIONES MATEMÁTICAS ==========
+        function evaluateExpression(expr, x) {
+            let s = expr.toLowerCase();
+            
+            // Constantes
+            s = s.replace(/\bpi\b/g, 'Math.PI');
+            s = s.replace(/\be\b/g, 'Math.E');
+            
+            // Reemplazo de funciones matemáticas comunes
+            const funcs = ['sin', 'cos', 'tan', 'exp', 'log', 'ln', 'sqrt', 'abs'];
+            funcs.forEach(f => {
+                const regex = new RegExp('\\b' + f + '\\s*\\(', 'g');
+                if (f === 'ln') {
+                    s = s.replace(regex, 'Math.log(');
+                } else {
+                    s = s.replace(regex, 'Math.' + f + '(');
+                }
+            });
+
+            // Potenciación '^' a '**'
+            s = s.replace(/\^/g, '**');
+
+            // Multiplicación implícita
+            s = s.replace(/(\d+)([a-zA-Z(])/g, '$1*$2');
+            s = s.replace(/([x)])(\d+)/g, '$1*$2');
+            s = s.replace(/([x)])\s*([a-zA-Z(])/g, '$1*$2');
+            
+            // Corregir posibles colisiones con 'Math.'
+            s = s.replace(/Math\.\*/g, 'Math.');
+
+            try {
+                const safeEval = new Function('x', `
+                    const sin = Math.sin, cos = Math.cos, tan = Math.tan;
+                    const exp = Math.exp, log = Math.log, sqrt = Math.sqrt;
+                    const abs = Math.abs, pow = Math.pow, pi = Math.PI, e = Math.E;
+                    return (${s});
+                `);
+                return safeEval(x);
+            } catch (e) {
+                return NaN;
+            }
+        }
+
+        // ========== RENDERIZACIÓN DE LIENZO: PLOTEADOR GENERAL ==========
+        let zoomScalePlot = 40; // Pixels por unidad
+        let offsetXPlot = 0;
+        let offsetYPlot = 0;
+
+        function getPlotCanvasCoordinates(canvas, xVal, yVal) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const cx = width / 2 + offsetXPlot;
+            const cy = height / 2 - offsetYPlot;
+            
+            const px = cx + xVal * zoomScalePlot;
+            const py = cy - yVal * zoomScalePlot;
+            return { px, py };
+        }
+
+        function getPlotValueFromCoordinates(canvas, px, py) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const cx = width / 2 + offsetXPlot;
+            const cy = height / 2 - offsetYPlot;
+            
+            const xVal = (px - cx) / zoomScalePlot;
+            const yVal = (cy - py) / zoomScalePlot;
+            return { xVal, yVal };
+        }
+
+        function drawCustomPlot() {
+            const canvas = document.getElementById('custom-plot-canvas');
+            const ctx = canvas.getContext('2d');
+            const expr = document.getElementById('function-expr').value;
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Limpiar canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Ejes y cuadrícula
+            const cx = width / 2 + offsetXPlot;
+            const cy = height / 2 - offsetYPlot;
+
+            // Dibujar rejilla
+            ctx.strokeStyle = '#223047';
+            ctx.lineWidth = 1;
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = '#64748b';
+
+            const step = Math.pow(2, Math.floor(Math.log2(40 / zoomScalePlot)));
+            const gridInterval = step > 0.1 ? step : 0.1;
+
+            // Líneas verticales de rejilla
+            const startXVal = Math.floor(getPlotValueFromCoordinates(canvas, 0, 0).xVal / gridInterval) * gridInterval;
+            const endXVal = Math.ceil(getPlotValueFromCoordinates(canvas, width, 0).xVal / gridInterval) * gridInterval;
+            for (let x = startXVal; x <= endXVal; x += gridInterval) {
+                const { px } = getPlotCanvasCoordinates(canvas, x, 0);
+                ctx.beginPath();
+                ctx.moveTo(px, 0);
+                ctx.lineTo(px, height);
+                ctx.stroke();
+
+                if (Math.abs(x) > 1e-7) {
+                    ctx.fillText(x.toFixed(x % 1 === 0 ? 0 : 1), px + 2, cy - 2);
+                }
+            }
+
+            // Líneas horizontales de rejilla
+            const startYVal = Math.floor(getPlotValueFromCoordinates(canvas, 0, height).yVal / gridInterval) * gridInterval;
+            const endYVal = Math.ceil(getPlotValueFromCoordinates(canvas, 0, 0).yVal / gridInterval) * gridInterval;
+            for (let y = startYVal; y <= endYVal; y += gridInterval) {
+                const { py } = getPlotCanvasCoordinates(canvas, 0, y);
+                ctx.beginPath();
+                ctx.moveTo(0, py);
+                ctx.lineTo(width, py);
+                ctx.stroke();
+
+                if (Math.abs(y) > 1e-7) {
+                    ctx.fillText(y.toFixed(y % 1 === 0 ? 0 : 1), cx + 4, py - 2);
+                }
+            }
+
+            // Ejes cartesianos principales
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            
+            // Eje X
+            ctx.beginPath();
+            ctx.moveTo(0, cy);
+            ctx.lineTo(width, cy);
+            ctx.stroke();
+
+            // Eje Y
+            ctx.beginPath();
+            ctx.moveTo(cx, 0);
+            ctx.lineTo(cx, height);
+            ctx.stroke();
+            
+            // Etiqueta origen
+            ctx.fillText("0", cx + 4, cy - 2);
+
+            // Dibujar la curva de la función
+            ctx.strokeStyle = '#6366f1'; // Color principal Índigo
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            let firstPoint = true;
+            let lastY = 0;
+            let lastX = 0;
+
+            const dx = 1; // Un pixel de paso para suavidad máxima
+            for (let px = 0; px < width; px += dx) {
+                const { xVal } = getPlotValueFromCoordinates(canvas, px, 0);
+                const yVal = evaluateExpression(expr, xVal);
+                
+                if (!isNaN(yVal) && isFinite(yVal)) {
+                    const { py } = getPlotCanvasCoordinates(canvas, xVal, yVal);
+                    
+                    // Manejo analítico de singularidades asintóticas (para evitar líneas verticales falsas)
+                    const yDiff = py - lastY;
+                    const isJump = !firstPoint && Math.abs(yDiff) > height * 0.9 && Math.sign(yVal) !== Math.sign(evaluateExpression(expr, lastX));
+
+                    if (firstPoint || isJump || py < -1000 || py > 2000) {
+                        ctx.beginPath();
+                        ctx.moveTo(px, py);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+                } else {
+                    firstPoint = true;
+                }
+                lastY = evaluateExpression(expr, xVal) ? getPlotCanvasCoordinates(canvas, xVal, evaluateExpression(expr, xVal)).py : 0;
+                lastX = xVal;
+            }
+        }
+
+        function plotCustomFunction() {
+            const expr = document.getElementById('function-expr').value;
+            // Actualizar fórmula en KaTeX
+            document.getElementById('plot-formula-box').innerHTML = `\\[f(x) = ${expr.replace(/\*/g, '').replace(/\^/g, '^')}\\]`;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('plot-formula-box'), katexOptions);
+            }
+            
+            // Analizar dominio estimado
+            let domainText = "Estimado analítico sobre la muestra visual:<br>";
+            let hasSingularity = false;
+            let singularities = [];
+            
+            // Muestreo para detectar singularidades y ceros
+            let zeros = [];
+            let lastSign = 0;
+            
+            for (let i = -10; i <= 10; i += 0.05) {
+                const y = evaluateExpression(expr, i);
+                if (isNaN(y) || !isFinite(y)) {
+                    hasSingularity = true;
+                    // Detectar valores discretos aproximados
+                    if (Math.abs(Math.round(i) - i) < 0.01) {
+                        singularities.push(Math.round(i));
+                    }
+                }
+                if (y === 0) {
+                    zeros.push(i.toFixed(2));
+                } else if (lastSign !== 0 && Math.sign(y) !== lastSign) {
+                    zeros.push(((i + (i - 0.05)) / 2).toFixed(2));
+                }
+                lastSign = Math.sign(y);
+            }
+
+            if (hasSingularity) {
+                const uniqSing = [...new Set(singularities)];
+                if (uniqSing.length > 0) {
+                    domainText += `\\(\\text{Dom}(f) \\approx \\mathbb{R} \\setminus \\{${uniqSing.join(', ')}\\}\\)<br>`;
+                } else {
+                    domainText += `\\(\\text{Dom}(f)\\) contiene restricciones reales.<br>`;
+                }
+            } else {
+                domainText += `\\(\\text{Dom}(f) = \\mathbb{R}\\)<br>`;
+            }
+
+            const y0 = evaluateExpression(expr, 0);
+            if (!isNaN(y0) && isFinite(y0)) {
+                domainText += `Ordenada al origen: \\(f(0) = ${y0.toFixed(2)}\\)<br>`;
+            } else {
+                domainText += `Ordenada al origen: no definida.<br>`;
+            }
+
+            const uniqZeros = [...new Set(zeros)].slice(0, 3);
+            if (uniqZeros.length > 0) {
+                domainText += `Ceros de la función (aprox.): \\(x \\approx \\{${uniqZeros.join('; ')}\\}\\)`;
+            } else {
+                domainText += `Ceros reales estimables: ninguno.`;
+            }
+
+            document.getElementById('custom-analysis').innerHTML = domainText;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('custom-analysis'), katexOptions);
+            }
+
+            drawCustomPlot();
+        }
+
+        // Control de zoom ploteador personalizado
+        function zoomPlot(factor) {
+            zoomScalePlot *= factor;
+            drawCustomPlot();
+        }
+
+        function resetZoomPlot() {
+            zoomScalePlot = 40;
+            offsetXPlot = 0;
+            offsetYPlot = 0;
+            drawCustomPlot();
+        }
+
+        // Hover interactivo para mostrar coordenadas
+        const customCanvas = document.getElementById('custom-plot-canvas');
+        const customTooltip = document.getElementById('custom-plot-tooltip');
+        
+        customCanvas.addEventListener('mousemove', function(e) {
+            const rect = customCanvas.getBoundingClientRect();
+            const px = e.clientX - rect.left;
+            const py = e.clientY - rect.top;
+            
+            const expr = document.getElementById('function-expr').value;
+            const { xVal } = getPlotValueFromCoordinates(customCanvas, px, py);
+            const yVal = evaluateExpression(expr, xVal);
+            
+            if (!isNaN(yVal) && isFinite(yVal)) {
+                const { py: screenPy } = getPlotCanvasCoordinates(customCanvas, xVal, yVal);
+                
+                customTooltip.style.display = 'block';
+                customTooltip.style.left = (px + 10) + 'px';
+                customTooltip.style.top = (screenPy - 35) + 'px';
+                customTooltip.innerHTML = `x: ${xVal.toFixed(2)}<br>y: ${yVal.toFixed(2)}`;
+            } else {
+                customTooltip.style.display = 'none';
+            }
+        });
+
+        customCanvas.addEventListener('mouseleave', function() {
+            customTooltip.style.display = 'none';
+        });
+
+        // ========== ANALIZADOR DE ASÍNTOTAS RACIONALES ==========
+        let zoomScaleRat = 35;
+        let offsetXRat = 0;
+        let offsetYRat = 0;
+
+        function getRatCanvasCoordinates(canvas, xVal, yVal) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const cx = width / 2 + offsetXRat;
+            const cy = height / 2 - offsetYRat;
+            return {
+                px: cx + xVal * zoomScaleRat,
+                py: cy - yVal * zoomScaleRat
+            };
+        }
+
+        function getRatValueFromCoordinates(canvas, px, py) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const cx = width / 2 + offsetXRat;
+            const cy = height / 2 - offsetYRat;
+            return {
+                xVal: (px - cx) / zoomScaleRat,
+                yVal: (cy - py) / zoomScaleRat
+            };
+        }
+
+        // Métodos de resolución polinómica
+        function solveQuadratic(a, b, c) {
+            if (Math.abs(a) < 1e-7) {
+                if (Math.abs(b) < 1e-7) return [];
+                return [-c / b];
+            }
+            const disc = b * b - 4 * a * c;
+            if (disc > 0) {
+                return [(-b - Math.sqrt(disc)) / (2 * a), (-b + Math.sqrt(disc)) / (2 * a)].sort((x,y) => x-y);
+            } else if (Math.abs(disc) < 1e-7) {
+                return [-b / (2 * a)];
+            }
+            return [];
+        }
+
+        function solveCubic(a, b, c, d) {
+            if (Math.abs(a) < 1e-7) {
+                return solveQuadratic(b, c, d);
+            }
+            const p = b / a;
+            const q = c / a;
+            const r = d / a;
+            
+            const P = (3 * q - p * p) / 9;
+            const Q = (2 * p * p * p - 9 * p * q + 27 * r) / 54;
+            
+            const D = Q * Q + P * P * P;
+            const roots = [];
+            
+            if (D > 0) {
+                const u = Math.cbrt(-Q + Math.sqrt(D));
+                const v = Math.cbrt(-Q - Math.sqrt(D));
+                roots.push(u + v - p / 3);
+            } else if (D === 0) {
+                const u = Math.cbrt(-Q);
+                roots.push(2 * u - p / 3);
+                roots.push(-u - p / 3);
+            } else {
+                const phi = Math.acos(-Q / Math.sqrt(-P * P * P));
+                const temp = 2 * Math.sqrt(-P);
+                roots.push(temp * Math.cos(phi / 3) - p / 3);
+                roots.push(temp * Math.cos((phi + 2 * Math.PI) / 3) - p / 3);
+                roots.push(temp * Math.cos((phi + 4 * Math.PI) / 3) - p / 3);
+            }
+            const uniqueRoots = [];
+            roots.forEach(r => {
+                if (!uniqueRoots.some(ur => Math.abs(ur - r) < 1e-4)) {
+                    uniqueRoots.push(r);
+                }
+            });
+            return uniqueRoots.sort((x, y) => x - y);
+        }
+
+        function dividePolynomials(num, den) {
+            const n = [...num];
+            const d = [...den];
+            while (n.length > 0 && Math.abs(n[0]) < 1e-7) n.shift();
+            while (d.length > 0 && Math.abs(d[0]) < 1e-7) d.shift();
+            if (d.length === 0) return null;
+            
+            const q = [];
+            const degN = n.length - 1;
+            const degD = d.length - 1;
+            
+            if (degN < degD) {
+                return { quotient: [0], remainder: n };
+            }
+            
+            const qSize = degN - degD + 1;
+            for (let i = 0; i < qSize; i++) {
+                const coeff = n[0] / d[0];
+                q.push(coeff);
+                
+                for (let j = 0; j < d.length; j++) {
+                    n[j] -= coeff * d[j];
+                }
+                n.shift();
+            }
+            return { quotient: q, remainder: n };
+        }
+
+        function formatPoly(coeffs) {
+            const terms = [];
+            const deg = coeffs.length - 1;
+            for (let i = 0; i < coeffs.length; i++) {
+                const c = coeffs[i];
+                const power = deg - i;
+                if (Math.abs(c) < 1e-7) continue;
+                
+                let term = "";
+                if (power === 0) {
+                    term = c > 0 ? `+ ${c.toFixed(1)}` : `- ${Math.abs(c).toFixed(1)}`;
+                } else if (power === 1) {
+                    term = c > 0 ? `+ ${c === 1 ? '' : c.toFixed(1)}x` : `- ${c === -1 ? '' : Math.abs(c).toFixed(1)}x`;
+                } else {
+                    term = c > 0 ? `+ ${c === 1 ? '' : c.toFixed(1)}x^${power}` : `- ${c === -1 ? '' : Math.abs(c).toFixed(1)}x^${power}`;
+                }
+                terms.push(term);
+            }
+            if (terms.length === 0) return "0";
+            let s = terms.join(" ");
+            if (s.startsWith("+ ")) s = s.substring(2);
+            return s;
+        }
+
+        function resolverAsintotas() {
+            const a3 = parseFloat(document.getElementById('coeff-a3').value) || 0;
+            const a2 = parseFloat(document.getElementById('coeff-a2').value) || 0;
+            const a1 = parseFloat(document.getElementById('coeff-a1').value) || 0;
+            const a0 = parseFloat(document.getElementById('coeff-a0').value) || 0;
+
+            const b3 = parseFloat(document.getElementById('coeff-b3').value) || 0;
+            const b2 = parseFloat(document.getElementById('coeff-b2').value) || 0;
+            const b1 = parseFloat(document.getElementById('coeff-b1').value) || 0;
+            const b0 = parseFloat(document.getElementById('coeff-b0').value) || 0;
+
+            const numCoeffs = [a3, a2, a1, a0];
+            const denCoeffs = [b3, b2, b1, b0];
+
+            // Formatear funciones
+            const numStr = formatPoly(numCoeffs);
+            const denStr = formatPoly(denCoeffs);
+
+            document.getElementById('rat-formula-box').innerHTML = `\\[f(x) = \\frac{${numStr}}{${denStr}}\\]`;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('rat-formula-box'), katexOptions);
+            }
+
+            let stepsHTML = "";
+            let asintotas = {
+                verticales: [],
+                horizontales: null,
+                oblicuas: null
+            };
+
+            // Evaluar expresiones racionales
+            const evalNum = x => a3*x**3 + a2*x**2 + a1*x + a0;
+            const evalDen = x => b3*x**3 + b2*x**2 + b1*x + b0;
+
+            // 1. ASÍNTOTAS VERTICALES
+            stepsHTML += `<div class="step-item">`;
+            stepsHTML += `<div class="step-title">1. Cálculo de Asíntotas Verticales (A.V.)</div>`;
+            stepsHTML += `<p>Las A.V. ocurren en las raíces del denominador \(Q(x) = 0\) donde el numerador \(P(x) \\neq 0\).</p>`;
+            
+            const denRoots = solveCubic(b3, b2, b1, b0);
+            if (denRoots.length === 0) {
+                stepsHTML += `<p>El denominador \(Q(x) = ${denStr}\) no posee raíces reales. <strong>No existen asíntotas verticales.</strong></p>`;
+            } else {
+                stepsHTML += `<p>Raíces del denominador: \(x \\in \\{${denRoots.map(r => r.toFixed(3)).join(', ')}\\}\\).</p>`;
+                denRoots.forEach(r => {
+                    const pVal = evalNum(r);
+                    if (Math.abs(pVal) > 1e-4) {
+                        stepsHTML += `<p>Para \(x_0 = ${r.toFixed(3)}\): \(P(${r.toFixed(3)}) = ${pVal.toFixed(3)} \\neq 0\).<br>`;
+                        stepsHTML += `Límite lateral: \(\\lim_{x \\to ${r.toFixed(3)}^\\pm} f(x) = \\pm\\infty\).<br>`;
+                        stepsHTML += `<strong>Existe una asíntota vertical en la recta: \\(x = ${r.toFixed(3)}\)</strong>.</p>`;
+                        asintotas.verticales.push(r);
+                    } else {
+                        stepsHTML += `<p>Para \(x_0 = ${r.toFixed(3)}\): \(P(${r.toFixed(3)}) = 0\) (indeterminación \(\\frac{0}{0}\)).<br>`;
+                        stepsHTML += `Límite lateral: \(\\lim_{x \\to ${r.toFixed(3)}} f(x) = L \\in \\mathbb{R}\).<br>`;
+                        stepsHTML += `Existe una <strong>discontinuidad evitable (agujero/hueco)</strong> en \(x = ${r.toFixed(3)}\) tras simplificar.</p>`;
+                    }
+                });
+            }
+            stepsHTML += `</div>`;
+
+            // Encontrar grado
+            let degP = 3;
+            while (degP >= 0 && Math.abs(numCoeffs[3 - degP]) < 1e-7) degP--;
+            let degQ = 3;
+            while (degQ >= 0 && Math.abs(denCoeffs[3 - degQ]) < 1e-7) degQ--;
+
+            // 2. ASÍNTOTAS HORIZONTALES
+            stepsHTML += `<div class="step-item">`;
+            stepsHTML += `<div class="step-title">2. Cálculo de Asíntotas Horizontales (A.H.)</div>`;
+            stepsHTML += `<p>Analizamos el comportamiento de la función al infinito: \(\\lim_{x \\to \\pm\\infty} f(x)\).</p>`;
+
+            if (degP < degQ) {
+                stepsHTML += `<p>Dado que \(\\text{grado}(P) = ${degP} < \\text{grado}(Q) = ${degQ}\):</p>`;
+                stepsHTML += `\\[\\lim_{x \\to \\pm\\infty} \\frac{${numStr}}{${denStr}} = 0\\]`;
+                stepsHTML += `<p><strong>Existe una asíntota horizontal en la recta: \\(y = 0\\)</strong>.</p>`;
+                asintotas.horizontales = 0;
+            } else if (degP === degQ) {
+                const leadNum = numCoeffs[3 - degP];
+                const leadDen = denCoeffs[3 - degQ];
+                const ratio = leadNum / leadDen;
+                stepsHTML += `<p>Dado que \(\\text{grado}(P) = \\text{grado}(Q) = ${degP}\), dividimos coeficientes principales:</p>`;
+                stepsHTML += `\\[\\lim_{x \\to \\pm\\infty} f(x) = \\frac{${leadNum.toFixed(1)}}{${leadDen.toFixed(1)}} = ${ratio.toFixed(3)}\\]`;
+                stepsHTML += `<p><strong>Existe una asíntota horizontal en la recta: \\(y = ${ratio.toFixed(3)}\\).</strong></p>`;
+                asintotas.horizontales = ratio;
+            } else {
+                stepsHTML += `<p>Dado que \(\\text{grado}(P) = ${degP} > \\text{grado}(Q) = ${degQ}\), la función diverge al infinito: \(\\lim_{x\\to\\pm\\infty} f(x) = \\pm\\infty\).<br>`;
+                stepsHTML += `<strong>No existen asíntotas horizontales.</strong></p>`;
+            }
+            stepsHTML += `</div>`;
+
+            // 3. ASÍNTOTAS OBLICUAS
+            stepsHTML += `<div class="step-item">`;
+            stepsHTML += `<div class="step-title">3. Cálculo de Asíntotas Oblicuas (A.O.)</div>`;
+            stepsHTML += `<p>Para que exista A.O., se debe satisfacer que \(\\text{grado}(P) = \text{grado}(Q) + 1\).</p>`;
+
+            if (degP === degQ + 1) {
+                const divResult = dividePolynomials(numCoeffs, denCoeffs);
+                if (divResult) {
+                    const qCoeffs = divResult.quotient;
+                    const m = qCoeffs[0];
+                    const n = qCoeffs[1] || 0;
+                    stepsHTML += `<p>Realizamos la división polinómica:</p>`;
+                    stepsHTML += `\\[\\frac{P(x)}{Q(x)} = (${m.toFixed(2)}x ${n >= 0 ? '+ ' + n.toFixed(2) : '- ' + Math.abs(n).toFixed(2)}) + \\frac{R(x)}{Q(x)}\\]`;
+                    stepsHTML += `<p>Como \(\\lim_{x\\to\\pm\\infty} \\frac{R(x)}{Q(x)} = 0\):</p>`;
+                    stepsHTML += `<p><strong>Existe una asíntota oblicua en la recta: \\(y = ${m.toFixed(2)}x ${n >= 0 ? '+ ' + n.toFixed(2) : '- ' + Math.abs(n).toFixed(2)}\\)</strong>.</p>`;
+                    asintotas.oblicuas = { m, n };
+                }
+            } else {
+                stepsHTML += `<p>Dado que \(\\text{grado}(P) \\neq \\text{grado}(Q) + 1\):<br>`;
+                stepsHTML += `<strong>No existen asíntotas oblicuas.</strong></p>`;
+            }
+            stepsHTML += `</div>`;
+
+            document.getElementById('rat-steps').innerHTML = stepsHTML;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('rat-steps'), katexOptions);
+            }
+
+            drawRationalPlot(evalNum, evalDen, asintotas);
+        }
+
+        function drawRationalPlot(evalNum, evalDen, asintotas) {
+            const canvas = document.getElementById('rat-plot-canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const cx = width / 2 + offsetXRat;
+            const cy = height / 2 - offsetYRat;
+
+            // Rejilla
+            ctx.strokeStyle = '#223047';
+            ctx.lineWidth = 1;
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = '#64748b';
+
+            const step = Math.pow(2, Math.floor(Math.log2(40 / zoomScaleRat)));
+            const gridInterval = step > 0.1 ? step : 0.1;
+
+            // Líneas verticales de rejilla
+            const startXVal = Math.floor(getRatValueFromCoordinates(canvas, 0, 0).xVal / gridInterval) * gridInterval;
+            const endXVal = Math.ceil(getRatValueFromCoordinates(canvas, width, 0).xVal / gridInterval) * gridInterval;
+            for (let x = startXVal; x <= endXVal; x += gridInterval) {
+                const { px } = getRatCanvasCoordinates(canvas, x, 0);
+                ctx.beginPath();
+                ctx.moveTo(px, 0);
+                ctx.lineTo(px, height);
+                ctx.stroke();
+
+                if (Math.abs(x) > 1e-7) {
+                    ctx.fillText(x.toFixed(x % 1 === 0 ? 0 : 1), px + 2, cy - 2);
+                }
+            }
+
+            // Líneas horizontales de rejilla
+            const startYVal = Math.floor(getRatValueFromCoordinates(canvas, 0, height).yVal / gridInterval) * gridInterval;
+            const endYVal = Math.ceil(getRatValueFromCoordinates(canvas, 0, 0).yVal / gridInterval) * gridInterval;
+            for (let y = startYVal; y <= endYVal; y += gridInterval) {
+                const { py } = getRatCanvasCoordinates(canvas, 0, y);
+                ctx.beginPath();
+                ctx.moveTo(0, py);
+                ctx.lineTo(width, py);
+                ctx.stroke();
+
+                if (Math.abs(y) > 1e-7) {
+                    ctx.fillText(y.toFixed(y % 1 === 0 ? 0 : 1), cx + 4, py - 2);
+                }
+            }
+
+            // Ejes cartesianos principales
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1.5;
+            
+            ctx.beginPath();
+            ctx.moveTo(0, cy);
+            ctx.lineTo(width, cy);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(cx, 0);
+            ctx.lineTo(cx, height);
+            ctx.stroke();
+
+            // RENDER DE ASÍNTOTAS
+            ctx.lineWidth = 1.5;
+
+            // Asíntotas verticales (Rojo)
+            asintotas.verticales.forEach(r => {
+                const { px } = getRatCanvasCoordinates(canvas, r, 0);
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.75)';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(px, 0);
+                ctx.lineTo(px, height);
+                ctx.stroke();
+            });
+
+            // Asíntota horizontal (Ámbar)
+            if (asintotas.horizontales !== null) {
+                const { py } = getRatCanvasCoordinates(canvas, 0, asintotas.horizontales);
+                ctx.strokeStyle = 'rgba(245, 158, 11, 0.75)';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(0, py);
+                ctx.lineTo(width, py);
+                ctx.stroke();
+            }
+
+            // Asíntota oblicua (Púrpura)
+            if (asintotas.oblicuas !== null) {
+                const { m, n } = asintotas.oblicuas;
+                const { xVal: x1 } = getRatValueFromCoordinates(canvas, 0, 0);
+                const { xVal: x2 } = getRatValueFromCoordinates(canvas, width, 0);
+                const { py: py1 } = getRatCanvasCoordinates(canvas, x1, m * x1 + n);
+                const { py: py2 } = getRatCanvasCoordinates(canvas, x2, m * x2 + n);
+                
+                ctx.strokeStyle = 'rgba(167, 139, 250, 0.75)';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(0, py1);
+                ctx.lineTo(width, py2);
+                ctx.stroke();
+            }
+
+            // Restablecer trazo para la gráfica
+            ctx.setLineDash([]);
+
+            // Dibujar la curva racional
+            ctx.strokeStyle = '#10b981'; // Color secundario Esmeralda
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+
+            let firstPoint = true;
+            let lastY = 0;
+            let lastX = 0;
+            
+            for (let px = 0; px < width; px++) {
+                const { xVal } = getRatValueFromCoordinates(canvas, px, 0);
+                const num = evalNum(xVal);
+                const den = evalDen(xVal);
+                
+                if (Math.abs(den) > 1e-4) {
+                    const yVal = num / den;
+                    const { py } = getRatCanvasCoordinates(canvas, xVal, yVal);
+                    
+                    // Manejo analítico de singularidad
+                    const yDiff = py - lastY;
+                    const isJump = !firstPoint && Math.abs(yDiff) > height * 0.9 && Math.sign(yVal) !== Math.sign(evalNum(lastX) / evalDen(lastX));
+
+                    if (firstPoint || isJump || py < -1000 || py > 1500) {
+                        ctx.beginPath();
+                        ctx.moveTo(px, py);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+                } else {
+                    firstPoint = true;
+                }
+                lastY = evalDen(xVal) ? getRatCanvasCoordinates(canvas, xVal, evalNum(xVal) / evalDen(xVal)).py : 0;
+                lastX = xVal;
+            }
+        }
+
+        function zoomRat(factor) {
+            zoomScaleRat *= factor;
+            resolverAsintotas();
+        }
+
+        function resetZoomRat() {
+            zoomScaleRat = 35;
+            offsetXRat = 0;
+            offsetYRat = 0;
+            resolverAsintotas();
+        }
+
+        // Hover interactivo para gráfica racional
+        const ratCanvas = document.getElementById('rat-plot-canvas');
+        const ratTooltip = document.getElementById('rat-plot-tooltip');
+        
+        ratCanvas.addEventListener('mousemove', function(e) {
+            const rect = ratCanvas.getBoundingClientRect();
+            const px = e.clientX - rect.left;
+            const py = e.clientY - rect.top;
+            
+            const a3 = parseFloat(document.getElementById('coeff-a3').value) || 0;
+            const a2 = parseFloat(document.getElementById('coeff-a2').value) || 0;
+            const a1 = parseFloat(document.getElementById('coeff-a1').value) || 0;
+            const a0 = parseFloat(document.getElementById('coeff-a0').value) || 0;
+            const b3 = parseFloat(document.getElementById('coeff-b3').value) || 0;
+            const b2 = parseFloat(document.getElementById('coeff-b2').value) || 0;
+            const b1 = parseFloat(document.getElementById('coeff-b1').value) || 0;
+            const b0 = parseFloat(document.getElementById('coeff-b0').value) || 0;
+
+            const evalNum = x => a3*x**3 + a2*x**2 + a1*x + a0;
+            const evalDen = x => b3*x**3 + b2*x**2 + b1*x + b0;
+
+            const { xVal } = getRatValueFromCoordinates(ratCanvas, px, py);
+            const denVal = evalDen(xVal);
+            
+            if (Math.abs(denVal) > 1e-4) {
+                const yVal = evalNum(xVal) / denVal;
+                const { py: screenPy } = getRatCanvasCoordinates(ratCanvas, xVal, yVal);
+                
+                if (screenPy >= 0 && screenPy <= ratCanvas.height) {
+                    ratTooltip.style.display = 'block';
+                    ratTooltip.style.left = (px + 15) + 'px';
+                    ratTooltip.style.top = (screenPy - 35) + 'px';
+                    ratTooltip.innerHTML = `x: ${xVal.toFixed(2)}<br>y: ${yVal.toFixed(2)}`;
+                    return;
+                }
+            }
+            ratTooltip.style.display = 'none';
+        });
+
+        ratCanvas.addEventListener('mouseleave', function() {
+            ratTooltip.style.display = 'none';
+        });
+
+        // ========== INICIALIZACIÓN POR POLLING ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Ejecuciones iniciales
+            plotCustomFunction();
+            resolverAsintotas();
+
+            // Comprobar parámetros de consulta para cambiar de pestaña
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab === 'conceptos' || tab === 'asintotas' || tab === 'glosario') {
+                switchTab(tab);
+            }
+        }
+
+        function verificarLibreriasYIniciar() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                if (!window.intentosCarga) window.intentosCarga = 0;
+                window.intentosCarga++;
+                if (window.intentosCarga < 50) {
+                    setTimeout(verificarLibreriasYIniciar, 100);
+                } else {
+                    console.error("Fallo de carga de CDNs.");
+                    inicializarTodo();
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', verificarLibreriasYIniciar);
+        } else {
+            verificarLibreriasYIniciar();
+        }
+    </script>
+</body>
+</html>
