@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 2: Valor Absoluto Analítico - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar estilo Glassmorphism */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Bloques de Teoría */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* Graficador interactivo */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .selector-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider-group {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .math-slider {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 100%;
+        }
+
+        canvas {
+            background: #0b0f19;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            height: 180px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .math-formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        /* Módulo de Autoevaluación */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .quiz-card {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .quiz-context {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .option-btn.correct {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: var(--secondary) !important;
+            color: #fff;
+        }
+
+        .option-btn.incorrect {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: var(--danger) !important;
+            color: #fff;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--secondary);
+            color: #a7f3d0;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            color: #fca5a5;
+        }
+
+        .quiz-score-banner {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        footer p a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <a href="index.html?tab=ruffini" class="nav-tab">
+                <i data-lucide="grid"></i> Ruffini
+            </a>
+            <a href="index.html?tab=recta" class="nav-tab">
+                <i data-lucide="ruler"></i> Distancia
+            </a>
+            <a href="index.html?tab=glosario" class="nav-tab">
+                <i data-lucide="book-open"></i> Glosario
+            </a>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="actividad_factorizacion.html" class="nav-tab">
+                <i data-lucide="layout-grid"></i> Act. 1
+            </a>
+            <a href="#" class="nav-tab active">
+                <i data-lucide="help-circle"></i> Act. 2
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <header>
+            <h1>Actividad 2: Valor Absoluto Analítico</h1>
+            <p>Modelado matemático de inecuaciones métricas, intervalos de solución y aplicaciones en ingeniería</p>
+        </header>
+
+        <!-- CARD 1: MARCO TEÓRICO FORMAL -->
+        <div class="card">
+            <h2><i data-lucide="book-open" style="color:var(--primary);"></i> Inecuaciones con Valor Absoluto</h2>
+            <p class="intro-text">
+                El valor absoluto actúa como un operador de distancia geométrica (métrica) en el espacio euclidiano de una dimensión \(\mathbb{R}\). Las desigualdades con valor absoluto se resuelven analíticamente mediante la equivalencia lógica a inecuaciones simultáneas o disyuntivas.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="shield" style="color:var(--secondary);"></i> Caso 1: Vecindad Acotada (Menor o igual que)
+                </div>
+                <p>Sea \(x \in \mathbb{R}\) y sean \(c, d \in \mathbb{R}\) con \(d > 0\). La inecuación \(|x - c| \le d\) representa el conjunto de puntos cuya distancia a \(c\) no supera el valor \(d\). Formalmente:</p>
+                <div class="formal-definition">
+                    \[|x - c| \le d \iff -d \le x - c \le d \iff c - d \le x \le c + d\]
+                </div>
+                <p>El conjunto solución es el intervalo compacto (cerrado y acotado): \(S = [c - d, \, c + d]\).</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                    <strong>Demostración formal:</strong> Por la definición analítica del valor absoluto:
+                    - Si \(x - c \ge 0\), entonces \(|x - c| = x - c\). La desigualdad \(|x - c| \le d\) se escribe como \(x - c \le d\). Combinando ambas, obtenemos \(0 \le x - c \le d\).
+                    - Si \(x - c < 0\), entonces \(|x - c| = -(x - c)\). La desigualdad \(|x - c| \le d\) equivale a \(-(x - c) \le d \iff x - c \ge -d\). Combinando ambas, tenemos \(-d \le x - c < 0\).
+                    Al realizar la unión disyunta de ambos subconjuntos, se unifica en la doble inecuación \(-d \le x - c \le d\), que al sumar \(c\) resulta en \(c - d \le x \le c + d\).
+                </p>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="alert-triangle" style="color:var(--accent);"></i> Caso 2: Vecindad Excluida (Mayor o igual que)
+                </div>
+                <p>La inecuación \(|x - c| \ge d\) representa todos los puntos cuya distancia al centro \(c\) es al menos \(d\). Su modelado formal corresponde a una disyunción lógica:</p>
+                <div class="formal-definition">
+                    \[|x - c| \ge d \iff (x - c \le -d) \lor (x - c \ge d) \iff x \in (-\infty, c - d] \cup [c + d, \infty)\]
+                </div>
+                <p>El conjunto solución corresponde al complemento del intervalo abierto central: \(S = \mathbb{R} \setminus (c - d, \, c + d)\), formado por la unión de dos intervalos no acotados (rayos infinitos).</p>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="calculator" style="color:var(--primary-light);"></i> Caso General con Coeficiente Lineal: \(|ax + b| \le c\)
+                </div>
+                <p>Para resolver \(|ax + b| \le c\) con \(a, b, c \in \mathbb{R}\) y \(c > 0\), aplicamos la propiedad del Caso 1 sobre el término lineal \(ax+b\):</p>
+                <div class="formal-definition">
+                    \[|ax + b| \le c \iff -c \le ax + b \le c \iff -c - b \le ax \le c - b\]
+                    Si \(a > 0\), el intervalo solución es:
+                    \[\left[\frac{-c - b}{a}, \, \frac{c - b}{a}\right]\]
+                    Si \(a < 0\), al dividir por \(a\) los sentidos de las desigualdades se invierten, resultando en:
+                    \[\left[\frac{c - b}{a}, \, \frac{-c - b}{a}\right]\]
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: GRAFICADOR DE INTERVALOS -->
+        <div class="card">
+            <h2><i data-lucide="activity" style="color:var(--primary);"></i> Graficador Interactivo de Inecuaciones</h2>
+            <p class="intro-text">
+                Construye una inecuación con valor absoluto y observa en tiempo real el conjunto solución graficado sobre la recta numérica real, distinguiendo si los extremos del intervalo son abiertos o cerrados.
+            </p>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Estructurar Inecuación</div>
+                    
+                    <div class="input-group">
+                        <div class="input-label">Operador de Desigualdad:</div>
+                        <select id="select-operador" class="selector-input" onchange="updateGraficador()">
+                            <option value="le">Menor o igual (≤)</option>
+                            <option value="lt">Menor estricto (&lt;)</option>
+                            <option value="ge">Mayor o igual (≥)</option>
+                            <option value="gt">Mayor estricto (&gt;)</option>
+                        </select>
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Centro (\(c\))</span>
+                            <span id="label-centro" style="color:var(--primary-light); font-weight:700;">0</span>
+                        </div>
+                        <input type="range" id="slider-centro" class="math-slider" min="-10" max="10" step="0.5" value="0" oninput="updateGraficador()">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Radio (\(d\))</span>
+                            <span id="label-radio" style="color:var(--accent); font-weight:700;">4</span>
+                        </div>
+                        <input type="range" id="slider-radio" class="math-slider" min="0.5" max="10" step="0.5" value="4" oninput="updateGraficador()">
+                    </div>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="formula-box">
+                        <!-- KaTeX dinámico -->
+                    </div>
+                    <canvas id="ineq-canvas" width="1600" height="360" style="width: 100%; height: 180px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: AUTOEVALUACIÓN -->
+        <div class="card">
+            <h2><i data-lucide="award" style="color:var(--accent);"></i> Autoevaluación Aplicada (Ingeniería Industrial)</h2>
+            <p class="intro-text">
+                Resuelve los siguientes problemas contextualizados en procesos de manufactura y control de calidad industrial.
+            </p>
+
+            <div class="quiz-container">
+                <!-- Pregunta 1 -->
+                <div class="quiz-card" id="q1-card">
+                    <div class="quiz-question">1. Control de Calidad y Tolerancia Dimensional</div>
+                    <div class="quiz-context">
+                        En una línea de ensamblaje automatizada de la UPSE, el diámetro nominal de un pasador cilíndrico de acero debe ser de \(12.00\text{ mm}\). El departamento de control de calidad establece que la desviación absoluta tolerable del diámetro \(x\) no debe superar los \(0.05\text{ mm}\). Expresa esta tolerancia como inecuación y determina el intervalo admisible.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(1, 'A')">
+                            <span>A) \(|x - 12.00| \le 0.05 \iff x \in [11.95, 12.05]\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'B')">
+                            <span>B) \(|x - 12.00| \ge 0.05 \iff x \in (-\infty, 11.95] \cup [12.05, \infty)\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'C')">
+                            <span>C) \(|x - 0.05| \le 12.00 \iff x \in [-11.95, 12.05]\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'D')">
+                            <span>D) \(|x - 12.00| < 0.05 \iff x \in (11.95, 12.05)\)</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q1-feedback"></div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="quiz-card" id="q2-card">
+                    <div class="quiz-question">2. Rango de Operación Térmica Segura</div>
+                    <div class="quiz-context">
+                        El reactor químico de una refinería opera de manera estable a una temperatura promedio de \(150^\circ\text{C}\). Por motivos de seguridad industrial, el sistema de alarma de emergencia se activa si la temperatura \(T\) varía en más de \(15^\circ\text{C}\) de su valor promedio. Determina la inecuación formal.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(2, 'A')">
+                            <span>A) \(|T - 150| \le 15\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'B')">
+                            <span>B) \(|T - 150| > 15\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'C')">
+                            <span>C) \(|T - 15| > 150\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'D')">
+                            <span>D) \(|T - 150| < 15\)</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q2-feedback"></div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="quiz-card" id="q3-card">
+                    <div class="quiz-question">3. Control de Peso de Empaque de Fertilizantes</div>
+                    <div class="quiz-context">
+                        Un saco de fertilizante producido por una empresa de la península de Santa Elena debe pesar comercialmente \(45.0\text{ kg}\). Si el peso real es \(w\), la inecuación de control de calidad es \(|w - 45.0| \le 0.3\). ¿Cuál de los siguientes pesos del saco está fuera del estándar y por tanto debe ser rechazado por la línea?
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(3, 'A')">
+                            <span>A) \(44.8\text{ kg}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'B')">
+                            <span>B) \(45.2\text{ kg}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'C')">
+                            <span>C) \(44.6\text{ kg}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'D')">
+                            <span>D) \(45.0\text{ kg}\)</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q3-feedback"></div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="quiz-card" id="q4-card">
+                    <div class="quiz-question">4. Modelado de Margen de Ganancias</div>
+                    <div class="quiz-context">
+                        Un analista de producción industrial determina que la ganancia neta diaria \(G\) en miles de dólares (USD) de una planta de plástico varía según las fluctuaciones de la materia prima según la inecuación \(|G - 8| \le 3\). Encuentra el rango de ganancias diarias.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(4, 'A')">
+                            <span>A) Entre USD 5 000 y USD 11 000</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'B')">
+                            <span>B) Menos de USD 5 000 o más de USD 11 000</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'C')">
+                            <span>C) Entre USD -5 000 y USD 11 000</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'D')">
+                            <span>D) Exactamente USD 8 000</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q4-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Banner de puntaje final -->
+            <div class="quiz-score-banner" style="margin-top: 2rem;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 8px;">Puntaje de Autoevaluación</div>
+                <div style="font-size: 2.2rem; font-weight: 800; color: var(--secondary);" id="score-text">0 / 4</div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Completa las preguntas para ver tu resultado final.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 2 · Tema 2: Expresiones Algebraicas y Valor Absoluto<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ========== CONFIGURACIÓN GLOBAL KATEX ==========
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== CANVAS GRAFICADOR DE INTERVALOS ==========
+        function updateGraficador() {
+            const centro = parseFloat(document.getElementById('slider-centro').value);
+            const radio = parseFloat(document.getElementById('slider-radio').value);
+            const operador = document.getElementById('select-operador').value;
+
+            document.getElementById('label-centro').innerText = centro;
+            document.getElementById('label-radio').innerText = radio;
+
+            const lVal = (centro - radio).toFixed(1);
+            const rVal = (centro + radio).toFixed(1);
+            
+            let displayFormula = "";
+            let latexSolution = "";
+
+            if (operador === 'le') {
+                displayFormula = `\\[|x - (${centro})| \\le ${radio}\\]`;
+                latexSolution = `\\[\\text{Solución: } x \\in [${lVal}, \\, ${rVal}]\\]`;
+            } else if (operador === 'lt') {
+                displayFormula = `\\[|x - (${centro})| < ${radio}\\]`;
+                latexSolution = `\\[\\text{Solución: } x \\in (${lVal}, \\, ${rVal})\\]`;
+            } else if (operador === 'ge') {
+                displayFormula = `\\[|x - (${centro})| \\ge ${radio}\\]`;
+                latexSolution = `\\[\\text{Solución: } x \\in (-\\infty, \\, ${lVal}] \\cup [${rVal}, \\, \\infty)\\]`;
+            } else if (operador === 'gt') {
+                displayFormula = `\\[|x - (${centro})| > ${radio}\\]`;
+                latexSolution = `\\[\\text{Solución: } x \\in (-\\infty, \\, ${lVal}) \\cup (${rVal}, \\, \\infty)\\]`;
+            }
+
+            document.getElementById('formula-box').innerHTML = displayFormula + latexSolution;
+
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('formula-box'), katexOptions);
+            }
+
+            drawIntervalo(centro, radio, operador);
+        }
+
+        function drawIntervalo(centro, radio, operador) {
+            const canvas = document.getElementById('ineq-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const width = canvas.width;
+            const height = canvas.height;
+            const padding = 120;
+            const axisY = height / 2;
+
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
+            bgGrad.addColorStop(0, '#0c101b');
+            bgGrad.addColorStop(1, '#080a12');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            const minX = -15;
+            const maxX = 15;
+            function getPixelX(xMath) {
+                return padding + ((xMath - minX) / (maxX - minX)) * (width - 2 * padding);
+            }
+
+            const xLeft = getPixelX(centro - radio);
+            const xRight = getPixelX(centro + radio);
+
+            ctx.fillStyle = 'rgba(99, 102, 241, 0.2)';
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.6)';
+            ctx.lineWidth = 3;
+
+            if (operador === 'le' || operador === 'lt') {
+                ctx.fillRect(xLeft, axisY - 30, xRight - xLeft, 60);
+                ctx.strokeRect(xLeft, axisY - 30, xRight - xLeft, 60);
+            } else {
+                ctx.fillRect(padding - 40, axisY - 30, xLeft - (padding - 40), 60);
+                ctx.strokeRect(padding - 40, axisY - 30, xLeft - (padding - 40), 60);
+
+                ctx.fillRect(xRight, axisY - 30, (width - padding + 40) - xRight, 60);
+                ctx.strokeRect(xRight, axisY - 30, (width - padding + 40) - xRight, 60);
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(padding - 40, axisY);
+            ctx.lineTo(width - padding + 40, axisY);
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(padding - 50, axisY);
+            ctx.lineTo(padding - 35, axisY - 8);
+            ctx.lineTo(padding - 35, axisY + 8);
+            ctx.closePath();
+            ctx.fillStyle = '#475569';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(width - padding + 50, axisY);
+            ctx.lineTo(width - padding + 35, axisY - 8);
+            ctx.lineTo(width - padding + 35, axisY + 8);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.lineWidth = 2;
+            for (let i = -14; i <= 14; i += 2) {
+                const pxX = getPixelX(i);
+                ctx.beginPath();
+                ctx.moveTo(pxX, axisY - 8);
+                ctx.lineTo(pxX, axisY + 8);
+                ctx.strokeStyle = '#64748b';
+                ctx.stroke();
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = 'bold 16px "Plus Jakarta Sans"';
+                ctx.textAlign = 'center';
+                ctx.fillText(i, pxX, axisY + 32);
+            }
+
+            const isClosed = (operador === 'le' || operador === 'ge');
+            const ptColor = isClosed ? '#10b981' : '#ef4444';
+
+            function drawEndpoint(xPx, value) {
+                ctx.beginPath();
+                ctx.arc(xPx, axisY, 8, 0, 2 * Math.PI);
+                if (isClosed) {
+                    ctx.fillStyle = ptColor;
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = '#0b0f19';
+                    ctx.fill();
+                    ctx.strokeStyle = ptColor;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                }
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 18px "Outfit"';
+                ctx.textAlign = 'center';
+                ctx.fillText(value.toFixed(1), xPx, axisY - 45);
+            }
+
+            drawEndpoint(xLeft, centro - radio);
+            drawEndpoint(xRight, centro + radio);
+
+            const centerPx = getPixelX(centro);
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(centerPx, axisY, 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = 'bold 14px "Outfit"';
+            ctx.fillText(`c = ${centro}`, centerPx, axisY - 20);
+        }
+
+        // ========== AUTOEVALUACIÓN QUIZ LOGIC ==========
+        const answers = {
+            1: { correct: 'A', feedback: '¡Correcto! La desviación absoluta se modela con la inecuación \\(|x - 12.00| \\le 0.05\\). Al resolverla: \\(-0.05 \\le x - 12.00 \\le 0.05 \\iff 11.95 \\le x \\le 12.05\\), lo que equivale al intervalo cerrado \\([11.95, \\, 12.05]\\).' },
+            2: { correct: 'B', feedback: '¡Correcto! La condición de alarma indica que la temperatura \\(T\\) varía (se aleja) de la media por más de (mayor estricto) la tolerancia de seguridad: \\(|T - 150| > 15\\).' },
+            3: { correct: 'C', feedback: '¡Correcto! Resolviendo el estándar \\(|w - 45.0| \\le 0.3  \\iff 44.7 \\le w \\le 45.3\\). Por lo tanto, un peso de \\(44.6\\text{ kg}\\) queda fuera del intervalo y se rechaza.' },
+            4: { correct: 'A', feedback: '¡Correcto! La inecuación \\(|G - 8| \\le 3\\) se resuelve como \\(-3 \\le G - 8 \\le 3 \\iff 5 \\le G \\le 11\\). Multiplicando por mil dólares obtenemos el rango de ganancias diarias: de USD 5 000 a USD 11 000.' }
+        };
+
+        let userAnswers = {};
+
+        window.checkAnswer = function(qNum, selected) {
+            if (userAnswers[qNum]) return;
+            
+            userAnswers[qNum] = selected;
+
+            const qCard = document.getElementById(`q${qNum}-card`);
+            const feedbackEl = document.getElementById(`q${qNum}-feedback`);
+            const buttons = qCard.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                const optText = btn.innerText.trim();
+                const optionLetter = optText.charAt(0);
+                
+                if (optionLetter === answers[qNum].correct) {
+                    btn.classList.add('correct');
+                } else if (optionLetter === selected) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            feedbackEl.classList.add('show');
+            if (selected === answers[qNum].correct) {
+                feedbackEl.className = 'quiz-feedback show correct';
+                feedbackEl.innerHTML = answers[qNum].feedback;
+            } else {
+                feedbackEl.className = 'quiz-feedback show incorrect';
+                feedbackEl.innerHTML = `Incorrecto. Opción elegida: ${selected}. <br>${answers[qNum].feedback}`;
+            }
+
+            if (window.renderMathInElement) {
+                renderMathInElement(feedbackEl, katexOptions);
+            }
+
+            let score = 0;
+            for (let q in userAnswers) {
+                if (userAnswers[q] === answers[q].correct) score++;
+            }
+            document.getElementById('score-text').innerText = `${score} / 4`;
+        };
+
+        // ========== INICIALIZACIÓN POR POLLING ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            updateGraficador();
+
+            window.addEventListener('resize', () => {
+                const centro = parseFloat(document.getElementById('slider-centro').value);
+                const radio = parseFloat(document.getElementById('slider-radio').value);
+                const operador = document.getElementById('select-operador').value;
+                drawIntervalo(centro, radio, operador);
+            });
+        }
+
+        function verificarLibreriasYIniciar() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                if (!window.intentosCarga) window.intentosCarga = 0;
+                window.intentosCarga++;
+                if (window.intentosCarga < 50) {
+                    setTimeout(verificarLibreriasYIniciar, 100);
+                } else {
+                    console.error("Fallo de carga de CDNs.");
+                    inicializarTodo();
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', verificarLibreriasYIniciar);
+        } else {
+            verificarLibreriasYIniciar();
+        }
+    </script>
+</body>
+</html>

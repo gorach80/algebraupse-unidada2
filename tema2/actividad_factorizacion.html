@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 1: Laboratorio de Factorización - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar estilo Glassmorphism */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Bloques de Teoría Formal */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* Paneles Interactivos */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-group {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .math-slider {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .canvas-wrapper {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            background: #0b0f19;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            max-width: 100%;
+            height: auto;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        /* Desafíos interactivos */
+        .challenge-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .challenge-card {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-card.correct {
+            border-color: var(--secondary);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .challenge-card.incorrect {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .challenge-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .math-expression {
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .coeff-input {
+            width: 70px;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .coeff-input:focus {
+            border-color: var(--primary);
+        }
+
+        .feedback-message {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .feedback-message.success {
+            color: var(--secondary);
+        }
+
+        .feedback-message.error {
+            color: var(--danger);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        footer p a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <a href="index.html?tab=ruffini" class="nav-tab">
+                <i data-lucide="grid"></i> Ruffini
+            </a>
+            <a href="index.html?tab=recta" class="nav-tab">
+                <i data-lucide="ruler"></i> Distancia
+            </a>
+            <a href="index.html?tab=glosario" class="nav-tab">
+                <i data-lucide="book-open"></i> Glosario
+            </a>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="#" class="nav-tab active">
+                <i data-lucide="layout-grid"></i> Act. 1
+            </a>
+            <a href="actividad_ecuaciones_va.html" class="nav-tab">
+                <i data-lucide="help-circle"></i> Act. 2
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <header>
+            <h1>Actividad 1: Laboratorio de Factorización</h1>
+            <p>Modelos geométricos y análisis formal de productos notables y descomposición algebraica</p>
+        </header>
+
+        <!-- CARD 1: MARCO TEÓRICO FORMAL -->
+        <div class="card">
+            <h2><i data-lucide="book-open" style="color:var(--primary);"></i> Marco Teórico Formal</h2>
+            <p class="intro-text">
+                En el anillo de polinomios sobre el cuerpo de los reales \(\mathbb{R}[x]\), la factorización es la descomposición multiplicativa de un polinomio en factores irreducibles. A continuación, se detallan y demuestran formalmente los teoremas y productos notables clave de este tema.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--primary);"></i> 1. Diferencia de Cuadrados
+                </div>
+                <p>Sean \(a, b \in \mathbb{R}\). La diferencia de sus cuadrados equivale algebraicamente al producto de la adición de sus bases por su diferencia:</p>
+                <div class="formal-definition">
+                    \[\forall a, b \in \mathbb{R}, \quad a^2 - b^2 = (a - b)(a + b)\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                    <strong>Demostración formal (Axiomas del cuerpo real):</strong> Aplicando la ley distributiva de la multiplicación respecto a la suma:
+                    \[(a - b)(a + b) = (a - b) \cdot a + (a - b) \cdot b = a^2 - ba + ab - b^2\]
+                    Por el axioma de conmutatividad del producto en \(\mathbb{R}\), tenemos que \(ab = ba\), por consiguiente el término mixto es \(ab - ba = 0\), concluyendo en \(a^2 - b^2\).
+                </p>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--secondary);"></i> 2. Trinomio Cuadrado Perfecto (TCP)
+                </div>
+                <p>Constituye el desarrollo algebraico resultante de elevar al cuadrado un binomio de base real. Define la siguiente equivalencia:</p>
+                <div class="formal-definition">
+                    \[\forall a, b \in \mathbb{R}, \quad (a \pm b)^2 = a^2 \pm 2ab + b^2\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                    Este teorema algebraico fundamenta el método analítico de <strong>Completación de Cuadrados</strong>. Para cualquier expresión cuadrática mónica \(x^2 + bx\), podemos completarla para formar un trinomio cuadrado perfecto añadiendo y restando el término cuadrático de su mitad:
+                    \[x^2 + bx = \left(x^2 + bx + \frac{b^2}{4}\right) - \frac{b^2}{4} = \left(x + \frac{b}{2}\right)^2 - \frac{b^2}{4}\]
+                </p>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--accent);"></i> 3. Suma y Diferencia de Cubos
+                </div>
+                <p>Las sumas y diferencias de potencias cúbicas admiten una factorización sobre \(\mathbb{R}\) en un factor lineal y un término cuadrático irreducible:</p>
+                <div class="formal-definition">
+                    \[\forall a, b \in \mathbb{R}, \quad a^3 \pm b^3 = (a \pm b)(a^2 \mp ab + b^2)\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                    <strong>Demostración para la suma:</strong> Multiplicando los factores directos:
+                    \[(a + b)(a^2 - ab + b^2) = a^3 - a^2b + ab^2 + ba^2 - bab + b^3 = a^3 + b^3 \quad (\text{dado que } a^2b = ba^2 \text{ y } ab^2 = bab)\]
+                </p>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--primary-light);"></i> 4. Trinomio de la forma \(x^2 + bx + c\) (Mónico)
+                </div>
+                <p>Para descomponer un trinomio cuadrático de primer coeficiente unitario, se busca la existencia de dos constantes reales \(p, q \in \mathbb{R}\) tales que:</p>
+                <div class="formal-definition">
+                    \[x^2 + bx + c = (x + p)(x + q) \iff \begin{cases} p + q = b \\ p \cdot q = c \end{cases}\]
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                    <strong>Hipótesis de Existencia Real:</strong> Las constantes \(p\) y \(q\) son soluciones de la ecuación cuadrática auxiliar. Por tanto, existen en el cuerpo real \(\mathbb{R}\) si y solo si el discriminante asociado no es negativo: \(\Delta = b^2 - 4c \ge 0\). Si \(\Delta < 0\), el trinomio es irreducible en \(\mathbb{R}\).
+                </p>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--danger);"></i> 5. Trinomio de la forma \(ax^2 + bx + c\) (No Mónico)
+                </div>
+                <p>Cuando el coeficiente principal es \(a \neq 1\), se emplea el método de factorización por agrupación (o aspa simple). Se buscan dos números \(p, q \in \mathbb{R}\) tales que:</p>
+                <div class="formal-definition">
+                    \[\begin{cases} p + q = b \\ p \cdot q = a \cdot c \end{cases}\]
+                    Entonces:
+                    \[ax^2 + bx + c = ax^2 + px + qx + c = x(ax + p) + \frac{c}{q}(qx + q) \quad \text{y se factoriza por término común}\]
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: VISUALIZADOR GEOMÉTRICO -->
+        <div class="card">
+            <h2><i data-lucide="layout" style="color:var(--secondary);"></i> Visualización Geométrica de \((a+b)^2\)</h2>
+            <p class="intro-text">
+                Usa los deslizadores para cambiar las longitudes de \(a\) y \(b\). Observa cómo el área total de un cuadrado de lado \((a+b)\) se compone exactamente del área de un cuadrado de lado \(a\), dos rectángulos de dimensiones \(a \times b\), y un cuadrado de lado \(b\).
+            </p>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div>
+                        <div class="panel-title"><i data-lucide="sliders"></i> Ajustar Dimensiones</div>
+                        
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Longitud de \(a\)</span>
+                                <span id="val-a" style="color:var(--primary-light); font-weight:700;">6</span>
+                            </div>
+                            <input type="range" id="slider-a" class="math-slider" min="2" max="10" step="1" value="6" oninput="drawGeometricSquare()">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span>Longitud de \(b\)</span>
+                                <span id="val-b" style="color:var(--accent); font-weight:700;">4</span>
+                            </div>
+                            <input type="range" id="slider-b" class="math-slider" min="2" max="10" step="1" value="4" oninput="drawGeometricSquare()">
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); margin-top: 1rem;">
+                        <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom: 5px;">Demostración Algebraica de Áreas:</div>
+                        <div id="equation-display" style="font-size: 1.05rem; font-weight: 700; text-align: center;">
+                            <!-- KaTeX dinámico -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper">
+                    <canvas id="geometric-canvas" width="800" height="800" style="width: 380px; height: 380px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: LABORATORIO DE DESAFÍOS -->
+        <div class="card">
+            <h2><i data-lucide="check-square" style="color:var(--accent);"></i> Desafíos Interactivos de Factorización</h2>
+            <p class="intro-text">
+                Encuentra los coeficientes correctos para completar cada factorización. El sistema validará matemáticamente tu respuesta en tiempo real.
+            </p>
+
+            <div class="challenge-container">
+                <!-- Ejercicio 1 -->
+                <div class="challenge-card" id="challenge-1">
+                    <div class="challenge-title">
+                        <i data-lucide="edit-3"></i> Desafío 1: Diferencia de Cuadrados
+                    </div>
+                    <div style="margin-bottom: 0.5rem; color:var(--text-muted);">Expresa de forma factorizada el binomio:</div>
+                    <div class="math-expression">\[9x^2 - 16\]</div>
+                    
+                    <div class="input-row">
+                        <span>\((\)</span>
+                        <input type="number" id="c1-a" class="coeff-input" placeholder="A" oninput="validateChallenge1()">
+                        <span>\(x\quad +\)</span>
+                        <input type="number" id="c1-b" class="coeff-input" placeholder="B" oninput="validateChallenge1()">
+                        <span>\()(\)</span>
+                        <input type="number" id="c1-c" class="coeff-input" placeholder="C" oninput="validateChallenge1()">
+                        <span>\(x\quad +\)</span>
+                        <input type="number" id="c1-d" class="coeff-input" placeholder="D" oninput="validateChallenge1()">
+                        <span>\()\)</span>
+                    </div>
+
+                    <div id="c1-feedback" class="feedback-message"></div>
+                </div>
+
+                <!-- Ejercicio 2 -->
+                <div class="challenge-card" id="challenge-2">
+                    <div class="challenge-title">
+                        <i data-lucide="edit-3"></i> Desafío 2: Trinomio Cuadrado Perfecto
+                    </div>
+                    <div style="margin-bottom: 0.5rem; color:var(--text-muted);">Factoriza el trinomio cuadrático:</div>
+                    <div class="math-expression">\[4x^2 + 12x + 9\]</div>
+                    
+                    <div class="input-row">
+                        <span>\((\)</span>
+                        <input type="number" id="c2-a" class="coeff-input" placeholder="A" oninput="validateChallenge2()">
+                        <span>\(x\quad +\)</span>
+                        <input type="number" id="c2-b" class="coeff-input" placeholder="B" oninput="validateChallenge2()">
+                        <span>\()^2\)</span>
+                    </div>
+
+                    <div id="c2-feedback" class="feedback-message"></div>
+                </div>
+
+                <!-- Ejercicio 3 -->
+                <div class="challenge-card" id="challenge-3">
+                    <div class="challenge-title">
+                        <i data-lucide="edit-3"></i> Desafío 3: Trinomio de la forma \(x^2 + bx + c\)
+                    </div>
+                    <div style="margin-bottom: 0.5rem; color:var(--text-muted);">Factoriza el siguiente polinomio mónico:</div>
+                    <div class="math-expression">\[x^2 - 5x + 6\]</div>
+                    
+                    <div class="input-row">
+                        <span>\((x\quad +\)</span>
+                        <input type="number" id="c3-p" class="coeff-input" placeholder="p" oninput="validateChallenge3()">
+                        <span>\()(x\quad +\)</span>
+                        <input type="number" id="c3-q" class="coeff-input" placeholder="q" oninput="validateChallenge3()">
+                        <span>\()\)</span>
+                    </div>
+
+                    <div id="c3-feedback" class="feedback-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 2 · Tema 2: Expresiones Algebraicas y Valor Absoluto<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ========== CONFIGURACIÓN GLOBAL KATEX ==========
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== CANVAS GEOMETRICO (a+b)^2 ==========
+        function drawGeometricSquare() {
+            const a = parseInt(document.getElementById('slider-a').value);
+            const b = parseInt(document.getElementById('slider-b').value);
+
+            document.getElementById('val-a').innerText = a;
+            document.getElementById('val-b').innerText = b;
+
+            const totalSide = a + b;
+            const areaTotal = totalSide * totalSide;
+            const termA2 = a * a;
+            const termB2 = b * b;
+            const termAB = a * b;
+            
+            const equationHtml = `\\[(a+b)^2 = (${a}+${b})^2 = ${areaTotal}\\] \\[a^2 + 2ab + b^2 = ${termA2} + 2(${termAB}) + ${termB2} = ${areaTotal}\\]`;
+            document.getElementById('equation-display').innerHTML = equationHtml;
+
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('equation-display'), katexOptions);
+            }
+
+            const canvas = document.getElementById('geometric-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const size = canvas.width;
+            ctx.clearRect(0, 0, size, size);
+
+            const margin = 80;
+            const drawableSize = size - 2 * margin; // 640px
+
+            const total = a + b;
+            const scaleA = (a / total) * drawableSize;
+            const scaleB = (b / total) * drawableSize;
+
+            const xStart = margin;
+            const yStart = margin;
+
+            // 1. Cuadrado a^2 (Indigo)
+            ctx.fillStyle = 'rgba(99, 102, 241, 0.2)';
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.8)';
+            ctx.lineWidth = 4;
+            ctx.fillRect(xStart, yStart, scaleA, scaleA);
+            ctx.strokeRect(xStart, yStart, scaleA, scaleA);
+
+            // 2. Rectángulo ab superior-derecho (Emerald)
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.2)';
+            ctx.strokeStyle = 'rgba(16, 185, 129, 0.8)';
+            ctx.fillRect(xStart + scaleA, yStart, scaleB, scaleA);
+            ctx.strokeRect(xStart + scaleA, yStart, scaleB, scaleA);
+
+            // 3. Rectángulo ab inferior-izquierdo (Emerald)
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.2)';
+            ctx.strokeStyle = 'rgba(16, 185, 129, 0.8)';
+            ctx.fillRect(xStart, yStart + scaleA, scaleA, scaleB);
+            ctx.strokeRect(xStart, yStart + scaleA, scaleA, scaleB);
+
+            // 4. Cuadrado b^2 (Amber)
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.2)';
+            ctx.strokeStyle = 'rgba(245, 158, 11, 0.8)';
+            ctx.fillRect(xStart + scaleA, yStart + scaleA, scaleB, scaleB);
+            ctx.strokeRect(xStart + scaleA, yStart + scaleA, scaleB, scaleB);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Etiqueta a^2
+            ctx.font = 'bold 32px "Outfit"';
+            ctx.fillText(`a² = ${termA2}`, xStart + scaleA / 2, yStart + scaleA / 2);
+            
+            // Etiqueta ab superior
+            ctx.font = 'bold 24px "Outfit"';
+            ctx.fillText(`ab = ${termAB}`, xStart + scaleA + scaleB / 2, yStart + scaleA / 2);
+
+            // Etiqueta ab inferior
+            ctx.fillText(`ab = ${termAB}`, xStart + scaleA / 2, yStart + scaleA + scaleB / 2);
+
+            // Etiqueta b^2
+            ctx.font = 'bold 32px "Outfit"';
+            ctx.fillText(`b² = ${termB2}`, xStart + scaleA + scaleB / 2, yStart + scaleA + scaleB / 2);
+
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = 'bold 20px "Outfit"';
+
+            // Cota superior - a
+            ctx.beginPath();
+            ctx.moveTo(xStart, yStart - 20);
+            ctx.lineTo(xStart + scaleA, yStart - 20);
+            ctx.stroke();
+            ctx.fillText(`a = ${a}`, xStart + scaleA / 2, yStart - 35);
+
+            // Cota superior - b
+            ctx.beginPath();
+            ctx.moveTo(xStart + scaleA, yStart - 20);
+            ctx.lineTo(xStart + scaleA + scaleB, yStart - 20);
+            ctx.stroke();
+            ctx.fillText(`b = ${b}`, xStart + scaleA + scaleB / 2, yStart - 35);
+
+            // Cota izquierda - a
+            ctx.beginPath();
+            ctx.moveTo(xStart - 20, yStart);
+            ctx.lineTo(xStart - 20, yStart + scaleA);
+            ctx.stroke();
+            ctx.save();
+            ctx.translate(xStart - 35, yStart + scaleA / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText(`a = ${a}`, 0, 0);
+            ctx.restore();
+
+            // Cota izquierda - b
+            ctx.beginPath();
+            ctx.moveTo(xStart - 20, yStart + scaleA);
+            ctx.lineTo(xStart - 20, yStart + scaleA + scaleB);
+            ctx.stroke();
+            ctx.save();
+            ctx.translate(xStart - 35, yStart + scaleA + scaleB / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText(`b = ${b}`, 0, 0);
+            ctx.restore();
+        }
+
+        // ========== VALIDACIÓN DE DESAFÍOS ==========
+        
+        window.validateChallenge1 = function() {
+            const A = parseInt(document.getElementById('c1-a').value);
+            const B = parseInt(document.getElementById('c1-b').value);
+            const C = parseInt(document.getElementById('c1-c').value);
+            const D = parseInt(document.getElementById('c1-d').value);
+            const card = document.getElementById('challenge-1');
+            const feedback = document.getElementById('c1-feedback');
+
+            if (isNaN(A) || isNaN(B) || isNaN(C) || isNaN(D)) {
+                card.className = "challenge-card";
+                feedback.innerHTML = "";
+                return;
+            }
+
+            const coeffX2 = A * C;
+            const coeffX = A * D + B * C;
+            const termInd = B * D;
+
+            if (coeffX2 === 9 && coeffX === 0 && termInd === -16) {
+                card.className = "challenge-card correct";
+                feedback.className = "feedback-message success";
+                feedback.innerHTML = `<i data-lucide="check-circle"></i> ¡Correcto! Factorización equivalente encontrada: \\((${A === 1 ? '' : A}x ${B >= 0 ? '+' : ''}${B})(${C === 1 ? '' : C}x ${D >= 0 ? '+' : ''}${D})\\).`;
+            } else {
+                card.className = "challenge-card incorrect";
+                feedback.className = "feedback-message error";
+                feedback.innerHTML = `<i data-lucide="x-circle"></i> Incorrecto. El desarrollo da: \\(${coeffX2}x^2 ${coeffX >= 0 ? '+' : ''}${coeffX}x ${termInd >= 0 ? '+' : ''}${termInd}\\). Intenta de nuevo.`;
+            }
+
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, katexOptions);
+            }
+            if (window.lucide) lucide.createIcons();
+        };
+
+        window.validateChallenge2 = function() {
+            const A = parseInt(document.getElementById('c2-a').value);
+            const B = parseInt(document.getElementById('c2-b').value);
+            const card = document.getElementById('challenge-2');
+            const feedback = document.getElementById('c2-feedback');
+
+            if (isNaN(A) || isNaN(B)) {
+                card.className = "challenge-card";
+                feedback.innerHTML = "";
+                return;
+            }
+
+            const coeffX2 = A * A;
+            const coeffX = 2 * A * B;
+            const termInd = B * B;
+
+            if (coeffX2 === 4 && coeffX === 12 && termInd === 9) {
+                card.className = "challenge-card correct";
+                feedback.className = "feedback-message success";
+                feedback.innerHTML = `<i data-lucide="check-circle"></i> ¡Correcto! Es un Trinomio Cuadrado Perfecto: \\((${A}x + ${B})^2\\).`;
+            } else {
+                card.className = "challenge-card incorrect";
+                feedback.className = "feedback-message error";
+                feedback.innerHTML = `<i data-lucide="x-circle"></i> Incorrecto. El desarrollo da: \\(${coeffX2}x^2 + ${coeffX}x + ${termInd}\\).`;
+            }
+
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, katexOptions);
+            }
+            if (window.lucide) lucide.createIcons();
+        };
+
+        window.validateChallenge3 = function() {
+            const p = parseInt(document.getElementById('c3-p').value);
+            const q = parseInt(document.getElementById('c3-q').value);
+            const card = document.getElementById('challenge-3');
+            const feedback = document.getElementById('c3-feedback');
+
+            if (isNaN(p) || isNaN(q)) {
+                card.className = "challenge-card";
+                feedback.innerHTML = "";
+                return;
+            }
+
+            const coeffX = p + q;
+            const termInd = p * q;
+
+            if (coeffX === -5 && termInd === 6) {
+                card.className = "challenge-card correct";
+                feedback.className = "feedback-message success";
+                feedback.innerHTML = `<i data-lucide="check-circle"></i> ¡Correcto! Los números buscados son \\(${p}\\) y \\(${q}\\), que sumados dan \\(-5\\) y multiplicados dan \\(6\\).`;
+            } else {
+                card.className = "challenge-card incorrect";
+                feedback.className = "feedback-message error";
+                feedback.innerHTML = `<i data-lucide="x-circle"></i> Incorrecto. Suma: \\(p+q = ${coeffX}\\) (debe ser -5) y Producto: \\(pq = ${termInd}\\) (debe ser 6).`;
+            }
+
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, katexOptions);
+            }
+            if (window.lucide) lucide.createIcons();
+        };
+
+        // ========== INICIALIZACIÓN POR POLLING ==========
+        function inicializarTodo() {
+            // Renderizar LaTeX estático inicial en la página
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Dibujar primer canvas geométrico
+            drawGeometricSquare();
+        }
+
+        function verificarLibreriasYIniciar() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                if (!window.intentosCarga) window.intentosCarga = 0;
+                window.intentosCarga++;
+                if (window.intentosCarga < 50) {
+                    setTimeout(verificarLibreriasYIniciar, 100);
+                } else {
+                    console.error("Fallo de carga de CDNs.");
+                    inicializarTodo();
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', verificarLibreriasYIniciar);
+        } else {
+            verificarLibreriasYIniciar();
+        }
+    </script>
+</body>
+</html>
