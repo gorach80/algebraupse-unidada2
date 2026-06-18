@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 2: Aplicaciones y Optimización - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1; /* Índigo */
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981; /* Esmeralda */
+            --secondary-hover: #059669;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b; /* Ámbar */
+            --danger: #ef4444; /* Rojo */
+            --bg: #0f172a; /* Pizarra oscuro */
+            --card-bg: #1e293b; /* Tarjeta esmerilada */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR GLASSMORPHISM */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* TARJETAS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* BLOQUES DE TEORÍA */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* SECCIONES INTERACTIVAS */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-group {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .math-slider {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        canvas {
+            background: #0b0f19;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            height: 300px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .math-formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        /* AUTOEVALUACIÓN Y QUIZ */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .quiz-card.correct {
+            border-color: var(--secondary);
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .quiz-question {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-context {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.9rem 1.2rem;
+            color: var(--text-main);
+            text-align: left;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .option-btn.selected-correct {
+            border-color: var(--secondary) !important;
+            background: rgba(16, 185, 129, 0.1) !important;
+            color: #fff;
+        }
+
+        .option-btn.selected-incorrect {
+            border-color: var(--danger) !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+            color: #fff;
+        }
+
+        .feedback-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .feedback-box.correct {
+            display: block;
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--secondary);
+            color: var(--text-main);
+        }
+
+        .feedback-box.incorrect {
+            display: block;
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid var(--danger);
+            color: var(--text-main);
+        }
+
+        .quiz-score-banner {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        /* SELECTOR */
+        .selector-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: var(--font-main);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <a href="index.html?tab=lineal" class="nav-tab">
+                <i data-lucide="activity"></i> Solucionador Lineal
+            </a>
+            <a href="index.html?tab=cuadratica" class="nav-tab">
+                <i data-lucide="trending-up"></i> Optimizador Cuadrático
+            </a>
+            <a href="index.html?tab=glosario" class="nav-tab">
+                <i data-lucide="book-open"></i> Glosario
+            </a>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="actividad_tramos.html" class="nav-tab">
+                <i data-lucide="shapes"></i> Act. 1
+            </a>
+            <button class="nav-tab active">
+                <i data-lucide="award"></i> Act. 2
+            </button>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container">
+        <header>
+            <h1>Actividad 2: Modelado Matemático y Optimización</h1>
+            <p>Aplica funciones lineales y cuadráticas en la resolución de problemas industriales de costos, ingresos y áreas</p>
+        </header>
+
+        <!-- CARD 1: MARCO TEÓRICO -->
+        <div class="card">
+            <h2><i data-lucide="book" style="color:var(--secondary);"></i> Optimización e Interpretación de Modelos</h2>
+            <p class="intro-text">
+                En ingeniería, los modelos matemáticos lineales y cuadráticos permiten la toma de decisiones óptimas para minimizar gastos de producción y maximizar eficiencias de espacio o ganancias operativas.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--secondary);"></i> 1. Modelado Lineal de Costos y Break-Even
+                </div>
+                <p>El costo total \(C(x)\) de producción consta de costos fijos \(CF\) (infraestructura) y costos variables por lote \(m \cdot x\):</p>
+                <div class="formal-definition" style="border-left-color: var(--secondary);">
+                    \[C(x) = mx + CF\]
+                </div>
+                <p>Si el precio de venta unitario es \(p\), la función de ingresos es \(I(x) = px\). El punto de equilibrio (break-even) ocurre cuando la utilidad es nula:</p>
+                <div class="formal-definition" style="border-left-color: var(--secondary);">
+                    \[U(x) = I(x) - C(x) = 0 \implies px = mx + CF \implies x = \frac{CF}{p - m}\]
+                </div>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--secondary);"></i> 2. Optimización Cuadrática
+                </div>
+                <p>En problemas cuadráticos de la forma \(f(x) = ax^2 + bx + c\), la optimización analítica se obtiene evaluando la ordenada del vértice \(k = f(h)\) en el punto crítico \(h = -\frac{b}{2a}\):</p>
+                <div class="formal-definition" style="border-left-color: var(--secondary);">
+                    - **Ingreso Máximo**: Con una demanda lineal \(p(x) = a - bx\), el ingreso cuadrático es \(R(x) = ax - bx^2\). El ingreso máximo ocurre al producir \(x = \frac{a}{2b}\) unidades.<br>
+                    - **Área Máxima**: Para un corral rectangular de tres lados con cerca total \(L\), el área es \(A(x) = x(L - 2x) = Lx - 2x^2\). El área máxima se localiza en el ancho \(x = \frac{L}{4}\).
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: SIMULADOR DE OPTIMIZACIÓN -->
+        <div class="card">
+            <h2><i data-lucide="activity" style="color:var(--primary);"></i> Laboratorio de Optimización de Ingeniería</h2>
+            <p class="intro-text">
+                Experimenta con los modelos de optimización cuadráticos ajustando los parámetros. El simulador calculará el vértice óptimo en tiempo real y mostrará la parábola correspondiente.
+            </p>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Seleccionar Escenario</div>
+                    
+                    <div class="input-group">
+                        <span class="input-label">Escenario a Optimizar:</span>
+                        <select id="select-scenario" class="selector-input" onchange="switchScenario()">
+                            <option value="ingreso">Maximización de Ingreso Industrial</option>
+                            <option value="area">Cerca Perimetral Rectangular Máxima</option>
+                        </select>
+                    </div>
+
+                    <!-- Inputs Escenario Ingreso -->
+                    <div id="inputs-ingreso" class="slider-group">
+                        <div class="slider-header" style="margin-bottom:1rem;">
+                            <span style="font-weight:700; color:var(--primary-light);">Demanda: p(x) = a - bx</span>
+                        </div>
+                        <div class="slider-header">
+                            <span>Precio de Reserva (a)</span>
+                            <span id="val-a" style="font-weight:700; color:var(--primary-light);">600</span>
+                        </div>
+                        <input type="range" id="slider-a" class="math-slider" min="200" max="1000" step="50" value="600" oninput="updateSimulation()">
+                        
+                        <div class="slider-header" style="margin-top:1.25rem;">
+                            <span>Sensibilidad al Precio (b)</span>
+                            <span id="val-b" style="font-weight:700; color:var(--primary-light);">1.5</span>
+                        </div>
+                        <input type="range" id="slider-b" class="math-slider" min="0.5" max="4.0" step="0.25" value="1.5" oninput="updateSimulation()">
+                    </div>
+
+                    <!-- Inputs Escenario Área -->
+                    <div id="inputs-area" class="slider-group" style="display:none;">
+                        <div class="slider-header" style="margin-bottom:1rem;">
+                            <span style="font-weight:700; color:var(--primary-light);">Cerca: 2x + y = L</span>
+                        </div>
+                        <div class="slider-header">
+                            <span>Longitud de Malla (L)</span>
+                            <span id="val-l" style="font-weight:700; color:var(--primary-light);">400</span>
+                        </div>
+                        <input type="range" id="slider-l" class="math-slider" min="100" max="800" step="50" value="400" oninput="updateSimulation()">
+                    </div>
+
+                    <div class="theory-block" style="margin-bottom:0; padding:1rem; font-size:0.88rem;">
+                        <span style="font-weight:700; color:var(--primary-light);">Cálculo Formal del Óptimo:</span>
+                        <div id="opt-status" style="margin-top:0.5rem; line-height: 1.5; color: var(--text-muted); font-size:0.85rem;">
+                            Calculando...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="opt-formula-box">
+                        <!-- Equation LaTeX -->
+                    </div>
+                    <canvas id="opt-canvas" width="600" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: QUIZ DE APLICACIONES -->
+        <div class="card">
+            <h2><i data-lucide="award" style="color:var(--accent);"></i> Autoevaluación Aplicada a Escenarios de Ingeniería</h2>
+            <p class="intro-text">
+                Resuelve los problemas sobre aplicaciones prácticas del modelado lineal y cuadrático en la toma de decisiones en ingeniería.
+            </p>
+
+            <div class="quiz-container">
+                <!-- Pregunta 1 -->
+                <div class="quiz-card" id="q1-card">
+                    <div class="quiz-question">1. Gestión de Operaciones: Costos Lineales y Break-Even</div>
+                    <div class="quiz-context">
+                        Una línea de ensamble de la UPSE tiene costos fijos mensuales de 5,000 USD y un costo variable de 20 USD por cada unidad manufacturada. Si cada unidad se vende al mercado en 30 USD, determina la función de costo total \(C(x)\), de ingresos \(I(x)\) y calcula el volumen mínimo de producción para alcanzar el punto de equilibrio (utilidad cero).
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(1, 'A')">
+                            <span>A) \(C(x)=20x+5,000\), \(I(x)=30x\); Punto de equilibrio en \(x = 500\) unidades.</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'B')">
+                            <span>B) \(C(x)=30x+5,000\), \(I(x)=20x\); Punto de equilibrio en \(x = 250\) unidades.</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'C')">
+                            <span>C) \(C(x)=20x+5,000\), \(I(x)=30x\); Punto de equilibrio en \(x = 1,000\) unidades.</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q1-feedback"></div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="quiz-card" id="q2-card">
+                    <div class="quiz-question">2. Ingeniería de Servicios: Costo Eléctrico Comercial por Tramos</div>
+                    <div class="quiz-context">
+                        La tarifa de energía para una empresa se calcula de forma segmentada: 0.10 USD por kWh para los primeros 200 kWh de consumo mensual, y 0.15 USD por cada kWh adicional. Si la empresa registra un consumo mensual de 350 kWh, determina el valor de facturación total.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(2, 'A')">
+                            <span>A) 35.00 USD</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'B')">
+                            <span>B) 42.50 USD</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'C')">
+                            <span>C) 52.50 USD</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q2-feedback"></div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="quiz-card" id="q3-card">
+                    <div class="quiz-question">3. Optimización Industrial: Volumen Óptimo de Producción</div>
+                    <div class="quiz-context">
+                        El ingreso mensual de una fábrica de motores eléctricos está dado por la función cuadrática \(R(x) = -2x^2 + 1,200x\) dólares, donde \(x\) representa la cantidad de motores ensamblados. Calcula el volumen de producción \(x\) necesario para maximizar los ingresos y determina el ingreso máximo absoluto.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(3, 'A')">
+                            <span>A) \(x = 600\) motores; Ingreso máximo = 180,000 USD.</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'B')">
+                            <span>B) \(x = 300\) motores; Ingreso máximo = 180,000 USD.</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'C')">
+                            <span>C) \(x = 300\) motores; Ingreso máximo = 360,000 USD.</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q3-feedback"></div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="quiz-card" id="q4-card">
+                    <div class="quiz-question">4. Ingeniería de Seguridad: Dimensionamiento de Patio de Maniobras</div>
+                    <div class="quiz-context">
+                        Se planea cercar una zona rectangular para almacenamiento de desechos contra la pared de hormigón de la fábrica (por lo que solo se cercan tres lados). Se disponen de 400 metros de malla metálica de seguridad. Determina el ancho \(x\) y el largo \(y\) que maximizan el área de confinamiento de residuos.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(4, 'A')">
+                            <span>A) \(x = 100\text{ m}\), \(y = 200\text{ m}\); Área máxima = \(20,000\text{ m}^2\).</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'B')">
+                            <span>B) \(x = 200\text{ m}\), \(y = 100\text{ m}\); Área máxima = \(20,000\text{ m}^2\).</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'C')">
+                            <span>C) \(x = 100\text{ m}\), \(y = 100\text{ m}\); Área máxima = \(10,000\text{ m}^2\).</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="q4-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Banner de puntaje final -->
+            <div class="quiz-score-banner" style="margin-top: 2.5rem;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 8px;">Puntaje de Autoevaluación</div>
+                <div style="font-size: 2.2rem; font-weight: 800; color: var(--secondary);" id="score-text">0 / 4</div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Completa las preguntas para registrar tu rendimiento.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 3 · Tema 2: Aplicaciones y Optimización · Actividad 2<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== SIMULADOR DE ESCENARIOS ==========
+        let zoomScale = 0.5; // pixeles por unidad del canvas de optimización
+
+        function switchScenario() {
+            const sc = document.getElementById('select-scenario').value;
+            if (sc === 'ingreso') {
+                document.getElementById('inputs-ingreso').style.display = 'block';
+                document.getElementById('inputs-area').style.display = 'none';
+            } else {
+                document.getElementById('inputs-ingreso').style.display = 'none';
+                document.getElementById('inputs-area').style.display = 'block';
+            }
+            updateSimulation();
+        }
+
+        function updateSimulation() {
+            const sc = document.getElementById('select-scenario').value;
+            const canvas = document.getElementById('opt-canvas');
+            const width = canvas.width;
+            const height = canvas.height;
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, width, height);
+
+            if (sc === 'ingreso') {
+                const a = parseFloat(document.getElementById('slider-a').value);
+                const b = parseFloat(document.getElementById('slider-b').value);
+
+                document.getElementById('val-a').innerText = a;
+                document.getElementById('val-b').innerText = b.toFixed(2);
+
+                // Ecuación LaTeX del ingreso R(x) = ax - bx^2
+                document.getElementById('opt-formula-box').innerHTML = `\\[R(x) = x \\cdot (${a} - ${b.toFixed(1)}x) = -${b.toFixed(1)}x^2 + ${a}x\\]`;
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.getElementById('opt-formula-box'), katexOptions);
+                }
+
+                // Vértice óptimo
+                const xOpt = a / (2 * b);
+                const maxRev = a * xOpt - b * xOpt**2;
+                const pOpt = a - b * xOpt;
+
+                let statusHTML = `Cantidad óptima de producción: \\(x_{opt} = \\frac{${a}}{2(${b.toFixed(2)})} = ${xOpt.toFixed(2)}\\) unidades.<br>`;
+                statusHTML += `Precio óptimo de mercado: \\(p_{opt} = ${a} - ${b.toFixed(2)}(${xOpt.toFixed(2)}) = ${pOpt.toFixed(2)}\\) USD.<br>`;
+                statusHTML += `Ingreso máximo absolute: \\(R_{max} = ${maxRev.toFixed(2)}\\) USD (en el vértice \\(V\\)).`;
+
+                document.getElementById('opt-status').innerHTML = statusHTML;
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.getElementById('opt-status'), katexOptions);
+                }
+
+                // Graficar R(x) = -bx^2 + ax
+                // Escalar coordenadas para que quepan en el Canvas [600, 300]
+                // R(0) = 0 y R(a/b) = 0.
+                const rootX = a / b;
+                const scaleX = (width * 0.8) / rootX;
+                const scaleY = (height * 0.7) / maxRev;
+
+                const cx = width * 0.1;
+                const cy = height * 0.85;
+
+                // Ejes
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 2;
+                ctx.fillStyle = '#64748b';
+                ctx.font = '10px sans-serif';
+                ctx.beginPath();
+                ctx.moveTo(cx - 20, cy); ctx.lineTo(width * 0.95, cy); // X
+                ctx.moveTo(cx, cy + 20); ctx.lineTo(cx, height * 0.05); // Y
+                ctx.stroke();
+
+                // Curva
+                ctx.strokeStyle = '#6366f1';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                let first = true;
+                for (let px = cx; px <= cx + rootX * scaleX; px++) {
+                    const xVal = (px - cx) / scaleX;
+                    const yVal = a * xVal - b * xVal**2;
+                    const pyVal = cy - yVal * scaleY;
+
+                    if (first) {
+                        ctx.moveTo(px, pyVal);
+                        first = false;
+                    } else {
+                        ctx.lineTo(px, pyVal);
+                    }
+                }
+                ctx.stroke();
+
+                // Resaltar Vértice (Nodo Esmeralda)
+                const pxV = cx + xOpt * scaleX;
+                const pyV = cy - maxRev * scaleY;
+                ctx.fillStyle = '#10b981';
+                ctx.beginPath(); ctx.arc(pxV, pyV, 6, 0, 2*Math.PI); ctx.fill();
+
+                // Proyecciones
+                ctx.strokeStyle = 'rgba(16, 185, 129, 0.5)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.moveTo(pxV, cy); ctx.lineTo(pxV, pyV);
+                ctx.moveTo(cx, pyV); ctx.lineTo(pxV, pyV);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#fff';
+                ctx.fillText(`V(${xOpt.toFixed(0)}, ${maxRev.toFixed(0)})`, pxV - 30, pyV - 10);
+                ctx.fillText(`Corte(${rootX.toFixed(0)}, 0)`, cx + rootX * scaleX - 40, cy + 15);
+                ctx.fillText("Q (Cantidad)", width * 0.9, cy + 15);
+                ctx.fillText("Ingreso R(x)", cx - 10, height * 0.08);
+
+            } else {
+                // Escenario de Área perimetral
+                const L = parseFloat(document.getElementById('slider-l').value);
+                document.getElementById('val-l').innerText = L;
+
+                // Ecuación LaTeX del área A(x) = x(L-2x) = -2x^2 + Lx
+                document.getElementById('opt-formula-box').innerHTML = `\\[A(x) = x \\cdot (${L} - 2x) = -2x^2 + ${L}x\\]`;
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.getElementById('opt-formula-box'), katexOptions);
+                }
+
+                // Vértice óptimo
+                const xOpt = L / 4;
+                const yOpt = L / 2; // largo
+                const maxArea = xOpt * yOpt;
+
+                let statusHTML = `Ancho óptimo: \\(x_{opt} = \\frac{${L}}{4} = ${xOpt.toFixed(1)}\\) metros.<br>`;
+                statusHTML += `Largo óptimo: \\(y_{opt} = ${L} - 2(${xOpt.toFixed(1)}) = ${yOpt.toFixed(1)}\\) metros.<br>`;
+                statusHTML += `Área máxima absoluta: \\(A_{max} = ${maxArea.toFixed(1)}\\) metros cuadrados.`;
+
+                document.getElementById('opt-status').innerHTML = statusHTML;
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.getElementById('opt-status'), katexOptions);
+                }
+
+                // Graficar A(x) = -2x^2 + Lx
+                const rootX = L / 2;
+                const scaleX = (width * 0.8) / rootX;
+                const scaleY = (height * 0.7) / maxArea;
+
+                const cx = width * 0.1;
+                const cy = height * 0.85;
+
+                // Ejes
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 2;
+                ctx.fillStyle = '#64748b';
+                ctx.font = '10px sans-serif';
+                ctx.beginPath();
+                ctx.moveTo(cx - 20, cy); ctx.lineTo(width * 0.95, cy); // X
+                ctx.moveTo(cx, cy + 20); ctx.lineTo(cx, height * 0.05); // Y
+                ctx.stroke();
+
+                // Parábola
+                ctx.strokeStyle = '#10b981'; // Esmeralda
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                let first = true;
+                for (let px = cx; px <= cx + rootX * scaleX; px++) {
+                    const xVal = (px - cx) / scaleX;
+                    const yVal = L * xVal - 2 * xVal**2;
+                    const pyVal = cy - yVal * scaleY;
+
+                    if (first) {
+                        ctx.moveTo(px, pyVal);
+                        first = false;
+                    } else {
+                        ctx.lineTo(px, pyVal);
+                    }
+                }
+                ctx.stroke();
+
+                // Resaltar Vértice
+                const pxV = cx + xOpt * scaleX;
+                const pyV = cy - maxArea * scaleY;
+                ctx.fillStyle = '#f59e0b'; // Ámbar
+                ctx.beginPath(); ctx.arc(pxV, pyV, 6, 0, 2*Math.PI); ctx.fill();
+
+                // Proyecciones
+                ctx.strokeStyle = 'rgba(245, 158, 11, 0.5)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.moveTo(pxV, cy); ctx.lineTo(pxV, pyV);
+                ctx.moveTo(cx, pyV); ctx.lineTo(pxV, pyV);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#fff';
+                ctx.fillText(`V(${xOpt.toFixed(0)}, ${maxArea.toFixed(0)})`, pxV - 30, pyV - 10);
+                ctx.fillText(`Corte(${rootX.toFixed(0)}, 0)`, cx + rootX * scaleX - 40, cy + 15);
+                ctx.fillText("x (Ancho en metros)", width * 0.85, cy + 15);
+                ctx.fillText("Área A(x)", cx - 10, height * 0.08);
+            }
+        }
+
+        // ========== QUIZ DE APLICACIONES ==========
+        const quizAnswers = { 1: 'A', 2: 'B', 3: 'B', 4: 'A' };
+        const quizFeedbacks = {
+            1: {
+                'A': '<strong>¡Correcto!</strong> La utilidad es: \\(U(x) = I(x) - C(x) = 30x - (20x + 5000) = 10x - 5000\\). <br> Igualando a cero: \\(10x = 5000 \\implies x = 500\\) unidades.',
+                'B': 'Incorrecto. Revisa el planteamiento de costos e ingresos; el costo de venta debe ser superior al costo variable para tener rentabilidad.',
+                'C': 'Incorrecto. Este volumen de producción generaría ganancias de 5000 USD en lugar de equilibrio de utilidades.'
+            },
+            2: {
+                'A': 'Incorrecto. Esta opción aplica linealmente la tarifa de 0.10 USD a todo el consumo sin considerar los tramos.',
+                'B': '<strong>¡Correcto!</strong> Segmentamos el consumo en tramos:<br> - Primeros 200 kWh: \\(200 \\times 0.10 = 20\\) USD.<br> - kWh excedentes (350 - 200 = 150 kWh): \\(150 \\times 0.15 = 22.50\\) USD.<br> - Facturación total: \\(20 + 22.50 = 42.50\\) USD.',
+                'C': 'Incorrecto. Esta opción aplica la tarifa más alta de 0.15 USD a la totalidad del consumo.'
+            },
+            3: {
+                'A': 'Incorrecto. 600 motores es el valor donde el ingreso vuelve a ser cero, no el máximo.',
+                'B': '<strong>¡Correcto!</strong> El ingreso máximo ocurre en la abscisa del vértice: \\(h = -\\frac{b}{2a} = -\\frac{1200}{2(-2)} = 300\\) motores.<br> Evaluando en la función: \\(R(300) = -2(300)^2 + 1200(300) = -180,000 + 360,000 = 180,000\\) USD.',
+                'C': 'Incorrecto. Revisa la evaluación del vértice cuadrático en la función.'
+            },
+            4: {
+                'A': '<strong>¡Correcto!</strong> Ecuación de cercado: \\(2x + y = 400 \\implies y = 400 - 2x\\).<br> Área resultante: \\(A(x) = x(400 - 2x) = -2x^2 + 400x\\).<br> El vértice está en: \\(x = -\\frac{400}{2(-2)} = 100\\text{ m}\\).<br> Por ende: \(y = 400 - 2(100) = 200\text{ m}\). Área máxima: \(100 \\times 200 = 20,000\\text{ m}^2\).',
+                'B': 'Incorrecto. Estas dimensiones dan el mismo perímetro de cerca, pero el área no se maximiza si el ancho es mayor que el largo en este tipo de bordes.',
+                'C': 'Incorrecto. Esta opción consume 300 m de cerca en lugar del límite disponible de 400 m.'
+            }
+        };
+
+        const userScore = { 1: null, 2: null, 3: null, 4: null };
+
+        function checkAnswer(questionId, option) {
+            if (userScore[questionId] !== null) return;
+
+            const card = document.getElementById(`q${questionId}-card`);
+            const feedback = document.getElementById(`q${questionId}-feedback`);
+            const btns = card.querySelectorAll('.option-btn');
+
+            userScore[questionId] = (option === quizAnswers[questionId]) ? 1 : 0;
+
+            btns.forEach(btn => {
+                btn.disabled = true;
+                if (btn.outerHTML.includes(`checkAnswer(${questionId}, '${option}')`)) {
+                    if (option === quizAnswers[questionId]) {
+                        btn.classList.add('selected-correct');
+                    } else {
+                        btn.classList.add('selected-incorrect');
+                    }
+                }
+            });
+
+            if (option === quizAnswers[questionId]) {
+                card.classList.add('correct');
+                feedback.className = 'feedback-box correct';
+            } else {
+                feedback.className = 'feedback-box incorrect';
+            }
+
+            feedback.innerHTML = quizFeedbacks[questionId][option];
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, katexOptions);
+            }
+
+            updateScore();
+        }
+
+        function updateScore() {
+            let total = 0;
+            let answered = 0;
+            for (let q in userScore) {
+                if (userScore[q] !== null) {
+                    total += userScore[q];
+                    answered++;
+                }
+            }
+
+            document.getElementById('score-text').innerText = `${total} / 4`;
+            
+            const bannerP = document.querySelector('.quiz-score-banner p');
+            if (answered === 4) {
+                if (total === 4) {
+                    bannerP.innerHTML = `<span style="color:var(--secondary); font-weight:700;">¡Excelente! Dominas perfectamente el modelado lineal y cuadrático aplicado a la ingeniería.</span>`;
+                } else {
+                    bannerP.innerHTML = `<span style="color:var(--accent); font-weight:700;">Buen intento. Analiza los pasos detallados de cada ejercicio.</span>`;
+                }
+            }
+        }
+
+        // ========== INICIALIZACIÓN ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            updateSimulation();
+        }
+
+        function verificarLibrerias() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                setTimeout(verificarLibrerias, 100);
+            }
+        }
+
+        verificarLibrerias();
+    </script>
+</body>
+</html>

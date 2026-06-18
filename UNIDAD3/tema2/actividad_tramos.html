@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 1: Funciones por Tramos y Transformaciones - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1; /* Índigo */
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981; /* Esmeralda */
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b; /* Ámbar */
+            --danger: #ef4444; /* Rojo */
+            --bg: #0f172a; /* Pizarra oscuro */
+            --card-bg: #1e293b; /* Tarjeta esmerilada */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR GLASSMORPHISM */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* TARJETAS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* BLOQUES DE TEORÍA */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* SECCIONES INTERACTIVAS */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-group {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .math-slider {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        canvas {
+            background: #0b0f19;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            height: 300px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .math-formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        /* RETOS PRÁCTICOS */
+        .challenge-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .challenge-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .challenge-card.correct {
+            border-color: var(--secondary);
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .challenge-title {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .challenge-context {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            color: var(--text-main);
+            text-align: left;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .option-btn.selected-correct {
+            border-color: var(--secondary) !important;
+            background: rgba(16, 185, 129, 0.1) !important;
+            color: #fff;
+        }
+
+        .option-btn.selected-incorrect {
+            border-color: var(--danger) !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+            color: #fff;
+        }
+
+        .feedback-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .feedback-box.correct {
+            display: block;
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid var(--secondary);
+            color: var(--text-main);
+        }
+
+        .feedback-box.incorrect {
+            display: block;
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid var(--danger);
+            color: var(--text-main);
+        }
+
+        /* SELECTOR DE FUNCIÓN */
+        .selector-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: var(--font-main);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <a href="index.html?tab=lineal" class="nav-tab">
+                <i data-lucide="activity"></i> Solucionador Lineal
+            </a>
+            <a href="index.html?tab=cuadratica" class="nav-tab">
+                <i data-lucide="trending-up"></i> Optimizador Cuadrático
+            </a>
+            <a href="index.html?tab=glosario" class="nav-tab">
+                <i data-lucide="book-open"></i> Glosario
+            </a>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <button class="nav-tab active">
+                <i data-lucide="shapes"></i> Act. 1
+            </button>
+            <a href="actividad_aplicaciones.html" class="nav-tab">
+                <i data-lucide="award"></i> Act. 2
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container">
+        <header>
+            <h1>Actividad 1: Funciones por Tramos y Transformaciones</h1>
+            <p>Comprende la continuidad en particiones del dominio y experimenta con traslaciones y reflexiones</p>
+        </header>
+
+        <!-- CARD 1: MARCO TEÓRICO -->
+        <div class="card">
+            <h2><i data-lucide="book" style="color:var(--primary);"></i> Definición por Tramos y Técnicas de Traslación</h2>
+            <p class="intro-text">
+                El análisis real estudia funciones cuya correspondencia varía según intervalos excluyentes, y cómo la gráfica de una función base se altera al aplicar operadores algebraicos.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--primary);"></i> Funciones Definidas por Tramos
+                </div>
+                <p>Una función por tramos se define mediante subfórmulas asignadas a intervalos mutuamente excluyentes del dominio:</p>
+                <div class="formal-definition">
+                    \[f(x) = \begin{cases} f_1(x) & \text{si } x \in I_1 \\ f_2(x) & \text{si } x \in I_2 \\ \dots \end{cases}\]
+                </div>
+                <p>Para analizar la **continuidad** en un punto frontera \(x = c\), debemos comprobar que los límites laterales y el valor de la función coincidan:</p>
+                <div class="formal-definition">
+                    \[\lim_{x \to c^-} f(x) = \lim_{x \to c^+} f(x) = f(c)\]
+                </div>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--accent);"></i> Técnicas de Graficación (Transformaciones)
+                </div>
+                <p>A partir de una función base \(y = f(x)\), podemos construir nuevas funciones aplicando operadores:</p>
+                <div class="formal-definition" style="border-left-color: var(--accent);">
+                    - **Traslación Vertical**: \(y = f(x) \pm k\) (desplaza \(k\) unidades hacia arriba/abajo).<br>
+                    - **Traslación Horizontal**: \(y = f(x \mp h)\) (desplaza \(h\) unidades a la derecha/izquierda).<br>
+                    - **Reflexión sobre el eje X**: \(y = -f(x)\) (invierte los valores verticales).<br>
+                    - **Reflexión sobre el eje Y**: \(y = f(-x)\) (refleja horizontalmente).
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: VISUALIZADOR DE TRAMOS -->
+        <div class="card">
+            <h2><i data-lucide="activity" style="color:var(--primary);"></i> Visualizador de Funciones Definidas por Tramos</h2>
+            <p class="intro-text">
+                Ajusta los parámetros para la función de dos tramos:
+                \[f(x) = \begin{cases} m_1 x + b_1 & \text{si } x < c \\ a_2(x-h_2)^2 + k_2 & \text{si } x \ge c \end{cases}\]
+                Comprueba si la función es continua o presenta una discontinuidad de salto en el límite de la frontera \(x = c\).
+            </p>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Parámetros de los Tramos</div>
+                    
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Frontera del Dominio (\(c\))</span>
+                            <span id="val-c" style="font-weight:700; color:var(--primary-light);">0.0</span>
+                        </div>
+                        <input type="range" id="slider-c" class="math-slider" min="-3" max="3" step="0.5" value="0" oninput="updatePiecewise()">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Pendiente Tramo 1 (\(m_1\))</span>
+                            <span id="val-m1" style="font-weight:700; color:var(--primary-light);">1.0</span>
+                        </div>
+                        <input type="range" id="slider-m1" class="math-slider" min="-3" max="3" step="0.5" value="1" oninput="updatePiecewise()">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Intercepto Tramo 1 (\(b_1\))</span>
+                            <span id="val-b1" style="font-weight:700; color:var(--primary-light);">1.0</span>
+                        </div>
+                        <input type="range" id="slider-b1" class="math-slider" min="-3" max="3" step="0.5" value="1" oninput="updatePiecewise()">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Altura Parábola Tramo 2 (\(k_2\))</span>
+                            <span id="val-k2" style="font-weight:700; color:var(--primary-light);">-1.0</span>
+                        </div>
+                        <input type="range" id="slider-k2" class="math-slider" min="-3" max="3" step="0.5" value="-1" oninput="updatePiecewise()">
+                    </div>
+
+                    <div class="theory-block" style="margin-bottom:0; padding:1rem; font-size:0.88rem;">
+                        <span style="font-weight:700; color:var(--primary-light);">Límites y Continuidad:</span>
+                        <div id="piecewise-status" style="margin-top:0.5rem; line-height: 1.5; color: var(--text-muted);">
+                            Calculando...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="piecewise-formula-box">
+                        <!-- LaTeX formula -->
+                    </div>
+                    <canvas id="piecewise-canvas" width="600" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: LABORATORIO DE TRANSFORMACIONES -->
+        <div class="card">
+            <h2><i data-lucide="sliders" style="color:var(--accent);"></i> Laboratorio Interactivo de Transformaciones</h2>
+            <p class="intro-text">
+                Selecciona una función base \(f(x)\) y aplica transformaciones geométricas en la ecuación:
+                \[g(x) = a \cdot f(x - h) + k\]
+                Observa la relación entre la función madre original (línea gris discontinua) y la transformada (línea sólida ámbar).
+            </p>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Seleccionar Función y Parámetros</div>
+                    
+                    <div class="input-group">
+                        <span class="input-label">Función Base \(f(x)\):</span>
+                        <select id="select-base-func" class="selector-input" onchange="updateTransformed()">
+                            <option value="cuadratica">Cuadrática f(x) = x²</option>
+                            <option value="abs">Valor Absoluto f(x) = |x|</option>
+                            <option value="cubica">Cúbica f(x) = x³</option>
+                        </select>
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Escala Vertical / Reflexión (\(a\))</span>
+                            <span id="val-trans-a" style="font-weight:700; color:var(--accent);">1.0</span>
+                        </div>
+                        <input type="range" id="slider-trans-a" class="math-slider" min="-3" max="3" step="0.5" value="1" oninput="updateTransformed()">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Desplazamiento Horizontal (\(h\))</span>
+                            <span id="val-trans-h" style="font-weight:700; color:var(--accent);">0.0</span>
+                        </div>
+                        <input type="range" id="slider-trans-h" class="math-slider" min="-4" max="4" step="0.5" value="0" oninput="updateTransformed()">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Desplazamiento Vertical (\(k\))</span>
+                            <span id="val-trans-k" style="font-weight:700; color:var(--accent);">0.0</span>
+                        </div>
+                        <input type="range" id="slider-trans-k" class="math-slider" min="-4" max="4" step="0.5" value="0" oninput="updateTransformed()">
+                    </div>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="trans-formula-box" style="border-left-color: var(--accent);">
+                        <!-- Equation LaTeX -->
+                    </div>
+                    <canvas id="trans-canvas" width="600" height="300"></canvas>
+                    
+                    <div class="theory-block" style="width:100%; font-size:0.9rem; padding:1rem;">
+                        <span style="font-weight:700; color:var(--accent);">Efecto de las transformaciones:</span>
+                        <div id="trans-explanations" style="margin-top:0.4rem; color:var(--text-muted); line-height:1.5;">
+                            Ninguna transformación aplicada.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 4: RETOS PRÁCTICOS -->
+        <div class="card">
+            <h2><i data-lucide="award" style="color:var(--secondary);"></i> Retos Prácticos de Clasificación</h2>
+            <p class="intro-text">
+                Pon a prueba tu intuición y habilidades algebraicas resolviendo los siguientes retos interactivos.
+            </p>
+
+            <div class="challenge-container">
+                <!-- Reto 1 -->
+                <div class="challenge-card" id="challenge1">
+                    <div class="challenge-title">
+                        <i data-lucide="help-circle" style="color:var(--primary);"></i> Reto 1: Identificación de Función por Tramos
+                    </div>
+                    <div class="challenge-context">
+                        Una función definida por tramos consta de una recta horizontal constante \(y = 2\) para todos los valores \(x < 0\), y una recta creciente \(y = x + 2\) para los valores \(x \ge 0\). Identifica su expresión analítica correcta.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="submitReto(1, 'A')">
+                            <span>A) \(f(x) = \begin{cases} 2 & \text{si } x < 0 \\ x + 2 & \text{si } x \ge 0 \end{cases}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="submitReto(1, 'B')">
+                            <span>B) \(f(x) = \begin{cases} x + 2 & \text{si } x < 0 \\ 2 & \text{si } x \ge 0 \end{cases}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="submitReto(1, 'C')">
+                            <span>C) \(f(x) = 2x + 2\) para todo \(x \in \mathbb{R}\)</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="feedback1"></div>
+                </div>
+
+                <!-- Reto 2 -->
+                <div class="challenge-card" id="challenge2">
+                    <div class="challenge-title">
+                        <i data-lucide="help-circle" style="color:var(--primary);"></i> Reto 2: Secuencia de Transformaciones
+                    </div>
+                    <div class="challenge-context">
+                        A partir de la función madre \(f(x) = |x|\), se aplica una reflexión respecto al eje X, una compresión vertical por factor de 2, un desplazamiento horizontal a la derecha de 3 unidades y una traslación vertical hacia arriba de 4 unidades. Determina la ecuación final resultante \(g(x)\).
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="submitReto(2, 'A')">
+                            <span>A) \(g(x) = -2|x-3| + 4\)</span>
+                        </button>
+                        <button class="option-btn" onclick="submitReto(2, 'B')">
+                            <span>B) \(g(x) = -\frac{1}{2}|x-3| + 4\)</span>
+                        </button>
+                        <button class="option-btn" onclick="submitReto(2, 'C')">
+                            <span>C) \(g(x) = -\frac{1}{2}|x+3| - 4\)</span>
+                        </button>
+                    </div>
+                    <div class="feedback-box" id="feedback2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 3 · Tema 2: Funciones por Tramos · Actividad 1<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[', right: '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== SIMULADOR PIECEWISE ==========
+        let zoomPiecewise = 35;
+
+        function updatePiecewise() {
+            const c = parseFloat(document.getElementById('slider-c').value);
+            const m1 = parseFloat(document.getElementById('slider-m1').value);
+            const b1 = parseFloat(document.getElementById('slider-b1').value);
+            const k2 = parseFloat(document.getElementById('slider-k2').value);
+
+            document.getElementById('val-c').innerText = c.toFixed(1);
+            document.getElementById('val-m1').innerText = m1.toFixed(1);
+            document.getElementById('val-b1').innerText = b1.toFixed(1);
+            document.getElementById('val-k2').innerText = k2.toFixed(1);
+
+            // Mostrar Fórmula
+            const formulaHTML = `\\[f(x) = \\begin{cases} ${m1 === 1 ? '' : m1 === -1 ? '-' : m1.toFixed(1)}x ${b1 >= 0 ? '+ ' + b1.toFixed(1) : '- ' + Math.abs(b1).toFixed(1)} & \\text{si } x < ${c.toFixed(1)} \\\\ (x-${c.toFixed(1)})^2 ${k2 >= 0 ? '+ ' + k2.toFixed(1) : '- ' + Math.abs(k2).toFixed(1)} & \\text{si } x \\ge ${c.toFixed(1)} \\end{cases}\\]`;
+            document.getElementById('piecewise-formula-box').innerHTML = formulaHTML;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('piecewise-formula-box'), katexOptions);
+            }
+
+            // Evaluar continuidad
+            const leftLimit = m1 * c + b1;
+            const rightLimit = k2; // at x = c, (c-c)^2 + k2 = k2
+            const isContinuous = Math.abs(leftLimit - rightLimit) < 1e-4;
+
+            let statusHTML = `Límite por la izquierda: \\(\\lim_{x \\to ${c.toFixed(1)}^-} f(x) = ${leftLimit.toFixed(2)}\\)<br>`;
+            statusHTML += `Límite por la derecha: \\(\\lim_{x \\to ${c.toFixed(1)}^+} f(x) = ${rightLimit.toFixed(2)}\\)<br>`;
+            if (isContinuous) {
+                statusHTML += `Estado: **CONTINUA** en \\(x = ${c.toFixed(1)}\\) (coinciden límites y \\(f(${c.toFixed(1)}) = ${rightLimit.toFixed(2)}\\)).`;
+            } else {
+                statusHTML += `Estado: **DISCONTINUIDAD DE SALTO** en \\(x = ${c.toFixed(1)}\\) (salto de magnitud \\(${Math.abs(leftLimit - rightLimit).toFixed(2)}\\)).`;
+            }
+
+            document.getElementById('piecewise-status').innerHTML = statusHTML;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('piecewise-status'), katexOptions);
+            }
+
+            drawPiecewisePlot(c, m1, b1, k2, leftLimit, rightLimit);
+        }
+
+        function drawPiecewisePlot(c, m1, b1, k2, leftLimit, rightLimit) {
+            const canvas = document.getElementById('piecewise-canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            // Rejilla
+            ctx.strokeStyle = '#223047';
+            ctx.lineWidth = 1;
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = '#64748b';
+
+            for (let x = -10; x <= 10; x++) {
+                const px = cx + x * zoomPiecewise;
+                ctx.beginPath();
+                ctx.moveTo(px, 0); ctx.lineTo(px, height);
+                ctx.stroke();
+                if (x !== 0) ctx.fillText(x, px + 2, cy - 2);
+            }
+
+            for (let y = -5; y <= 5; y++) {
+                const py = cy - y * zoomPiecewise;
+                ctx.beginPath();
+                ctx.moveTo(0, py); ctx.lineTo(width, py);
+                ctx.stroke();
+                if (y !== 0) ctx.fillText(y, cx + 4, py - 2);
+            }
+
+            // Ejes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(width, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, height);
+            ctx.stroke();
+
+            // Dibujar tramos
+            // Tramo 1: Recta para x < c
+            ctx.strokeStyle = '#6366f1'; // Índigo
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            const pxStart = 0;
+            const xStart = (pxStart - cx) / zoomPiecewise;
+            const yStart = m1 * xStart + b1;
+            const pyStart = cy - yStart * zoomPiecewise;
+            
+            const pxEnd1 = cx + c * zoomPiecewise;
+            const pyEnd1 = cy - leftLimit * zoomPiecewise;
+
+            ctx.moveTo(pxStart, pyStart);
+            ctx.lineTo(pxEnd1, pyEnd1);
+            ctx.stroke();
+
+            // Tramo 2: Parábola para x >= c
+            ctx.strokeStyle = '#10b981'; // Esmeralda
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            let first = true;
+            for (let px = pxEnd1; px < width; px++) {
+                const xVal = (px - cx) / zoomPiecewise;
+                const yVal = (xVal - c)**2 + k2;
+                const pyVal = cy - yVal * zoomPiecewise;
+
+                if (pyVal >= 0 && pyVal <= height) {
+                    if (first) {
+                        ctx.moveTo(px, pyVal);
+                        first = false;
+                    } else {
+                        ctx.lineTo(px, pyVal);
+                    }
+                }
+            }
+            ctx.stroke();
+
+            // Dibujar extremos (circulos abiertos y cerrados)
+            // Círculo abierto en tramo 1 (extremo excluyente x < c)
+            ctx.strokeStyle = '#6366f1';
+            ctx.fillStyle = '#0b0f19'; // Fondo del canvas para dar efecto hueco
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(pxEnd1, pyEnd1, 5, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.stroke();
+
+            // Círculo relleno en tramo 2 (extremo incluyente x >= c)
+            ctx.fillStyle = '#10b981';
+            ctx.beginPath();
+            ctx.arc(pxEnd1, cy - rightLimit * zoomPiecewise, 5, 0, 2*Math.PI);
+            ctx.fill();
+        }
+
+        // ========== LABORATORIO DE TRANSFORMACIONES ==========
+        let zoomTrans = 30;
+
+        function updateTransformed() {
+            const funcType = document.getElementById('select-base-func').value;
+            const a = parseFloat(document.getElementById('slider-trans-a').value);
+            const h = parseFloat(document.getElementById('slider-trans-h').value);
+            const k = parseFloat(document.getElementById('slider-trans-k').value);
+
+            document.getElementById('val-trans-a').innerText = a.toFixed(1);
+            document.getElementById('val-trans-h').innerText = h.toFixed(1);
+            document.getElementById('val-trans-k').innerText = k.toFixed(1);
+
+            // LaTeX
+            let baseExpr = "";
+            let transExpr = "";
+            if (funcType === "cuadratica") {
+                baseExpr = "f(x) = x^2";
+                transExpr = `g(x) = ${a === 1 ? '' : a === -1 ? '-' : a.toFixed(1)}(x ${h >= 0 ? '- ' + h.toFixed(1) : '+ ' + Math.abs(h).toFixed(1)})^2 ${k >= 0 ? '+ ' + k.toFixed(1) : '- ' + Math.abs(k).toFixed(1)}`;
+            } else if (funcType === "abs") {
+                baseExpr = "f(x) = |x|";
+                transExpr = `g(x) = ${a === 1 ? '' : a === -1 ? '-' : a.toFixed(1)}|x ${h >= 0 ? '- ' + h.toFixed(1) : '+ ' + Math.abs(h).toFixed(1)}| ${k >= 0 ? '+ ' + k.toFixed(1) : '- ' + Math.abs(k).toFixed(1)}`;
+            } else {
+                baseExpr = "f(x) = x^3";
+                transExpr = `g(x) = ${a === 1 ? '' : a === -1 ? '-' : a.toFixed(1)}(x ${h >= 0 ? '- ' + h.toFixed(1) : '+ ' + Math.abs(h).toFixed(1)})^3 ${k >= 0 ? '+ ' + k.toFixed(1) : '- ' + Math.abs(k).toFixed(1)}`;
+            }
+
+            document.getElementById('trans-formula-box').innerHTML = `\\[${transExpr}\\]`;
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('trans-formula-box'), katexOptions);
+            }
+
+            // Explicaciones dinámicas
+            let expls = [];
+            if (a < 0) expls.push(`<li><strong>Reflexión vertical</strong>: La curva se invierte hacia abajo (reflejada sobre el eje X) dado que \\(a = ${a.toFixed(1)} < 0\\).</li>`);
+            if (Math.abs(a) !== 1) expls.push(`<li><strong>Escala vertical</strong>: La curva se ${Math.abs(a) > 1 ? 'estira' : 'comprime'} verticalmente por un factor de \\(${Math.abs(a).toFixed(1)}\\).</li>`);
+            if (h !== 0) expls.push(`<li><strong>Desplazamiento horizontal</strong>: Se traslada \\(${Math.abs(h).toFixed(1)}\\) unidades hacia la **${h > 0 ? 'derecha' : 'izquierda'}**.</li>`);
+            if (k !== 0) expls.push(`<li><strong>Desplazamiento vertical</strong>: Se traslada \\(${Math.abs(k).toFixed(1)}\\) unidades hacia **${k > 0 ? 'arriba' : 'abajo'}**.</li>`);
+            
+            if (expls.length === 0) {
+                document.getElementById('trans-explanations').innerHTML = "La gráfica transformada coincide con la función base (sin modificaciones).";
+            } else {
+                document.getElementById('trans-explanations').innerHTML = `<ul style="padding-left:1.2rem; display:flex; flex-direction:column; gap:0.4rem;">${expls.join('')}</ul>`;
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.getElementById('trans-explanations'), katexOptions);
+                }
+            }
+
+            drawTransformedPlot(funcType, a, h, k);
+        }
+
+        function drawTransformedPlot(funcType, a, h, k) {
+            const canvas = document.getElementById('trans-canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const cx = width / 2;
+            const cy = height / 2;
+
+            // Rejilla
+            ctx.strokeStyle = '#223047';
+            ctx.lineWidth = 1;
+            ctx.font = '10px sans-serif';
+            ctx.fillStyle = '#64748b';
+
+            for (let x = -10; x <= 10; x++) {
+                const px = cx + x * zoomTrans;
+                ctx.beginPath();
+                ctx.moveTo(px, 0); ctx.lineTo(px, height);
+                ctx.stroke();
+            }
+
+            for (let y = -5; y <= 5; y++) {
+                const py = cy - y * zoomTrans;
+                ctx.beginPath();
+                ctx.moveTo(0, py); ctx.lineTo(width, py);
+                ctx.stroke();
+            }
+
+            // Ejes principales
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(width, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, height);
+            ctx.stroke();
+
+            // Funciones matemáticas base
+            const evalBase = x => {
+                if (funcType === "cuadratica") return x**2;
+                if (funcType === "abs") return Math.abs(x);
+                return x**3;
+            };
+
+            // Dibujar Función Base (Dashed Gray)
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.4)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            let firstBase = true;
+            for (let px = 0; px < width; px++) {
+                const xVal = (px - cx) / zoomTrans;
+                const yVal = evalBase(xVal);
+                const pyVal = cy - yVal * zoomTrans;
+                if (pyVal >= 0 && pyVal <= height) {
+                    if (firstBase) {
+                        ctx.moveTo(px, pyVal);
+                        firstBase = false;
+                    } else {
+                        ctx.lineTo(px, pyVal);
+                    }
+                }
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Dibujar Función Transformada (Solid Amber)
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let firstTrans = true;
+            for (let px = 0; px < width; px++) {
+                const xVal = (px - cx) / zoomTrans;
+                const yVal = a * evalBase(xVal - h) + k;
+                const pyVal = cy - yVal * zoomTrans;
+                if (pyVal >= 0 && pyVal <= height) {
+                    if (firstTrans) {
+                        ctx.moveTo(px, pyVal);
+                        firstTrans = false;
+                    } else {
+                        ctx.lineTo(px, pyVal);
+                    }
+                }
+            }
+            ctx.stroke();
+        }
+
+        // ========== RETOS PRÁCTICOS ==========
+        const correctAnswers = { 1: 'A', 2: 'B' };
+        const feedbacks = {
+            1: {
+                'A': '<strong>¡Correcto!</strong> Representa la regla por tramos formal. En el intervalo abierto \\(x < 0\\), la función es constante con valor \(2\), y para el cerrado \\(x \\ge 0\\) toma el valor lineal creciente \(x + 2\).',
+                'B': 'Incorrecto. Esta opción invierte los dominios, asignando la recta creciente a la zona negativa.',
+                'C': 'Incorrecto. Esta opción simplifica toda la expresión en una sola línea continua, ignorando la constante.'
+            },
+            2: {
+                'A': 'Incorrecto. Un factor \(2\) representa un estiramiento vertical, pero el enunciado indica una compresión vertical por factor de 2 (es decir, una contracción por un medio: \\(\\frac{1}{2}\\)).',
+                'B': '<strong>¡Correcto!</strong> Aplicando cada operador en secuencia sobre \(f(x) = |x|\): <br> 1. Compresión y reflexión vertical: \\(-\\frac{1}{2}|x|\\). <br> 2. Desplazamiento horizontal a la derecha (3 uds): \\(-\\frac{1}{2}|x-3|\\). <br> 3. Traslación vertical hacia arriba (4 uds): \\(-\\frac{1}{2}|x-3| + 4\\).',
+                'C': 'Incorrecto. Esta opción posee los desplazamientos invertidos: hacia la izquierda (\(x+3\)) y hacia abajo (\(-4\)).'
+            }
+        };
+
+        function submitReto(retoId, option) {
+            const card = document.getElementById(`challenge${retoId}`);
+            const feedback = document.getElementById(`feedback${retoId}`);
+            const btns = card.querySelectorAll('.option-btn');
+            
+            btns.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('selected-correct', 'selected-incorrect');
+                if (btn.outerHTML.includes(`submitReto(${retoId}, '${option}')`)) {
+                    if (option === correctAnswers[retoId]) {
+                        btn.classList.add('selected-correct');
+                    } else {
+                        btn.classList.add('selected-incorrect');
+                    }
+                }
+            });
+
+            if (option === correctAnswers[retoId]) {
+                card.classList.add('correct');
+                feedback.className = 'feedback-box correct';
+            } else {
+                feedback.className = 'feedback-box incorrect';
+            }
+            
+            feedback.innerHTML = feedbacks[retoId][option];
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, katexOptions);
+            }
+        }
+
+        // ========== INICIALIZACIÓN ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            updatePiecewise();
+            updateTransformed();
+        }
+
+        function verificarLibrerias() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                setTimeout(verificarLibrerias, 100);
+            }
+        }
+
+        verificarLibrerias();
+    </script>
+</body>
+</html>
