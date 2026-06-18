@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 2: Progresiones y Sucesiones - Álgebra Interactiva</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: #eff6ff;
+            --secondary: #10b981;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-title: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar Glassmorphism */
+        nav {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-main);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            color: #fff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        p.intro-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Bloques de Teoría */
+        .theory-block {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .theory-title {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formal-definition {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-family: var(--font-main);
+        }
+
+        /* Graficador de sucesiones */
+        .interactive-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 850px) {
+            .interactive-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .selector-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider-group {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .math-slider {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 100%;
+        }
+
+        canvas {
+            background: #0b0f19;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            height: 250px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .math-formula-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        /* Módulo de Autoevaluación */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .quiz-card {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .quiz-context {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .option-btn.correct {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: var(--secondary) !important;
+            color: #fff;
+        }
+
+        .option-btn.incorrect {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: var(--danger) !important;
+            color: #fff;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--secondary);
+            color: #a7f3d0;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            color: #fca5a5;
+        }
+
+        .quiz-score-banner {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        footer p a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CDN de Recursos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <i data-lucide="calculator"></i> Álgebra Interactiva
+        </a>
+        <div class="nav-links">
+            <a href="index.html?tab=ecuacion" class="nav-tab">
+                <i data-lucide="help-circle"></i> Ecuaciones
+            </a>
+            <a href="index.html?tab=binomio" class="nav-tab">
+                <i data-lucide="layers"></i> Binomio
+            </a>
+            <a href="index.html?tab=glosario" class="nav-tab">
+                <i data-lucide="book-open"></i> Glosario
+            </a>
+            <div style="width: 1px; background: var(--border); margin: 0 0.5rem; height: 24px; align-self: center;"></div>
+            <a href="actividad_inecuaciones.html" class="nav-tab">
+                <i data-lucide="activity"></i> Act. 1
+            </a>
+            <a href="#" class="nav-tab active">
+                <i data-lucide="trending-up"></i> Act. 2
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <header>
+            <h1>Actividad 2: Progresiones y Sucesiones</h1>
+            <p>Análisis analítico de sucesiones discretas, series numéricas y modelado dinámico de convergencia</p>
+        </header>
+
+        <!-- CARD 1: MARCO TEÓRICO FORMAL -->
+        <div class="card">
+            <h2><i data-lucide="book-open" style="color:var(--primary);"></i> Progresiones y Sucesiones Reales</h2>
+            <p class="intro-text">
+                Una sucesión real \(\{a_n\}\) es una función cuyo dominio es el conjunto ordenado de los naturales \(\mathbb{N}\). Dos estructuras de progresión recurrentes en ingeniería son las sucesiones aritméticas y las geométricas.
+            </p>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--secondary);"></i> 1. Progresión Aritmética (PA)
+                </div>
+                <p>Una sucesión es aritmética si la diferencia entre dos términos consecutivos es constante. Se define por la regla de recurrencia \(a_n = a_{n-1} + d\). Su término general es:</p>
+                <div class="formal-definition">
+                    \[a_n = a_1 + (n - 1)d \quad \text{con } d \in \mathbb{R} \text{ (diferencia común)}\]
+                </div>
+                <p>La sumatoria de sus primeros \(n\) términos (serie aritmética) se calcula analíticamente mediante la fórmula de Gauss:</p>
+                <div class="formal-definition">
+                    \[S_n = \sum_{k=1}^n a_k = \frac{n(a_1 + a_n)}{2}\]
+                </div>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--accent);"></i> 2. Progresión Geométrica (PG)
+                </div>
+                <p>Una sucesión es geométrica si la razón entre dos términos consecutivos es constante: \(a_n = a_{n-1} \cdot r\). Su término general se define exponencialmente como:</p>
+                <div class="formal-definition">
+                    \[a_n = a_1 \cdot r^{n-1} \quad \text{con } r \in \mathbb{R} \setminus \{0\} \text{ (razón geométrica)}\]
+                </div>
+                <p>La suma parcial \(S_n\) de sus primeros \(n\) términos para \(r \neq 1\) es:</p>
+                <div class="formal-definition">
+                    \[S_n = \sum_{k=1}^n a_k = a_1 \frac{1 - r^n}{1 - r}\]
+                </div>
+            </div>
+
+            <div class="theory-block">
+                <div class="theory-title">
+                    <i data-lucide="hash" style="color:var(--primary-light);"></i> 3. Convergencia de Series Infinitas
+                </div>
+                <p>Bajo la hipótesis de que la razón geométrica satisface \(|r| < 1\), la serie geométrica converge a un valor finito cuando el número de términos tiende a infinito:</p>
+                <div class="formal-definition">
+                    \[S_\infty = \lim_{n \to \infty} S_n = \frac{a_1}{1 - r} \quad (\text{dado que } \lim_{n\to\infty} r^n = 0 \text{ para } |r| < 1)\]
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: GRAFICADOR DE SUCESIONES -->
+        <div class="card">
+            <h2><i data-lucide="activity" style="color:var(--primary);"></i> Graficador y Ploteador Discreto de Sucesiones</h2>
+            <p class="intro-text">
+                Visualiza el comportamiento discreto de las sucesiones cartesianas. Ajusta el término inicial y los parámetros de progresión para observar si la sucesión es monótona creciente, decreciente, oscilante o convergente.
+            </p>
+
+            <div class="interactive-section">
+                <div class="control-panel">
+                    <div class="panel-title"><i data-lucide="sliders"></i> Estructurar Sucesión</div>
+                    
+                    <div class="input-group">
+                        <div class="input-label">Tipo de Progresión:</div>
+                        <select id="select-prog-tipo" class="selector-input" onchange="toggleSliderSetup(); updateSucesion();">
+                            <option value="aritmetica">Aritmética (a_n = a_1 + (n-1)d)</option>
+                            <option value="geometrica">Geométrica (a_n = a_1 * r^(n-1))</option>
+                        </select>
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Término Inicial (\(a_1\))</span>
+                            <span id="label-a1" style="color:var(--primary-light); font-weight:700;">2</span>
+                        </div>
+                        <input type="range" id="slider-a1" class="math-slider" min="-15" max="15" step="1" value="2" oninput="updateSucesion()">
+                    </div>
+
+                    <div class="slider-group" id="slider-container-diff">
+                        <div class="slider-header">
+                            <span>Diferencia Común (\(d\))</span>
+                            <span id="label-diff" style="color:var(--accent); font-weight:700;">1.5</span>
+                        </div>
+                        <input type="range" id="slider-diff" class="math-slider" min="-5" max="5" step="0.5" value="1.5" oninput="updateSucesion()">
+                    </div>
+
+                    <div class="slider-group" id="slider-container-ratio" style="display:none;">
+                        <div class="slider-header">
+                            <span>Razón Geométrica (\(r\))</span>
+                            <span id="label-ratio" style="color:var(--accent); font-weight:700;">0.8</span>
+                        </div>
+                        <input type="range" id="slider-ratio" class="math-slider" min="-2.0" max="2.0" step="0.1" value="0.8" oninput="updateSucesion()">
+                    </div>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="math-formula-box" id="sucesion-formula-box">
+                        <!-- Formula KaTeX -->
+                    </div>
+                    <canvas id="sucesion-canvas" width="1600" height="500" style="width: 100%; height: 250px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: AUTOEVALUACIÓN -->
+        <div class="card">
+            <h2><i data-lucide="award" style="color:var(--accent);"></i> Autoevaluación Aplicada (Ingeniería Industrial)</h2>
+            <p class="intro-text">
+                Resuelve los siguientes problemas aplicados a la toma de decisiones, control de procesos y finanzas en Ingeniería Industrial.
+            </p>
+
+            <div class="quiz-container">
+                <!-- Pregunta 1 -->
+                <div class="quiz-card" id="q1-card">
+                    <div class="quiz-question">1. Planificación de Crecimiento de Producción</div>
+                    <div class="quiz-context">
+                        Una planta manufacturera de la UPSE aumenta su producción diaria de calzado de forma constante. El primer día produce \(50\) pares, y cada día aumenta la producción en \(8\) pares. Determina el término general de la producción en el día \(n\) y calcula la producción acumulada en los primeros \(10\) días de trabajo.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(1, 'A')">
+                            <span>A) \(a_n = 50 + 8(n-1) \implies S_{10} = 860\) pares</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'B')">
+                            <span>B) \(a_n = 50 \cdot 8^{n-1} \implies S_{10} = 950\) pares</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'C')">
+                            <span>C) \(a_n = 8 + 50(n-1) \implies S_{10} = 2330\) pares</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(1, 'D')">
+                            <span>D) \(a_n = 50 + 8n \implies S_{10} = 900\) pares</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q1-feedback"></div>
+                </div>
+
+                <!-- Pregunta 2 -->
+                <div class="quiz-card" id="q2-card">
+                    <div class="quiz-question">2. Depreciación de Activos CNC</div>
+                    <div class="quiz-context">
+                        Un torno CNC automatizado se adquiere por un valor inicial de USD 40 000. Sufre una depreciación lineal anual constante de USD 3 000. Determina el valor contable residual de la máquina al concluir el año 8 de funcionamiento.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(2, 'A')">
+                            <span>A) USD 16 000</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'B')">
+                            <span>B) USD 19 000</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'C')">
+                            <span>C) USD 24 000</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(2, 'D')">
+                            <span>D) USD 13 000</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q2-feedback"></div>
+                </div>
+
+                <!-- Pregunta 3 -->
+                <div class="quiz-card" id="q3-card">
+                    <div class="quiz-question">3. Amortización Financiera de Proyecto</div>
+                    <div class="quiz-context">
+                        Un proyecto de automatización financia una inversión inicial de USD 10 000 con una tasa de interés compuesto del \(10\%\) anual. La deuda acumulada \(D_n\) al inicio del año \(n\) forma una progresión geométrica. Identifica la razón geométrica \(r\) y determina el monto adeudado al inicio del año 5.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(3, 'A')">
+                            <span>A) \(r = 1.10 \implies D_5 = \text{USD } 14 641\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'B')">
+                            <span>B) \(r = 0.10 \implies D_5 = \text{USD } 10 400\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'C')">
+                            <span>C) \(r = 1.10 \implies D_5 = \text{USD } 16 105\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(3, 'D')">
+                            <span>D) \(r = 1.05 \implies D_5 = \text{USD } 12 155\)</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q3-feedback"></div>
+                </div>
+
+                <!-- Pregunta 4 -->
+                <div class="quiz-card" id="q4-card">
+                    <div class="quiz-question">4. Concentración Límite de Efluentes Químicos</div>
+                    <div class="quiz-context">
+                        En el sistema de filtrado de una planta química, cada etapa de filtrado elimina el \(40\%\) del contaminante remanente del agua. La concentración inicial es de \(100\text{ ppm}\). Determina la regla de la sucesión en la etapa \(n\) y analiza su comportamiento límite para infinitas etapas de filtración.
+                    </div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(4, 'A')">
+                            <span>A) \(a_n = 100 \cdot (0.60)^{n-1} \implies \lim_{n \to \infty} a_n = 0\text{ ppm}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'B')">
+                            <span>B) \(a_n = 100 \cdot (0.40)^{n-1} \implies \lim_{n \to \infty} a_n = \infty\) (Divergente)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'C')">
+                            <span>C) \(a_n = 100 - 40(n-1) \implies \text{Divergente}\)</span>
+                        </button>
+                        <button class="option-btn" onclick="checkAnswer(4, 'D')">
+                            <span>D) \(a_n = 100 \cdot (0.60)^{n-1} \implies \lim_{n \to \infty} a_n = 60\text{ ppm}\)</span>
+                        </button>
+                    </div>
+                    <div class="quiz-feedback" id="q4-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Banner de puntaje final -->
+            <div class="quiz-score-banner" style="margin-top: 2rem;">
+                <div style="font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 8px;">Puntaje de Autoevaluación</div>
+                <div style="font-size: 2.2rem; font-weight: 800; color: var(--secondary);" id="score-text">0 / 4</div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Completa las preguntas para ver tu resultado final.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #fff;">
+            🎓 Universidad Estatal Península de Santa Elena — UPSE
+        </div>
+        <p style="font-size: 0.85rem; opacity: 0.8;">
+            Facultad de Ingeniería Industrial · Cátedra de Análisis Matemático<br>
+            Unidad 2 · Tema 3: Ecuaciones, Inecuaciones y Sucesiones<br>
+            © 2026 — Recursos didácticos interactivos de matemáticas
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ========== CONFIGURACIÓN GLOBAL KATEX ==========
+        const katexOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\\\(', right: '\\\\)', display: false},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\\\[': '\\\\]', display: true}
+            ],
+            throwOnError: false
+        };
+
+        // ========== GRAFICADOR DE SUCESIONES ==========
+        function toggleSliderSetup() {
+            const tipo = document.getElementById('select-prog-tipo').value;
+            if (tipo === 'aritmetica') {
+                document.getElementById('slider-container-diff').style.display = 'block';
+                document.getElementById('slider-container-ratio').style.display = 'none';
+            } else {
+                document.getElementById('slider-container-diff').style.display = 'none';
+                document.getElementById('slider-container-ratio').style.display = 'block';
+            }
+        }
+
+        function updateSucesion() {
+            const a1 = parseFloat(document.getElementById('slider-a1').value);
+            const tipo = document.getElementById('select-prog-tipo').value;
+
+            document.getElementById('label-a1').innerText = a1;
+
+            let formulaText = "";
+            let termsText = "";
+
+            const terms = [];
+
+            if (tipo === 'aritmetica') {
+                const d = parseFloat(document.getElementById('slider-diff').value);
+                document.getElementById('label-diff').innerText = d;
+
+                formulaText = `\\[a_n = ${a1} + (n - 1)(${d})\\]`;
+                
+                for (let n = 1; n <= 5; n++) {
+                    terms.push((a1 + (n - 1) * d).toFixed(1));
+                }
+            } else {
+                const r = parseFloat(document.getElementById('slider-ratio').value);
+                document.getElementById('label-ratio').innerText = r;
+
+                formulaText = `\\[a_n = ${a1} \\cdot (${r})^{n - 1}\\]`;
+
+                for (let n = 1; n <= 5; n++) {
+                    terms.push((a1 * Math.pow(r, n - 1)).toFixed(2));
+                }
+            }
+
+            termsText = `\\[\\text{Primeros términos: } a_n = (${terms.join(", \\, ")}, \\, \\dots)\\]`;
+            document.getElementById('sucesion-formula-box').innerHTML = formulaText + termsText;
+
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('sucesion-formula-box'), katexOptions);
+            }
+
+            drawSucesion(a1, tipo);
+        }
+
+        function drawSucesion(a1, tipo) {
+            const canvas = document.getElementById('sucesion-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const width = canvas.width;
+            const height = canvas.height;
+            ctx.clearRect(0, 0, width, height);
+
+            // Fondo gradiente oscuro
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
+            bgGrad.addColorStop(0, '#0c101b');
+            bgGrad.addColorStop(1, '#080a12');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            const paddingX = 80;
+            const paddingY = 50;
+
+            // Ejes cartesianos. Eje X de n=0 a 16. Eje Y de -40 a 40.
+            const minN = 0;
+            const maxN = 16;
+            const minY = -40;
+            const maxY = 40;
+
+            function getPixelX(n) {
+                return paddingX + ((n - minN) / (maxN - minN)) * (width - 2 * paddingX);
+            }
+
+            function getPixelY(val) {
+                // Invertimos el eje Y para que los valores positivos suban
+                return height - paddingY - ((val - minY) / (maxY - minY)) * (height - 2 * paddingY);
+            }
+
+            const zeroY = getPixelY(0);
+
+            // Dibujar cuadrícula de fondo
+            ctx.strokeStyle = 'rgba(51, 65, 85, 0.3)';
+            ctx.lineWidth = 1;
+            
+            // Líneas horizontales de Y = -40 a 40 de 10 en 10
+            for (let yVal = -40; yVal <= 40; yVal += 10) {
+                const pyY = getPixelY(yVal);
+                ctx.beginPath();
+                ctx.moveTo(paddingX, pyY);
+                ctx.lineTo(width - paddingX, pyY);
+                ctx.stroke();
+
+                ctx.fillStyle = '#475569';
+                ctx.font = '12px "Plus Jakarta Sans"';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(yVal, paddingX - 10, pyY);
+            }
+
+            // Líneas verticales de n = 1 a 15
+            for (let nVal = 1; nVal <= 15; nVal++) {
+                const pxX = getPixelX(nVal);
+                ctx.beginPath();
+                ctx.moveTo(pxX, paddingY);
+                ctx.lineTo(pxX, height - paddingY);
+                ctx.stroke();
+
+                ctx.fillStyle = '#475569';
+                ctx.font = '12px "Plus Jakarta Sans"';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(`n=${nVal}`, pxX, height - paddingY + 10);
+            }
+
+            // Eje horizontal (Y = 0)
+            ctx.beginPath();
+            ctx.moveTo(paddingX - 10, zeroY);
+            ctx.lineTo(width - paddingX + 10, zeroY);
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Eje vertical (n = 0)
+            const zeroX = getPixelX(0);
+            ctx.beginPath();
+            ctx.moveTo(zeroX, paddingY - 10);
+            ctx.lineTo(zeroX, height - paddingY + 10);
+            ctx.stroke();
+
+            // Calcular y graficar los 15 puntos discretos de la sucesión
+            const points = [];
+            const d = parseFloat(document.getElementById('slider-diff').value);
+            const r = parseFloat(document.getElementById('slider-ratio').value);
+
+            for (let n = 1; n <= 15; n++) {
+                let val = 0;
+                if (tipo === 'aritmetica') {
+                    val = a1 + (n - 1) * d;
+                } else {
+                    val = a1 * Math.pow(r, n - 1);
+                }
+                points.push({ n, val });
+            }
+
+            // Dibujar líneas de guía finas punteadas entre los puntos discretos
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.3)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            for (let i = 0; i < points.length; i++) {
+                const pxX = getPixelX(points[i].n);
+                const pxY = getPixelY(points[i].val);
+                if (i === 0) {
+                    ctx.moveTo(pxX, pxY);
+                } else {
+                    ctx.lineTo(pxX, pxY);
+                }
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Dibujar puntos discretos
+            points.forEach(pt => {
+                const pxX = getPixelX(pt.n);
+                const pxY = getPixelY(pt.val);
+
+                // Si el punto queda fuera del rango Y visual, dibujarlo en el borde con color atenuado
+                const outOfBounds = (pt.val < minY || pt.val > maxY);
+                let drawY = pxY;
+                if (pt.val > maxY) drawY = getPixelY(maxY);
+                if (pt.val < minY) drawY = getPixelY(minY);
+
+                ctx.beginPath();
+                ctx.arc(pxX, drawY, outOfBounds ? 4 : 7, 0, 2 * Math.PI);
+                ctx.fillStyle = outOfBounds ? 'rgba(239, 68, 68, 0.4)' : '#6366f1';
+                ctx.strokeStyle = outOfBounds ? '#ef4444' : '#818cf8';
+                ctx.lineWidth = 2;
+                ctx.fill();
+                ctx.stroke();
+
+                // Escribir el valor sobre el punto si no está fuera de límites
+                if (!outOfBounds) {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 11px "Outfit"';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(pt.val.toFixed(1), pxX, drawY - 12);
+                }
+            });
+        }
+
+        // ========== AUTOEVALUACIÓN QUIZ LOGIC ==========
+        const answers = {
+            1: { correct: 'A', feedback: '¡Correcto! Se trata de una progresión aritmética con término inicial \\(a_1 = 50\\) y diferencia común \\(d = 8\\). Su término general es \\(a_n = 50 + 8(n-1)\\). Para \\(n = 10\\), el último término es \\(a_{10} = 50 + 8(9) = 122\\). La suma acumulada es \\(S_{10} = \\frac{10(50 + 122)}{2} = 860\\) pares.' },
+            2: { correct: 'A', feedback: '¡Correcto! El valor se deprecia linealmente, por lo que forma una progresión aritmética decreciente con \\(a_1 = 40000\\) y diferencia \\(d = -3000\\). Al concluir el año 8 (periodo 8 posterior a la compra), el valor residual es \\(a_9 = a_1 + 8d = 40000 + 8(-3000) = \\text{USD } 16 000\\).' },
+            3: { correct: 'A', feedback: '¡Correcto! Dado que la tasa compuesta capitaliza anualmente añadiendo el \\(10\\%\\) de interés, el saldo se multiplica por \\(1.10\\) cada periodo, estableciendo una razón de \\(r = 1.10\\). Tras 4 años de acumulación, el saldo al inicio del año 5 es \\(D_5 = 10000 \\cdot (1.10)^4 = \\text{USD } 14 641\\).' },
+            4: { correct: 'A', feedback: '¡Correcto! Si en cada etapa de filtración se elimina el \\(40\\%\\) del contaminante, remanece el \\(60\\%\\), lo que indica una razón geométrica de \\(r = 0.60\\). La concentración en la etapa \\(n\\) es \\(a_n = 100 \\cdot (0.60)^{n-1}\\). Dado que \\(|r| < 1\\), la sucesión geométrica converge y su límite al infinito es de \\(0\\text{ ppm}\\).' }
+        };
+
+        let userAnswers = {};
+
+        window.checkAnswer = function(qNum, selected) {
+            if (userAnswers[qNum]) return;
+            
+            userAnswers[qNum] = selected;
+
+            const qCard = document.getElementById(`q${qNum}-card`);
+            const feedbackEl = document.getElementById(`q${qNum}-feedback`);
+            const buttons = qCard.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                const optText = btn.innerText.trim();
+                const optionLetter = optText.charAt(0);
+                
+                if (optionLetter === answers[qNum].correct) {
+                    btn.classList.add('correct');
+                } else if (optionLetter === selected) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            feedbackEl.classList.add('show');
+            if (selected === answers[qNum].correct) {
+                feedbackEl.className = 'quiz-feedback show correct';
+                feedbackEl.innerHTML = answers[qNum].feedback;
+            } else {
+                feedbackEl.className = 'quiz-feedback show incorrect';
+                feedbackEl.innerHTML = `Incorrecto. Opción elegida: ${selected}. <br>${answers[qNum].feedback}`;
+            }
+
+            if (window.renderMathInElement) {
+                renderMathInElement(feedbackEl, katexOptions);
+            }
+
+            let score = 0;
+            for (let q in userAnswers) {
+                if (userAnswers[q] === answers[q].correct) score++;
+            }
+            document.getElementById('score-text').innerText = `${score} / 4`;
+        };
+
+        // ========== INICIALIZACIÓN POR POLLING ==========
+        function inicializarTodo() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, katexOptions);
+            }
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Dibujar primer canvas de sucesiones
+            updateSucesion();
+        }
+
+        function verificarLibreriasYIniciar() {
+            if (window.renderMathInElement && window.lucide) {
+                inicializarTodo();
+            } else {
+                if (!window.intentosCarga) window.intentosCarga = 0;
+                window.intentosCarga++;
+                if (window.intentosCarga < 50) {
+                    setTimeout(verificarLibreriasYIniciar, 100);
+                } else {
+                    console.error("Fallo de carga de CDNs.");
+                    inicializarTodo();
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', verificarLibreriasYIniciar);
+        } else {
+            verificarLibreriasYIniciar();
+        }
+    </script>
+</body>
+</html>
