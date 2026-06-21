@@ -1,0 +1,2398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSE - Investigaciones Aplicativas de Geometría Métrica</title>
+    
+    <!-- MathJax para renderizar LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --gold: #f4a261;
+            --teal: #2a9d8f;
+            --purple: #7b2cbf;
+            --blue: #0077b6;
+            --light: #f8f9fa;
+            --dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: #e0e0e0;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ===== FONDO ANIMADO ===== */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(15, 52, 96, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(42, 157, 143, 0.15) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* ===== PARTÍCULAS FLOTANTES ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--highlight);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--highlight), var(--purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            font-weight: 800;
+        }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            color: #888;
+            font-weight: 400;
+        }
+
+        nav {
+            display: flex;
+            gap: 5px;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: #fff;
+            background: var(--glass);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--highlight);
+            border-radius: 2px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 30px 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge i {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--highlight), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #999;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--highlight), var(--purple));
+            color: white;
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            color: white;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* ===== SECCIONES ===== */
+        .section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 30px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: var(--teal);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== TARJETAS DE TEMAS ===== */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .topic-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 35px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--highlight), var(--purple));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .topic-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(233, 69, 96, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .topic-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--highlight), var(--purple));
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .topic-branch {
+            display: inline-block;
+            background: rgba(42, 157, 143, 0.15);
+            color: var(--teal);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .topic-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .topic-context {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .topic-focus {
+            font-size: 0.85rem;
+            color: #bbb;
+            line-height: 1.7;
+        }
+
+        .topic-focus strong {
+            color: var(--highlight);
+        }
+
+        .topic-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .topic-tag {
+            background: rgba(123, 44, 191, 0.15);
+            color: #c77dff;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* ===== EXPANDIBLE ===== */
+        .expandable {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .expandable:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .expandable-header {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .expandable-header:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .expandable-header h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #ddd;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .expandable-header .icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .expandable-arrow {
+            color: #666;
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .expandable.active .expandable-arrow {
+            transform: rotate(180deg);
+            color: var(--highlight);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .expandable.active .expandable-content {
+            max-height: 2000px;
+        }
+
+        .expandable-body {
+            padding: 0 25px 25px;
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .expandable-body .formula-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        /* ===== CANVAS INTERACTIVO ===== */
+        .canvas-section {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 35px;
+            margin-top: 40px;
+        }
+
+        .canvas-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .canvas-wrapper {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .canvas-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-group {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .control-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, var(--highlight), var(--purple));
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(233, 69, 96, 0.4);
+        }
+
+        .control-value {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-top: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-item .stat-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--teal);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 3px;
+        }
+
+        /* ===== ESTRUCTURA INFORME ===== */
+        .structure-timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 40px;
+        }
+
+        .structure-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--highlight), var(--purple), var(--teal));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover {
+            border-color: rgba(233, 69, 96, 0.3);
+            transform: translateX(5px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 30px;
+            width: 12px;
+            height: 12px;
+            background: var(--highlight);
+            border-radius: 50%;
+            border: 3px solid var(--dark);
+        }
+
+        .timeline-item h4 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-item h4 .step-num {
+            background: linear-gradient(135deg, var(--highlight), var(--purple));
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .timeline-item p {
+            font-size: 0.85rem;
+            color: #999;
+            line-height: 1.7;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid var(--glass-border);
+            padding: 60px 30px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #888;
+            font-size: 0.85rem;
+            text-decoration: none;
+            line-height: 2;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--highlight);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--highlight), var(--purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+            border: none;
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.3);
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.5);
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--highlight), var(--purple), var(--teal));
+            z-index: 10000;
+            transition: width 0.1s linear;
+            width: 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 12px 20px;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid var(--glass-border);
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .canvas-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+        }
+
+        /* ===== ANIMACIONES DE SCROLL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            animation: modalIn 0.4s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--highlight);
+        }
+
+        .modal h3 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal h4 {
+            color: var(--gold);
+            font-size: 0.95rem;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .modal ul {
+            padding-left: 20px;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .modal ul li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">∇</div>
+                <div>
+                    <div class="logo-text">UPSE Geometría Métrica</div>
+                    <div class="logo-sub">Investigaciones Aplicativas 2025</div>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mainNav">
+                <a href="#hero" class="active">Inicio</a>
+                <a href="#temas">Temas</a>
+                <a href="#preguntas">Preguntas</a>
+                <a href="#modalidades">Modalidades</a>
+                <a href="#estructura">Estructura</a>
+                <a href="#simulador">Simulador</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-atom"></i>
+                Universidad Estatal Península de Santa Elena
+            </div>
+            <h1>Las 6 Investigaciones<br><span>Aplicativas de Geometría Métrica</span></h1>
+            <p>Proyecto integrador que conecta las propiedades métricas de polígonos con aplicaciones reales en las distintas ramas de la ingeniería UPSE. Modelado matemático, simulación computacional y validación práctica.</p>
+            <div class="hero-buttons">
+                <a href="#temas" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Explorar Temas
+                </a>
+                <a href="#simulador" class="btn btn-secondary">
+                    <i class="fas fa-cube"></i> Simulador Interactivo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTE 1: TEMAS -->
+    <section class="section" id="temas">
+        <div class="section-header reveal">
+            <div class="section-tag"><i class="fas fa-layer-group"></i> Parte 1</div>
+            <h2 class="section-title">Las 6 Investigaciones Aplicativas</h2>
+            <p class="section-subtitle">Cada grupo elegirá uno de los siguientes temas, diseñados para las distintas ramas de la ingeniería en la UPSE.</p>
+        </div>
+
+        <div class="topics-grid">
+            <!-- Tema 1 -->
+            <div class="topic-card reveal" onclick="openModal(0)">
+                <div class="topic-number">1</div>
+                <div class="topic-branch">Ingeniería Civil / Estructural</div>
+                <h3>Optimización Métrica de Cubiertas Geodésicas para Instalaciones Industriales en la Península</h3>
+                <div class="topic-context">
+                    <i class="fas fa-map-marker-alt"></i> Diseño de techos para plantas de tratamiento o reservorios en la UPSE o Petroamazonas.
+                </div>
+                <p class="topic-focus">
+                    <strong>Enfoque:</strong> Descomposición de una cúpula geodésica en polígonos (triángulos, hexágonos, pentágonos). Análisis de cómo la variación métrica de los lados y ángulos afecta la distribución de cargas y la cantidad de material.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Geodésicas</span>
+                    <span class="topic-tag">Cargas</span>
+                    <span class="topic-tag">Materiales</span>
+                    <span class="topic-tag">Triangulación</span>
+                </div>
+            </div>
+
+            <!-- Tema 2 -->
+            <div class="topic-card reveal" onclick="openModal(1)">
+                <div class="topic-number">2</div>
+                <div class="topic-branch">Ingeniería en Petróleos / Mecánica</div>
+                <h3>Diseño y Análisis Cinemático de Bombas de Cavidad Progresiva con Rotores Poligonales</h3>
+                <div class="topic-context">
+                    <i class="fas fa-map-marker-alt"></i> Extracción de crudo pesado en la provincia.
+                </div>
+                <p class="topic-focus">
+                    <strong>Enfoque:</strong> Estudio de polígonos de ancho constante (como el triángulo de Reuleaux y sus generalizaciones). Análisis del área barrida, perímetro y variación métrica del radio durante la rotación.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Reuleaux</span>
+                    <span class="topic-tag">Cinemática</span>
+                    <span class="topic-tag">Caudal</span>
+                    <span class="topic-tag">Fricción</span>
+                </div>
+            </div>
+
+            <!-- Tema 3 -->
+            <div class="topic-card reveal" onclick="openModal(2)">
+                <div class="topic-number">3</div>
+                <div class="topic-branch">Ingeniería Agroindustrial / Ambiental</div>
+                <h3>Modelado Métrico de Sistemas de Riego por Goteo en Parcelas Irregulares de la Costa Seca</h3>
+                <div class="topic-context">
+                    <i class="fas fa-map-marker-alt"></i> Agricultura en zonas áridas de Santa Elena (cacao, frutales).
+                </div>
+                <p class="topic-focus">
+                    <strong>Enfoque:</strong> Modelar parcelas con formas poligonales irregulares, calcular áreas exactas mediante triangulación, y optimizar la longitud de tubería para minimizar costos.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Parcelas</span>
+                    <span class="topic-tag">Triangulación</span>
+                    <span class="topic-tag">Riego</span>
+                    <span class="topic-tag">Optimización</span>
+                </div>
+            </div>
+
+            <!-- Tema 4 -->
+            <div class="topic-card reveal" onclick="openModal(3)">
+                <div class="topic-number">4</div>
+                <div class="topic-branch">Ingeniería Marina / Costera</div>
+                <h3>Diseño de la Planta Base de una Plataforma Flotante Offshore: Estabilidad Hidrostática</h3>
+                <div class="topic-context">
+                    <i class="fas fa-map-marker-alt"></i> Operaciones marítimas y puertos en la costa ecuatoriana.
+                </div>
+                <p class="topic-focus">
+                    <strong>Enfoque:</strong> Comparación métrica de diferentes polígonos regulares para la base de una plataforma. Análisis del área de flotación, perímetro de contacto con olas y distancia del centroide a los vértices.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Offshore</span>
+                    <span class="topic-tag">Hidrostática</span>
+                    <span class="topic-tag">Estabilidad</span>
+                    <span class="topic-tag">Centroide</span>
+                </div>
+            </div>
+
+            <!-- Tema 5 -->
+            <div class="topic-card reveal" onclick="openModal(4)">
+                <div class="topic-number">5</div>
+                <div class="topic-branch">Ingeniería en Energías Renovables</div>
+                <h3>Teselación y Optimización del Área Activa en el Montaje de Paneles Solares en Techos Poligonales</h3>
+                <div class="topic-context">
+                    <i class="fas fa-map-marker-alt"></i> Transición energética y uso de energía solar en la península.
+                </div>
+                <p class="topic-focus">
+                    <strong>Enfoque:</strong> Dado un techo con forma de polígono irregular, ¿cómo se empaquetan paneles rectangulares maximizando el área de cobertura? Uso de propiedades métricas para evitar sombras.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Solar</span>
+                    <span class="topic-tag">Teselación</span>
+                    <span class="topic-tag">Empaquetamiento</span>
+                    <span class="topic-tag">Ángulos</span>
+                </div>
+            </div>
+
+            <!-- Tema 6 -->
+            <div class="topic-card reveal" onclick="openModal(5)">
+                <div class="topic-number">6</div>
+                <div class="topic-branch">Topografía y Geomática</div>
+                <h3>Reconstrucción Métrica y Cálculo de Áreas de Lotes Costeros Erosionados mediante Fotogrametría</h3>
+                <div class="topic-context">
+                    <i class="fas fa-map-marker-alt"></i> Problemas de límites de propiedad y erosión costera en Ayangue o Montañita.
+                </div>
+                <p class="topic-focus">
+                    <strong>Enfoque:</strong> Uso de coordenadas reales de vértices de lotes irregulares. Cálculo del área mediante la Fórmula de Gauss, análisis de perímetros y proyección de pérdida anual de terreno.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Gauss</span>
+                    <span class="topic-tag">Fotogrametría</span>
+                    <span class="topic-tag">Erosión</span>
+                    <span class="topic-tag">GIS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTE 2: PREGUNTAS -->
+    <section class="section" id="preguntas">
+        <div class="section-header reveal">
+            <div class="section-tag"><i class="fas fa-brain"></i> Parte 2</div>
+            <h2 class="section-title">Preguntas Específicas por Tema</h2>
+            <p class="section-subtitle">Nivel Medio-Alto — Requieren cálculos, modelados y análisis propios del grupo.</p>
+        </div>
+
+        <div class="reveal">
+            <!-- Pregunta 1 -->
+            <div class="expandable">
+                <div class="expandable-header" onclick="toggleExpand(this)">
+                    <h4>
+                        <span class="icon"><i class="fas fa-dungeon"></i></span>
+                        Tema 1 — Geodésicas: Relación Perímetro/Área vs. Frecuencia
+                    </h4>
+                    <i class="fas fa-chevron-down expandable-arrow"></i>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-body">
+                        <p>¿Cómo varía la relación métrica entre el perímetro total de la estructura y su área proyectada a medida que se aumenta el número de subdivisiones poligonales (frecuencia) de la cúpula, y en qué punto exacto el ahorro de material se estanca?</p>
+                        <div class="formula-block">
+                            <p>Relación métrica fundamental:</p>
+                            $$R(f) = \frac{P_{total}(f)}{A_{proyectada}} = \frac{N_{aristas}(f) \cdot L_{prom}(f)}{\pi \cdot r^2}$$
+                            <p style="margin-top:10px;">Donde \(f\) = frecuencia de subdivisión, \(N_{aristas}\) = número de aristas, \(L_{prom}\) = longitud promedio de arista</p>
+                        </div>
+                        <p><strong>Pista metodológica:</strong> Analizar la convergencia de la serie cuando \(f \to \infty\) y determinar el punto de inflexión donde \(\frac{dR}{df} \approx 0\).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="expandable">
+                <div class="expandable-header" onclick="toggleExpand(this)">
+                    <h4>
+                        <span class="icon"><i class="fas fa-cogs"></i></span>
+                        Tema 2 — Reuleaux: Diferencia de Área y Volumen de Bombeo
+                    </h4>
+                    <i class="fas fa-chevron-down expandable-arrow"></i>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-body">
+                        <p>Demostrar matemáticamente, mediante el cálculo de integrales o descomposición poligonal, cuál es la diferencia métrica exacta de área entre el polígono de Reuleaux base y el círculo circunscrito, y cómo afecta esta diferencia métrica al volumen de la cámara de bombeo por cada revolución.</p>
+                        <div class="formula-block">
+                            <p>Área del triángulo de Reuleaux (ancho \(s\)):</p>
+                            $$A_{Reuleaux} = \frac{1}{2}(\pi - \sqrt{3}) \cdot s^2$$
+                            <p style="margin-top:10px;">Área del círculo circunscrito:</p>
+                            $$A_{círculo} = \frac{\pi}{4} \cdot s^2$$
+                            <p style="margin-top:10px;">Diferencia métrica:</p>
+                            $$\Delta A = A_{círculo} - A_{Reuleaux} = \left(\frac{\pi}{4} - \frac{\pi - \sqrt{3}}{2}\right) s^2$$
+                        </div>
+                        <p><strong>Extensión:</strong> El volumen por revolución \(V_{rev} = \Delta A \cdot e\) donde \(e\) es la excentricidad del rotor.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 3 -->
+            <div class="expandable">
+                <div class="expandable-header" onclick="toggleExpand(this)">
+                    <h4>
+                        <span class="icon"><i class="fas fa-seedling"></i></span>
+                        Tema 3 — Riego: Polígono Regular Óptimo con Perímetro Constante
+                    </h4>
+                    <i class="fas fa-chevron-down expandable-arrow"></i>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-body">
+                        <p>Si se transforma el polígono irregular de la parcela en un polígono regular de \(n\) lados manteniendo constante el perímetro (longitud de tubería), ¿cuál es el valor de \(n\) que maximiza el área regada y cuál es el porcentaje de eficiencia métrica ganado respecto a la forma irregular original?</p>
+                        <div class="formula-block">
+                            <p>Área de un polígono regular de \(n\) lados con perímetro \(P\):</p>
+                            $$A(n) = \frac{P^2}{4n} \cdot \cot\left(\frac{\pi}{n}\right)$$
+                            <p style="margin-top:10px;">Límite cuando \(n \to \infty\) (círculo):</p>
+                            $$A_{max} = \frac{P^2}{4\pi}$$
+                            <p style="margin-top:10px;">Eficiencia métrica:</p>
+                            $$\eta = \frac{A(n) - A_{irregular}}{A_{irregular}} \times 100\%$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 4 -->
+            <div class="expandable">
+                <div class="expandable-header" onclick="toggleExpand(this)">
+                    <h4>
+                        <span class="icon"><i class="fas fa-water"></i></span>
+                        Tema 4 — Offshore: Hexágono vs. Dodecágono — Minimización de Distancia al Vértice
+                    </h4>
+                    <i class="fas fa-chevron-down expandable-arrow"></i>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-body">
+                        <p>Comparando un hexágono regular y un dodecágono regular con la misma área métrica de flotación, ¿cuál de los dos polígonos minimiza la distancia métrica desde el centroide hasta el vértice más alejado, y cómo impacta esto en el brazo de palanca del momento de escora?</p>
+                        <div class="formula-block">
+                            <p>Radio circunscrito de polígono regular (\(n\) lados, área \(A\)):</p>
+                            $$R(n) = \sqrt{\frac{2A}{n \cdot \sin\left(\frac{2\pi}{n}\right)}}$$
+                            <p style="margin-top:10px;">Momento de escora: \(M = W \cdot R(n) \cdot \sin(\theta)\)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 5 -->
+            <div class="expandable">
+                <div class="expandable-header" onclick="toggleExpand(this)">
+                    <h4>
+                        <span class="icon"><i class="fas fa-solar-panel"></i></span>
+                        Tema 5 — Solar: Área Muerta en Techo en "L" y Ángulo Óptimo de Rotación
+                    </h4>
+                    <i class="fas fa-chevron-down expandable-arrow"></i>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-body">
+                        <p>En un techo con forma de polígono en "L" (hexágono no convexo), si los paneles solares son cuadrados de lado \(L\), ¿cuál es el porcentaje métrico de "área muerta" en las esquinas interiores, y qué ángulo de rotación de los paneles minimiza esta área muerta?</p>
+                        <div class="formula-block">
+                            <p>Modelo de empaquetamiento y área muerta:</p>
+                            $$A_{muerta} = A_{techo} - N_{paneles}(\theta) \cdot L^2$$
+                            <p style="margin-top:10px;">Donde \(\theta\) es el ángulo de rotación de los paneles respecto al eje principal del techo.</p>
+                        </div>
+                        <p><strong>Pista metodológica:</strong> Estudiar la periodicidad de la función de empaquetamiento espacial en el rango \([0, \pi/2]\) y las restricciones de frontera del polígono no convexo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 6 -->
+            <div class="expandable">
+                <div class="expandable-header" onclick="toggleExpand(this)">
+                    <h4>
+                        <span class="icon"><i class="fas fa-chart-line"></i></span>
+                        Tema 6 — Topografía: Fórmula de Gauss y Proyección de Erosión
+                    </h4>
+                    <i class="fas fa-chevron-down expandable-arrow"></i>
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-body">
+                        <p>Dado un lote irregular cuyos vértices tienen coordenadas \((x_i, y_i)\), ¿cómo varía el área calculada por la Fórmula de Gauss si la línea costera (un segmento entre dos vértices) retrocede por erosión a una tasa de \(E\) metros por año en dirección normal al segmento, y en cuántos años el lote perderá el 20% de su superficie original?</p>
+                        <div class="formula-block">
+                            <p>Fórmula de Gauss (Área por coordenadas):</p>
+                            $$A = \frac{1}{2} \left| \sum_{i=1}^{n} (x_i y_{i+1} - x_{i+1} y_i) \right|$$
+                            <p style="margin-top:10px;">Tasa de cambio del área respecto al retroceso costero de longitud \(L_c\):</p>
+                            $$\frac{dA}{dt} = -L_c \cdot E \implies A(t) = A_0 - L_c \cdot E \cdot t$$
+                        </div>
+                        <p><strong>Pista metodológica:</strong> Expresar el área restante como función del tiempo \(t\) y resolver para \(t\) cuando \(A(t) = 0.80 A_0\).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTE 3: MODALIDADES -->
+    <section class="section" id="modalidades">
+        <div class="section-header reveal">
+            <div class="section-tag"><i class="fas fa-cubes"></i> Parte 3</div>
+            <h2 class="section-title">Modalidades de Trabajo</h2>
+            <p class="section-subtitle">Los grupos pueden desarrollar la investigación bajo dos enfoques metodológicos complementarios.</p>
+        </div>
+
+        <div class="topics-grid">
+            <div class="topic-card reveal">
+                <div class="topic-number">A</div>
+                <div class="topic-branch">Simulación Computacional</div>
+                <h3>Modalidad A: Modelado y Simulación Digital</h3>
+                <p class="topic-focus">
+                    Esta modalidad se enfoca en el desarrollo de un algoritmo en <strong>Python, MATLAB u Octave</strong> para resolver el problema de optimización geométrica. Se requiere la graficación de los resultados, análisis de sensibilidad de parámetros y validación analítica de límites y derivadas.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Programación</span>
+                    <span class="topic-tag">Algoritmos</span>
+                    <span class="topic-tag">Optimización</span>
+                    <span class="topic-tag">Matplotlib</span>
+                </div>
+            </div>
+
+            <div class="topic-card reveal">
+                <div class="topic-number">B</div>
+                <div class="topic-branch">Diseño Físico / CAD</div>
+                <h3>Modalidad B: Maquetación y Diseño Físico a Escala</h3>
+                <p class="topic-focus">
+                    Esta modalidad se enfoca en la construcción de un prototipo físico a escala o un diseño tridimensional en software <strong>CAD (AutoCAD, SolidWorks, Tinkercad)</strong>. Se debe realizar la medición física de las magnitudes métricas para contrastar los resultados experimentales con los teóricos.
+                </p>
+                <div class="topic-tags">
+                    <span class="topic-tag">Modelado 3D</span>
+                    <span class="topic-tag">CAD</span>
+                    <span class="topic-tag">Prototipo</span>
+                    <span class="topic-tag">Medición</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTE 4: ESTRUCTURA DEL INFORME -->
+    <section class="section" id="estructura">
+        <div class="section-header reveal">
+            <div class="section-tag"><i class="fas fa-folder-open"></i> Parte 4</div>
+            <h2 class="section-title">Estructura del Informe Técnico</h2>
+            <p class="section-subtitle">Formato estándar de entrega del informe escrito en formato PDF. Riguroso y estructurado.</p>
+        </div>
+
+        <div class="structure-timeline reveal">
+            <div class="timeline-item">
+                <h4><span class="step-num">1</span> Capítulo I: Introducción y Definición del Problema</h4>
+                <p>Identificación del problema de ingeniería en el contexto de la Península de Santa Elena. Delimitación de objetivos y justificación de la relevancia del análisis métrico geométrico.</p>
+            </div>
+            <div class="timeline-item">
+                <h4><span class="step-num">2</span> Capítulo II: Marco Teórico</h4>
+                <p>Fundamentos matemáticos formales: axiomas y teoremas de geometría métrica plana o espacial aplicados al tema. Ecuaciones geométricas base de polígonos y curvas de interés.</p>
+            </div>
+            <div class="timeline-item">
+                <h4><span class="step-num">3</span> Capítulo III: Modelado Matemático</h4>
+                <p>Deducción y solución analítica detallada de la pregunta específica del tema. Cálculos analíticos completos y justificación de límites, derivadas o integrales necesarias.</p>
+            </div>
+            <div class="timeline-item">
+                <h4><span class="step-num">4</span> Capítulo IV: Implementación y Resultados</h4>
+                <p>Presentación del código de simulación (Modalidad A) o de los planos y prototipo a escala (Modalidad B). Comparativa detallada entre resultados numéricos y analíticos.</p>
+            </div>
+            <div class="timeline-item">
+                <h4><span class="step-num">5</span> Capítulo V: Conclusiones y Bibliografía</h4>
+                <p>Interpretación física e ingenieril de los resultados de optimización. Limitaciones constructivas del modelo y listado de referencias bibliográficas en formato APA.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTE 5: SIMULADOR INTERACTIVO -->
+    <section class="section" id="simulador">
+        <div class="section-header reveal">
+            <div class="section-tag"><i class="fas fa-calculator"></i> Laboratorio</div>
+            <h2 class="section-title">Simulador Métrico Geométrico</h2>
+            <p class="section-subtitle">Visualiza y analiza el impacto de las variaciones métricas de cada investigación en tiempo real.</p>
+        </div>
+
+        <div class="canvas-section reveal">
+            <div style="margin-bottom: 20px;">
+                <label for="simTopicSelect" style="display: block; font-size: 0.8rem; color: #888; margin-bottom: 8px; text-transform: uppercase; font-weight: 600;">Seleccionar Tema de Simulación:</label>
+                <select id="simTopicSelect" style="width: 100%; padding: 12px; background: var(--secondary); border: 1px solid var(--glass-border); border-radius: 8px; color: white; font-size: 0.9rem; outline: none; cursor: pointer; font-family: 'Inter', sans-serif;">
+                    <option value="0">Tema 1: Cubierta Geodésica (Civil)</option>
+                    <option value="1">Tema 2: Rotor de Reuleaux (Mecánica/Petróleos)</option>
+                    <option value="2">Tema 3: Riego por Goteo (Agroindustrial)</option>
+                    <option value="3">Tema 4: Plataforma Offshore (Marina)</option>
+                    <option value="4">Tema 5: Paneles Solares (Energía)</option>
+                    <option value="5">Tema 6: Levantamiento y Erosión Costera (Topografía)</option>
+                </select>
+            </div>
+
+            <div class="canvas-container">
+                <div class="canvas-wrapper">
+                    <canvas id="simCanvas"></canvas>
+                </div>
+                <div class="canvas-controls">
+                    <div id="dynamicSliders">
+                        <!-- Sliders dinámicos -->
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Estadísticas del Modelo</label>
+                        <div class="stats-grid" id="statsGrid">
+                            <!-- Stats dinámicos -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            <span class="topic-branch" id="modalBranch">Ingeniería</span>
+            <h3 id="modalTitle">Título del Tema</h3>
+            <div id="modalContent">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTopBtn" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>UPSE - Geometría Métrica</h4>
+                <p>Proyecto Integrador de Investigaciones Aplicativas. Fomentando el análisis analítico y el modelado computacional en las ingenierías de la UPSE.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Enlaces Rápidos</h4>
+                <a href="#hero">Inicio</a>
+                <a href="#temas">Temas</a>
+                <a href="#preguntas">Preguntas</a>
+                <a href="#modalidades">Modalidades</a>
+                <a href="#simulador">Simulador</a>
+            </div>
+            <div class="footer-col">
+                <h4>Docente / Coordinador</h4>
+                <p>Cátedra de Geometría y Álgebra</p>
+                <p>Universidad Estatal Península de Santa Elena</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Universidad Estatal Península de Santa Elena. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ===== PARTÍCULAS =====
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 40;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Posiciones y retrasos aleatorios
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = 10 + Math.random() * 15 + 's';
+            
+            // Tamaños variables
+            const size = 3 + Math.random() * 4;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            // Opacidad
+            particle.style.opacity = 0.1 + Math.random() * 0.4;
+            
+            particlesContainer.appendChild(particle);
+        }
+
+        // ===== SCROLL Y PROGRESS BAR =====
+        const progressBar = document.getElementById('progressBar');
+        const header = document.getElementById('header');
+        const mainNavLinks = document.querySelectorAll('#mainNav a');
+        const sections = document.querySelectorAll('section');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        window.addEventListener('scroll', () => {
+            // Scroll Progress
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
+
+            // Header Background
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            // Scroll to Top Button Visibility
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+
+            // Active Nav Links
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            mainNavLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ===== MENÚ RESPONSIVE =====
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('open');
+            const icon = menuToggle.querySelector('i');
+            if (mainNav.classList.contains('open')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        });
+
+        // Cerrar menú al hacer clic en los links
+        mainNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('open');
+                menuToggle.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // ===== REVEAL ON SCROLL =====
+        const reveals = document.querySelectorAll('.reveal');
+        
+        function revealElements() {
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealElements);
+        window.addEventListener('load', revealElements);
+
+        // ===== ACORDEÓN DE PREGUNTAS =====
+        function toggleExpand(headerElement) {
+            const expandable = headerElement.parentElement;
+            const isActive = expandable.classList.contains('active');
+            
+            // Cerrar todos los expandibles primero
+            document.querySelectorAll('.expandable').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (!isActive) {
+                expandable.classList.add('active');
+            }
+        }
+
+        // ===== SISTEMA DE MODALES =====
+        const topicsData = [
+            {
+                branch: "Ingeniería Civil / Estructural",
+                title: "Optimización Métrica de Cubiertas Geodésicas para Instalaciones Industriales en la Península",
+                problem: "Diseñar estructuras de cubiertas con cúpulas geodésicas de alta resistencia y mínimo peso para proteger tanques de almacenamiento o plantas industriales en la costa ecuatoriana. El desafío métrico consiste en subdividir una esfera en triángulos de manera que se maximice la eficiencia y se minimice la variedad de longitudes de barras requeridas.",
+                engineering: "El diseño geodésico permite cubrir luces enormes sin necesidad de columnas intermedias. Esto es ideal para tanques de agua potable de UPSE o refinerías costeras, reduciendo la acción de las cargas de viento extremo en la península mediante perfiles aerodinámicos.",
+                model: "El modelo matemático descompone el domo en una frecuencia de subdivisión \\(f\\). Se calculan las longitudes de los miembros estructurales (barras) utilizando trigonometría esférica y el vector de coordenadas tridimensionales de cada nodo. Se optimiza el área del domo proyectada contra el perímetro estructural acumulado.",
+                deliverables: [
+                    "Planos CAD estructurados detallando los tipos de uniones y longitudes métricas.",
+                    "Script en Python/MATLAB para simular la distribución de tensiones en cada barra.",
+                    "Presupuesto estructural cuantitativo basado en la reducción métrica de perfiles."
+                ]
+            },
+            {
+                branch: "Ingeniería en Petróleos / Mecánica",
+                title: "Diseño y Análisis Cinemático de Bombas de Cavidad Progresiva con Rotores Poligonales",
+                problem: "Optimizar el bombeo de crudo pesado y viscoso de la península de Santa Elena. Las bombas de cavidad progresiva (BCP) sufren de fricción excesiva y desgaste asimétrico cuando los rotores circulares no encajan uniformemente en el estator.",
+                engineering: "El uso de rotores con formas basadas en curvas de ancho constante (como el triángulo de Reuleaux) permite que el rotor gire excéntricamente manteniendo contacto hermético continuo con el estator de dos lóbulos. Esto aumenta el caudal neto por revolución y reduce las fallas mecánicas.",
+                model: "El modelo cinemático describe el movimiento del centro del rotor en una órbita circular de radio igual a la excentricidad \\(e\\). Se calcula analíticamente la diferencia de área entre la cámara de bombeo y el rotor para determinar el volumen desplazado teóricamente: \\(V_{rev} = \\Delta A \\cdot H\\). El perímetro del rotor es constante según el teorema de Barbier: \\(P = \\pi s\\).",
+                deliverables: [
+                    "Planos mecánicos CAD 2D/3D con tolerancias de excentricidad exactas.",
+                    "Código en Python/MATLAB que modele la trayectoria del centroide del rotor.",
+                    "Simulación del volumen barrido e influencia en el caudal resultante."
+                ]
+            },
+            {
+                branch: "Ingeniería Agroindustrial / Ambiental",
+                title: "Modelado Métrico de Sistemas de Riego por Goteo en Parcelas Irregulares de la Costa Seca",
+                problem: "Maximizar la eficiencia del riego por goteo en terrenos agrícolas comunales con perímetros poligonales altamente irregulares. El diseño debe minimizar la longitud total de tuberías y asegurar que la presión hidráulica llegue uniformemente a todas las plantas.",
+                engineering: "La agricultura en el desierto costero de Santa Elena depende de la precisión hídrica. Dividir geométricamente las parcelas y optimizar los caminos de tendido de tuberías reduce el consumo de agua y energía de bombeo.",
+                model: "El lote irregular se modela como un polígono no regular y se triangula usando la triangulación de Delaunay para calcular áreas exactas por coordenadas. Se modela un algoritmo de optimización de redes de distribución minimizando la longitud de los ramales principales y secundarios de riego.",
+                deliverables: [
+                    "Plano topográfico digital de la red de riego en la parcela.",
+                    "Cálculo analítico de pérdidas de presión e hidráulica del polígono.",
+                    "Estudio comparativo del ahorro en tubería respecto a un diseño no planificado."
+                ]
+            },
+            {
+                branch: "Ingeniería Marina / Costera",
+                title: "Diseño de la Planta Base de una Plataforma Flotante Offshore: Estabilidad Hidrostática",
+                problem: "Diseñar la geometría base de una plataforma offshore de investigación oceanográfica o petrolera flotante frente al oleaje del Pacífico. Se busca una forma poligonal que ofrezca la máxima estabilidad (momento adrizante) y el menor oleaje de impacto.",
+                engineering: "La base determina la respuesta de inclinación (escora) de la plataforma bajo cargas ambientales como olas y viento. Una base de geometría óptima incrementa la seguridad de la tripulación y de las operaciones.",
+                model: "Se compara métricamente el comportamiento de una planta hexagonal contra una dodecagonal con la misma área de flotación. Se calculan las coordenadas del centroide, el momento de inercia del área de flotación (segundo momento de área) y el metacentro de estabilidad hidrostática. Se optimiza para minimizar el brazo de palanca máximo al vértice más alejado.",
+                deliverables: [
+                    "Estudio comparativo de momentos de inercia y estabilidad hidrostática.",
+                    "Planos navales CAD de la planta e hidrodinámica del flotador.",
+                    "Simulación numérica de la oscilación vertical en función del oleaje."
+                ]
+            },
+            {
+                branch: "Ingeniería en Energías Renovables",
+                title: "Teselación y Optimización del Área Activa en el Montaje de Paneles Solares en Techos Poligonales",
+                problem: "Maximizar el empaquetamiento físico de paneles solares fotovoltaicos rectangulares estándar sobre techos poligonales no convexos (como cubiertas en L o con esquinas irregulares), evitando la generación de sombras propias entre filas.",
+                engineering: "La radiación solar en la Península de Santa Elena es sumamente alta, pero el área de techos útiles institucionales o residenciales suele ser limitada y con orientaciones subóptimas. La colocación óptima de paneles maximiza la autogeneración eléctrica.",
+                model: "Modelado bidimensional del empaquetamiento rectangular mediante transformaciones afines de rotación y traslación en el plano. La optimización busca el ángulo óptimo de inclinación respecto al norte geográfico y la separación mínima requerida para evitar la proyección de sombras según el ángulo solar local.",
+                deliverables: [
+                    "Plano de distribución solar óptima (layout fotovoltaico) sobre el techo.",
+                    "Análisis de producción de energía eléctrica anual calculando las pérdidas por sombreado.",
+                    "Código en Python/MATLAB de optimización espacial de rectángulos en polígonos."
+                ]
+            },
+            {
+                branch: "Topografía y Geomática",
+                title: "Reconstrucción Métrica y Cálculo de Áreas de Lotes Costeros Erosionados mediante Fotogrametría",
+                problem: "Monitorear la alarmante tasa de pérdida de territorio y cambios de linderos debido a la erosión costera en comunas turísticas de Santa Elena. Se requiere reconstruir métricamente los límites de propiedades irregulares que colindan con el mar.",
+                engineering: "Los municipios costeros y los propietarios rurales requieren certezas catastrales para la planificación urbana y edificación segura fuera de la línea de retroceso marino dinámico.",
+                model: "Se levantaron los vértices GPS del lote para formar un polígono catastral. Se aplica la Fórmula de Gauss en formato matricial para obtener el área actual. Se calcula el retroceso de la línea de costa aplicando una tasa de erosión lineal y se proyecta geométricamente el área futura a 5, 10 y 20 años.",
+                deliverables: [
+                    "Mapa catastral multitemporal con isolíneas de erosión proyectadas.",
+                    "Reporte pericial justificado mediante la Fórmula de Gauss para demandas catastrales.",
+                    "Plan de mitigación y estimación económica del valor del suelo perdido por erosión."
+                ]
+            }
+        ];
+
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalBranch = document.getElementById('modalBranch');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+
+        function openModal(index) {
+            const data = topicsData[index];
+            modalBranch.innerText = data.branch;
+            modalTitle.innerText = data.title;
+            
+            let html = `
+                <h4><i class="fas fa-exclamation-triangle"></i> Definición del Problema</h4>
+                <p>${data.problem}</p>
+                
+                <h4><i class="fas fa-tools"></i> Aplicación en Ingeniería</h4>
+                <p>${data.engineering}</p>
+                
+                <h4><i class="fas fa-calculator"></i> Modelo Matemático Métrico</h4>
+                <p>${data.model}</p>
+                
+                <h4><i class="fas fa-file-invoice"></i> Entregables del Proyecto</h4>
+                <ul>
+            `;
+            
+            data.deliverables.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            
+            html += `</ul>`;
+            
+            modalContent.innerHTML = html;
+            modalOverlay.classList.add('active');
+            
+            // Re-render MathJax en el modal
+            if (window.MathJax) {
+                MathJax.typesetPromise([modalContent]).catch(err => console.log(err));
+            }
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // Escuchar escape para cerrar el modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+
+        // ===== SIMULADOR INTERACTIVO =====
+        const simCanvas = document.getElementById('simCanvas');
+        const simCtx = simCanvas.getContext('2d');
+        const simTopicSelect = document.getElementById('simTopicSelect');
+        const dynamicSliders = document.getElementById('dynamicSliders');
+        const statsGrid = document.getElementById('statsGrid');
+
+        // Configuración y variables del simulador
+        let currentTopic = 0;
+        let animationFrameId = null;
+        let rotationAngle = 0; // Para el Rotor de Reuleaux
+
+        // Objeto que almacena los valores de los sliders para cada tema
+        const simulatorState = {
+            0: { freq: 3, radius: 25 },             // Domo
+            1: { width: 12, eccentricity: 1.5 },    // Reuleaux
+            2: { sides: 5, spacing: 1.2 },          // Riego
+            3: { platformArea: 250, baseType: 6 },  // Offshore
+            4: { panelSize: 2.0, rotation: 30 },    // Solar
+            5: { erosionRate: 2.0, years: 10 }      // Topografía
+        };
+
+        // Redimensionar Canvas
+        function resizeCanvas() {
+            const rect = simCanvas.parentNode.getBoundingClientRect();
+            simCanvas.width = rect.width;
+            simCanvas.height = 380;
+            drawSimulation();
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('load', resizeCanvas);
+
+        // Estructuras de Sliders y Stats por Tema
+        const themeConfig = {
+            0: {
+                sliders: [
+                    { id: "freq", label: "Frecuencia de Subdivisión (f)", min: 1, max: 8, step: 1, unit: "" },
+                    { id: "radius", label: "Radio de la Cúpula (R)", min: 10, max: 50, step: 1, unit: " m" }
+                ],
+                stats: [
+                    { id: "area", label: "Área Proyectada", unit: " m²" },
+                    { id: "surfArea", label: "Área de Superficie", unit: " m²" },
+                    { id: "nodes", label: "Número de Nodos", unit: "" },
+                    { id: "bars", label: "Número de Barras", unit: "" },
+                    { id: "barLen", label: "Largo de Tubería", unit: " m" },
+                    { id: "efficiency", label: "Eficiencia Estructural", unit: " %" }
+                ]
+            },
+            1: {
+                sliders: [
+                    { id: "width", label: "Ancho del Rotor (s)", min: 6, max: 18, step: 0.5, unit: " m" },
+                    { id: "eccentricity", label: "Excentricidad (e)", min: 0.5, max: 3.0, step: 0.1, unit: " m" }
+                ],
+                stats: [
+                    { id: "rArea", label: "Área del Rotor", unit: " m²" },
+                    { id: "sArea", label: "Área del Estator", unit: " m²" },
+                    { id: "perim", label: "Perímetro Rotor", unit: " m" },
+                    { id: "vCamera", label: "Volumen por Rev.", unit: " m³" },
+                    { id: "qMax", label: "Caudal (a 120 RPM)", unit: " L/min" }
+                ]
+            },
+            2: {
+                sliders: [
+                    { id: "sides", label: "Lados del Polígono Óptimo (n)", min: 3, max: 12, step: 1, unit: "" },
+                    { id: "spacing", label: "Distancia entre Goteadores", min: 0.5, max: 2.0, step: 0.1, unit: " m" }
+                ],
+                stats: [
+                    { id: "irregArea", label: "Área Parcela Irregular", unit: " m²" },
+                    { id: "regArea", label: "Área Polígono Regular", unit: " m²" },
+                    { id: "perimConst", label: "Perímetro Constante", unit: " m" },
+                    { id: "drippers", label: "Goteadores Requeridos", unit: "" },
+                    { id: "efficiencyGain", label: "Eficiencia de Área Ganada", unit: " %" }
+                ]
+            },
+            3: {
+                sliders: [
+                    { id: "platformArea", label: "Área de Flotación (A)", min: 100, max: 500, step: 10, unit: " m²" },
+                    { id: "baseType", label: "Forma de la Planta (Lados)", min: 6, max: 12, step: 6, unit: "" } // 6 = Hexágono, 12 = Dodecágono
+                ],
+                stats: [
+                    { id: "perimContact", label: "Perímetro de Flotación", unit: " m" },
+                    { id: "maxDist", label: "Radio de Centroide (Brazo)", unit: " m" },
+                    { id: "escoraSens", label: "Sensibilidad a Inclinación", unit: " m/rad" },
+                    { id: "inertia", label: "Segundo Momento de Área", unit: " m⁴" },
+                    { id: "metacentro", label: "Altura Metacéntrica GM", unit: " m" }
+                ]
+            },
+            4: {
+                sliders: [
+                    { id: "panelSize", label: "Lado de Panel Cuadrado (L)", min: 1.0, max: 3.5, step: 0.1, unit: " m" },
+                    { id: "rotation", label: "Ángulo de Inclinación (θ)", min: 0, max: 90, step: 5, unit: "°" }
+                ],
+                stats: [
+                    { id: "roofArea", label: "Área del Techo en L", unit: " m²" },
+                    { id: "coveredArea", label: "Área Activa Solar", unit: " m²" },
+                    { id: "deadArea", label: "Área Muerta (Esquinas)", unit: " m²" },
+                    { id: "panelsCount", label: "Paneles Instalados", unit: "" },
+                    { id: "solarEfficiency", label: "Factor de Aprovechamiento", unit: " %" }
+                ]
+            },
+            5: {
+                sliders: [
+                    { id: "erosionRate", label: "Tasa de Erosión Costera (E)", min: 0.5, max: 4.5, step: 0.1, unit: " m/año" },
+                    { id: "years", label: "Período de Proyección (t)", min: 0, max: 25, step: 1, unit: " años" }
+                ],
+                stats: [
+                    { id: "originalArea", label: "Área Catastral Original", unit: " m²" },
+                    { id: "remainingArea", label: "Área Catastral Restante", unit: " m²" },
+                    { id: "lostArea", label: "Área Perdida por Inundación", unit: " m²" },
+                    { id: "lostPercent", label: "Porcentaje de Pérdida", unit: " %" },
+                    { id: "yearsTo20", label: "Años para Perder 20%", unit: " años" }
+                ]
+            }
+        };
+
+        // Generar Controles en el HTML
+        function buildControls(topic) {
+            const config = themeConfig[topic];
+            const state = simulatorState[topic];
+            
+            // Build Sliders
+            let slidersHtml = '';
+            config.sliders.forEach(slide => {
+                const val = state[slide.id];
+                slidersHtml += `
+                    <div class="control-group">
+                        <label for="slide_${slide.id}">${slide.label}</label>
+                        <input type="range" id="slide_${slide.id}" min="${slide.min}" max="${slide.max}" step="${slide.step}" value="${val}">
+                        <div class="control-value" id="val_${slide.id}">${val}${slide.unit}</div>
+                    </div>
+                `;
+            });
+            dynamicSliders.innerHTML = slidersHtml;
+
+            // Enlazar Eventos de Sliders
+            config.sliders.forEach(slide => {
+                const element = document.getElementById(`slide_${slide.id}`);
+                element.addEventListener('input', (e) => {
+                    const value = parseFloat(e.target.value);
+                    state[slide.id] = value;
+                    document.getElementById(`val_${slide.id}`).innerText = value + slide.unit;
+                    updateStats(topic);
+                    drawSimulation();
+                });
+            });
+
+            // Build Stats Grid
+            let statsHtml = '';
+            config.stats.forEach(stat => {
+                statsHtml += `
+                    <div class="stat-item">
+                        <div class="stat-label">${stat.label}</div>
+                        <div class="stat-value" id="stat_${stat.id}">-</div>
+                    </div>
+                `;
+            });
+            statsGrid.innerHTML = statsHtml;
+            updateStats(topic);
+        }
+
+        // Calcular y actualizar estadísticas
+        function updateStats(topic) {
+            const state = simulatorState[topic];
+            
+            if (topic === 0) { // Domo
+                const R = state.radius;
+                const f = state.freq;
+                
+                const area = Math.PI * R * R;
+                const surfArea = 2 * Math.PI * R * R;
+                const nodes = 10 * f * f + 2;
+                const bars = 30 * f * f;
+                const barLen = bars * (R * 0.35 / Math.sqrt(f));
+                const efficiency = 100 - (f * 4.5);
+
+                document.getElementById('stat_area').innerText = area.toFixed(1) + ' m²';
+                document.getElementById('stat_surfArea').innerText = surfArea.toFixed(1) + ' m²';
+                document.getElementById('stat_nodes').innerText = nodes;
+                document.getElementById('stat_bars').innerText = bars;
+                document.getElementById('stat_barLen').innerText = barLen.toFixed(1) + ' m';
+                document.getElementById('stat_efficiency').innerText = efficiency.toFixed(1) + ' %';
+            } 
+            else if (topic === 1) { // Reuleaux
+                const s = state.width;
+                const e = state.eccentricity;
+
+                const rArea = 0.5 * (Math.PI - Math.sqrt(3)) * s * s;
+                const sArea = s * s;
+                const perim = Math.PI * s;
+                const vCamera = (sArea - rArea) * 1.0;
+                const qMax = vCamera * 120 * 3;
+
+                document.getElementById('stat_rArea').innerText = rArea.toFixed(1) + ' m²';
+                document.getElementById('stat_sArea').innerText = sArea.toFixed(1) + ' m²';
+                document.getElementById('stat_perim').innerText = perim.toFixed(1) + ' m';
+                document.getElementById('stat_vCamera').innerText = vCamera.toFixed(2) + ' m³';
+                document.getElementById('stat_qMax').innerText = qMax.toFixed(0) + ' L/min';
+            } 
+            else if (topic === 2) { // Riego
+                const n = state.sides;
+                const sp = state.spacing;
+
+                const P = 120;
+                const irregArea = 825.4; 
+                const regArea = (P * P) / (4 * n) * (1 / Math.tan(Math.PI / n));
+                const drippers = Math.floor(regArea / (sp * sp));
+                const efficiencyGain = ((regArea - irregArea) / irregArea) * 100;
+
+                document.getElementById('stat_irregArea').innerText = irregArea.toFixed(1) + ' m²';
+                document.getElementById('stat_regArea').innerText = regArea.toFixed(1) + ' m²';
+                document.getElementById('stat_perimConst').innerText = P + ' m';
+                document.getElementById('stat_drippers').innerText = drippers;
+                document.getElementById('stat_efficiencyGain').innerText = efficiencyGain.toFixed(1) + ' %';
+            } 
+            else if (topic === 3) { // Offshore
+                const A = state.platformArea;
+                const n = state.baseType;
+
+                const R = Math.sqrt((2 * A) / (n * Math.sin((2 * Math.PI) / n)));
+                const perim = n * 2 * R * Math.sin(Math.PI / n);
+                const I = (n * Math.pow(R, 4) / 12) * (3 * Math.cos(Math.PI / n) * Math.sin(Math.PI / n) + Math.tan(Math.PI / n));
+                const GM = (I / (A * 4)) - 1.2;
+                const escoraSens = R * 0.15;
+
+                document.getElementById('stat_perimContact').innerText = perim.toFixed(1) + ' m';
+                document.getElementById('stat_maxDist').innerText = R.toFixed(2) + ' m';
+                document.getElementById('stat_escoraSens').innerText = escoraSens.toFixed(2) + ' m/rad';
+                document.getElementById('stat_inertia').innerText = I.toFixed(0) + ' m⁴';
+                document.getElementById('stat_metacentro').innerText = GM.toFixed(2) + ' m';
+            } 
+            else if (topic === 4) { // Solar
+                const L = state.panelSize;
+                const th = state.rotation;
+
+                const roofArea = 450;
+                const panelsCount = Math.floor((roofArea * 0.8) / (L * L * (1 + 0.15 * Math.sin(th * Math.PI / 180))));
+                const coveredArea = panelsCount * L * L;
+                const deadArea = roofArea - coveredArea;
+                const solarEfficiency = (coveredArea / roofArea) * 100;
+
+                document.getElementById('stat_roofArea').innerText = roofArea + ' m²';
+                document.getElementById('stat_coveredArea').innerText = coveredArea.toFixed(1) + ' m²';
+                document.getElementById('stat_deadArea').innerText = deadArea.toFixed(1) + ' m²';
+                document.getElementById('stat_panelsCount').innerText = panelsCount;
+                document.getElementById('stat_solarEfficiency').innerText = solarEfficiency.toFixed(1) + ' %';
+            } 
+            else if (topic === 5) { // Topografía
+                const E = state.erosionRate;
+                const t = state.years;
+
+                const originalArea = 1000;
+                const coastlineLen = 50;
+                const lostArea = coastlineLen * E * t;
+                const remainingArea = Math.max(0, originalArea - lostArea);
+                const lostPercent = (lostArea / originalArea) * 100;
+                const yearsTo20 = (originalArea * 0.20) / (coastlineLen * E);
+
+                document.getElementById('stat_originalArea').innerText = originalArea + ' m²';
+                document.getElementById('stat_remainingArea').innerText = remainingArea.toFixed(1) + ' m²';
+                document.getElementById('stat_lostArea').innerText = lostArea.toFixed(1) + ' m²';
+                document.getElementById('stat_lostPercent').innerText = lostPercent.toFixed(1) + ' %';
+                document.getElementById('stat_yearsTo20').innerText = yearsTo20.toFixed(1) + ' años';
+            }
+        }
+
+        // Dibujar en Canvas
+        function drawSimulation() {
+            const w = simCanvas.width;
+            const h = simCanvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            simCtx.clearRect(0, 0, w, h);
+
+            simCtx.lineWidth = 2;
+            simCtx.lineJoin = 'round';
+            simCtx.lineCap = 'round';
+
+            const state = simulatorState[currentTopic];
+
+            if (currentTopic === 0) { // Domo
+                const R_pixel = Math.min(cx, cy) * 0.7;
+                const f = state.freq;
+
+                simCtx.strokeStyle = 'rgba(42, 157, 143, 0.4)';
+                simCtx.lineWidth = 1;
+                
+                for (let lat = 0; lat <= 90; lat += 90 / f) {
+                    const r = R_pixel * Math.cos(lat * Math.PI / 180);
+                    const y = cy + R_pixel * 0.3 * Math.sin(lat * Math.PI / 180);
+                    
+                    simCtx.beginPath();
+                    simCtx.ellipse(cx, y - R_pixel * 0.3, r, r * 0.3, 0, 0, 2 * Math.PI);
+                    simCtx.stroke();
+                }
+
+                simCtx.strokeStyle = 'rgba(233, 69, 96, 0.5)';
+                for (let lon = 0; lon < 360; lon += 360 / (f * 4)) {
+                    simCtx.beginPath();
+                    for (let lat = -90; lat <= 90; lat += 5) {
+                        const rad_lat = lat * Math.PI / 180;
+                        const rad_lon = lon * Math.PI / 180;
+                        
+                        const x = cx + R_pixel * Math.cos(rad_lat) * Math.cos(rad_lon);
+                        const z = R_pixel * Math.cos(rad_lat) * Math.sin(rad_lon);
+                        const y = cy - R_pixel * 0.6 * Math.sin(rad_lat);
+                        
+                        const screenX = cx + (x - cx) * 0.9 - z * 0.3;
+                        const screenY = y + (x - cx) * 0.1 + z * 0.1;
+
+                        if (lat === -90) {
+                            simCtx.moveTo(screenX, screenY);
+                        } else {
+                            simCtx.lineTo(screenX, screenY);
+                        }
+                    }
+                    simCtx.stroke();
+                }
+
+                simCtx.strokeStyle = 'var(--gold)';
+                simCtx.lineWidth = 3;
+                simCtx.beginPath();
+                simCtx.ellipse(cx, cy + R_pixel * 0.1, R_pixel, R_pixel * 0.3, 0, 0, 2 * Math.PI);
+                simCtx.stroke();
+
+                simCtx.fillStyle = 'var(--highlight)';
+                for (let angle = 0; angle < 360; angle += 360 / 6) {
+                    const rad = angle * Math.PI / 180;
+                    const nx = cx + R_pixel * Math.cos(rad);
+                    const ny = cy + R_pixel * 0.1 + R_pixel * 0.3 * Math.sin(rad);
+                    simCtx.beginPath();
+                    simCtx.arc(nx, ny, 6, 0, 2*Math.PI);
+                    simCtx.fill();
+                }
+            } 
+            else if (currentTopic === 1) { // Reuleaux
+                const s = state.width * 10;
+                const e = state.eccentricity * 10;
+                
+                const ox = cx + e * Math.cos(rotationAngle);
+                const oy = cy + e * Math.sin(rotationAngle);
+
+                const side = s + 2*e;
+                simCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                simCtx.lineWidth = 3;
+                simCtx.strokeRect(cx - side/2, cy - side/2, side, side);
+
+                simCtx.strokeStyle = 'rgba(244, 162, 97, 0.3)';
+                simCtx.lineWidth = 1;
+                simCtx.beginPath();
+                simCtx.arc(cx, cy, e, 0, 2*Math.PI);
+                simCtx.stroke();
+
+                const angleOffset = -rotationAngle / 2;
+                const vertices = [];
+                const r_eq = s / Math.sqrt(3);
+
+                for (let i = 0; i < 3; i++) {
+                    const angle = angleOffset + (i * 2 * Math.PI / 3);
+                    const vx = ox + r_eq * Math.cos(angle);
+                    const vy = oy + r_eq * Math.sin(angle);
+                    vertices.push({x: vx, y: vy});
+                }
+
+                simCtx.fillStyle = 'rgba(123, 44, 191, 0.2)';
+                simCtx.strokeStyle = 'var(--highlight)';
+                simCtx.lineWidth = 3;
+                simCtx.beginPath();
+                
+                simCtx.arc(vertices[2].x, vertices[2].y, s, 
+                           Math.atan2(vertices[0].y - vertices[2].y, vertices[0].x - vertices[2].x), 
+                           Math.atan2(vertices[1].y - vertices[2].y, vertices[1].x - vertices[2].x));
+                
+                simCtx.arc(vertices[0].x, vertices[0].y, s, 
+                           Math.atan2(vertices[1].y - vertices[0].y, vertices[1].x - vertices[0].x), 
+                           Math.atan2(vertices[2].y - vertices[0].y, vertices[2].x - vertices[0].x));
+                
+                simCtx.arc(vertices[1].x, vertices[1].y, s, 
+                           Math.atan2(vertices[2].y - vertices[1].y, vertices[2].x - vertices[1].x), 
+                           Math.atan2(vertices[0].y - vertices[1].y, vertices[0].x - vertices[1].x));
+                
+                simCtx.closePath();
+                simCtx.fill();
+                simCtx.stroke();
+
+                simCtx.fillStyle = 'var(--gold)';
+                vertices.forEach(v => {
+                    simCtx.beginPath();
+                    simCtx.arc(v.x, v.y, 4, 0, 2*Math.PI);
+                    simCtx.fill();
+                });
+
+                simCtx.fillStyle = 'var(--teal)';
+                simCtx.beginPath();
+                simCtx.arc(ox, oy, 5, 0, 2*Math.PI);
+                simCtx.fill();
+            } 
+            else if (currentTopic === 2) { // Riego
+                const n = state.sides;
+                const sp = state.spacing;
+
+                const irregVertices = [
+                    {x: cx - 140, y: cy - 100},
+                    {x: cx + 120, y: cy - 120},
+                    {x: cx + 160, y: cy + 50},
+                    {x: cx + 40, y: cy + 120},
+                    {x: cx - 120, y: cy + 80}
+                ];
+
+                simCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                simCtx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+                simCtx.lineWidth = 2;
+                simCtx.beginPath();
+                simCtx.moveTo(irregVertices[0].x, irregVertices[0].y);
+                for(let i = 1; i < irregVertices.length; i++) {
+                    simCtx.lineTo(irregVertices[i].x, irregVertices[i].y);
+                }
+                simCtx.closePath();
+                simCtx.fill();
+                simCtx.stroke();
+
+                simCtx.fillStyle = 'rgba(0, 119, 182, 0.5)';
+                for (let x = cx - 180; x < cx + 180; x += sp * 25) {
+                    for (let y = cy - 150; y < cy + 150; y += sp * 25) {
+                        if (isPointInPolygon({x, y}, irregVertices)) {
+                            simCtx.beginPath();
+                            simCtx.arc(x, y, 3, 0, 2*Math.PI);
+                            simCtx.fill();
+                        }
+                    }
+                }
+
+                const R_reg = 110;
+                simCtx.strokeStyle = 'var(--teal)';
+                simCtx.lineWidth = 2.5;
+                simCtx.beginPath();
+                for (let i = 0; i < n; i++) {
+                    const angle = (i * 2 * Math.PI / n) - Math.PI / 2;
+                    const px = cx + R_reg * Math.cos(angle);
+                    const py = cy + R_reg * Math.sin(angle);
+                    if (i === 0) simCtx.moveTo(px, py);
+                    else simCtx.lineTo(px, py);
+                }
+                simCtx.closePath();
+                simCtx.stroke();
+            } 
+            else if (currentTopic === 3) { // Offshore
+                const A = state.platformArea;
+                const n = state.baseType;
+
+                const R = Math.sqrt((2 * A) / (n * Math.sin((2 * Math.PI) / n))) * 7.5;
+
+                simCtx.fillStyle = 'rgba(0, 119, 182, 0.15)';
+                simCtx.beginPath();
+                simCtx.moveTo(0, cy + 30);
+                for (let x = 0; x <= w; x += 10) {
+                    const y = cy + 30 + 10 * Math.sin((x + rotationAngle * 20) * 0.02);
+                    simCtx.lineTo(x, y);
+                }
+                simCtx.lineTo(w, h);
+                simCtx.lineTo(0, h);
+                simCtx.closePath();
+                simCtx.fill();
+
+                simCtx.fillStyle = 'rgba(22, 33, 62, 0.85)';
+                simCtx.strokeStyle = 'var(--highlight)';
+                simCtx.lineWidth = 3;
+                
+                simCtx.beginPath();
+                for (let i = 0; i < n; i++) {
+                    const angle = (i * 2 * Math.PI / n) + rotationAngle * 0.05;
+                    const px = cx + R * Math.cos(angle);
+                    const py = cy + R * Math.sin(angle);
+                    if (i === 0) simCtx.moveTo(px, py);
+                    else simCtx.lineTo(px, py);
+                }
+                simCtx.closePath();
+                simCtx.fill();
+                simCtx.stroke();
+
+                simCtx.strokeStyle = 'var(--gold)';
+                simCtx.lineWidth = 2;
+                simCtx.beginPath();
+                simCtx.moveTo(cx, cy);
+                const targetAngle = rotationAngle * 0.05;
+                simCtx.lineTo(cx + R * Math.cos(targetAngle), cy + R * Math.sin(targetAngle));
+                simCtx.stroke();
+
+                simCtx.fillStyle = 'var(--teal)';
+                simCtx.beginPath();
+                simCtx.arc(cx, cy, 6, 0, 2*Math.PI);
+                simCtx.fill();
+            } 
+            else if (currentTopic === 4) { // Solar
+                const L = state.panelSize * 15;
+                const th_rad = state.rotation * Math.PI / 180;
+
+                const roofPath = [
+                    {x: cx - 150, y: cy - 130},
+                    {x: cx + 50, y: cy - 130},
+                    {x: cx + 50, y: cy + 30},
+                    {x: cx + 150, y: cy + 30},
+                    {x: cx + 150, y: cy + 130},
+                    {x: cx - 150, y: cy + 130}
+                ];
+
+                simCtx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+                simCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                simCtx.lineWidth = 2;
+                simCtx.beginPath();
+                simCtx.moveTo(roofPath[0].x, roofPath[0].y);
+                for(let i = 1; i < roofPath.length; i++) {
+                    simCtx.lineTo(roofPath[i].x, roofPath[i].y);
+                }
+                simCtx.closePath();
+                simCtx.fill();
+                simCtx.stroke();
+
+                simCtx.save();
+                simCtx.beginPath();
+                simCtx.moveTo(roofPath[0].x, roofPath[0].y);
+                for(let i = 1; i < roofPath.length; i++) {
+                    simCtx.lineTo(roofPath[i].x, roofPath[i].y);
+                }
+                simCtx.closePath();
+                simCtx.clip();
+
+                simCtx.strokeStyle = 'var(--purple)';
+                simCtx.fillStyle = 'rgba(0, 119, 182, 0.4)';
+                simCtx.lineWidth = 1;
+
+                const step = L + 3;
+                for (let px = -w; px < w * 2; px += step) {
+                    for (let py = -h; py < h * 2; py += step) {
+                        simCtx.save();
+                        simCtx.translate(cx, cy);
+                        simCtx.rotate(th_rad);
+                        
+                        const drawX = px - cx;
+                        const drawY = py - cy;
+
+                        simCtx.beginPath();
+                        simCtx.rect(drawX, drawY, L, L);
+                        simCtx.fill();
+                        simCtx.stroke();
+                        
+                        simCtx.restore();
+                    }
+                }
+                simCtx.restore();
+
+                simCtx.fillStyle = 'rgba(233, 69, 96, 0.4)';
+                simCtx.beginPath();
+                simCtx.arc(cx + 50, cy + 30, 20, 0, 2*Math.PI);
+                simCtx.fill();
+            } 
+            else if (currentTopic === 5) { // Topografía
+                const E = state.erosionRate;
+                const t = state.years;
+
+                const shoreY = cy + 40;
+                const erosionOffset = E * t * 4;
+
+                simCtx.fillStyle = 'rgba(0, 119, 182, 0.2)';
+                simCtx.fillRect(0, shoreY - erosionOffset, w, h - (shoreY - erosionOffset));
+
+                simCtx.fillStyle = 'rgba(42, 157, 143, 0.1)';
+                simCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                simCtx.lineWidth = 2;
+                simCtx.beginPath();
+                simCtx.moveTo(cx - 150, cy - 100);
+                simCtx.lineTo(cx + 150, cy - 100);
+                simCtx.lineTo(cx + 150, shoreY);
+                simCtx.lineTo(cx - 150, shoreY);
+                simCtx.closePath();
+                simCtx.fill();
+                simCtx.stroke();
+
+                simCtx.fillStyle = 'rgba(233, 69, 96, 0.25)';
+                simCtx.fillRect(cx - 150, shoreY - erosionOffset, 300, erosionOffset);
+
+                simCtx.strokeStyle = 'var(--gold)';
+                simCtx.lineWidth = 2.5;
+                simCtx.beginPath();
+                simCtx.moveTo(cx - 150, cy - 100);
+                simCtx.lineTo(cx + 150, cy - 100);
+                simCtx.lineTo(cx + 150, shoreY - erosionOffset);
+                simCtx.lineTo(cx - 150, shoreY - erosionOffset);
+                simCtx.closePath();
+                simCtx.stroke();
+
+                const droneX = cx + 80 * Math.sin(rotationAngle * 2);
+                const droneY = cy - 80;
+
+                simCtx.fillStyle = 'rgba(42, 157, 143, 0.15)';
+                simCtx.beginPath();
+                simCtx.moveTo(droneX, droneY);
+                simCtx.lineTo(droneX - 50, shoreY - erosionOffset);
+                simCtx.lineTo(droneX + 50, shoreY - erosionOffset);
+                simCtx.closePath();
+                simCtx.fill();
+
+                simCtx.fillStyle = '#fff';
+                simCtx.beginPath();
+                simCtx.arc(droneX, droneY, 6, 0, 2*Math.PI);
+                simCtx.fill();
+
+                simCtx.strokeStyle = 'var(--teal)';
+                simCtx.lineWidth = 2;
+                simCtx.beginPath();
+                simCtx.moveTo(droneX - 12, droneY);
+                simCtx.lineTo(droneX + 12, droneY);
+                simCtx.stroke();
+            }
+        }
+
+        function isPointInPolygon(point, vs) {
+            const x = point.x, y = point.y;
+            let inside = false;
+            for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+                const xi = vs[i].x, yi = vs[i].y;
+                const xj = vs[j].x, yj = vs[j].y;
+                const intersect = ((yi > y) !== (yj > y))
+                    && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                if (intersect) inside = !inside;
+            }
+            return inside;
+        }
+
+        function animationLoop() {
+            rotationAngle += 0.02;
+            drawSimulation();
+            animationFrameId = requestAnimationFrame(animationLoop);
+        }
+
+        simTopicSelect.addEventListener('change', (e) => {
+            currentTopic = parseInt(e.target.value);
+            buildControls(currentTopic);
+            drawSimulation();
+        });
+
+        buildControls(0);
+        animationLoop();
+    </script>
+</body>
+</html>

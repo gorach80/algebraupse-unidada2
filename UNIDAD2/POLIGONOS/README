@@ -1,0 +1,90 @@
+# 🎓 Suite de Recursos Educativos Digitales Interactivos - UPSE
+
+Este repositorio contiene la suite completa de recursos educativos digitales interactivos y simuladores matemáticos desarrollados para el curso de admisión y nivelación de la **Universidad Estatal Península de Santa Elena (UPSE)**.
+
+El proyecto está diseñado bajo una estética oscura moderna (*Glassmorphism*), incorporando simuladores visuales fluidos en Canvas, laboratorios de desafíos con validación en tiempo real y explicaciones conceptuales rigurosas basadas en renderizadores matemáticos formales (**KaTeX** y **MathJax**).
+
+---
+
+## 📂 Estructura Completa del Repositorio
+
+La suite está organizada en unidades temáticas y temas de la siguiente manera:
+
+### 1. 📘 Unidad 2 - Tema 1: Números Reales y Operaciones
+Ubicado en el directorio raíz del proyecto:
+*   **[index.html](index.html)**: Panel de inicio y Explorador interactivo de la representación decimal de números reales, graficación en recta numérica con zoom y autoevaluación general.
+*   **[actividad_orden.html](actividad_orden.html)**: *Actividad 1: Orden y Densidad*. Relaciones de orden, vecindades y cotas con retos interactivos.
+*   **[actividad_operaciones.html](actividad_operaciones.html)**: *Actividad 2: Operaciones Binarias*. Leyes de composición interna, tablas de Cayley interactivas en Canvas y propiedades estructurales.
+*   **[actividad_generatriz.html](actividad_generatriz.html)**: *Actividad 3: Fracción Generatriz*. Cálculo interactivo para transformar decimales a fracciones irreducibles.
+*   **[actividad_intervalos.html](actividad_intervalos.html)**: *Actividad 4: Intervalos*. Operaciones de conjuntos en la recta real (unión, intersección, diferencia, complemento).
+*   **[actividad_clasificacion.html](actividad_clasificacion.html)**: *Actividad 5: Clasificación*. Módulo de clasificación jerárquica de números reales.
+
+### 2. 📙 Unidad 2 - Tema 2: Expresiones Algebraicas y Valor Absoluto
+Ubicado en la subcarpeta **[UNIDAD2TEMA2/](UNIDAD2TEMA2/)**:
+*   **[UNIDAD2TEMA2/index.html](UNIDAD2TEMA2/index.html)**: Panel del Tema 2 con simulador interactivo paso a paso de la **Regla de Ruffini** y visualizador métrico de distancias.
+*   **[UNIDAD2TEMA2/actividad_factorizacion.html](UNIDAD2TEMA2/actividad_factorizacion.html)**: Demostraciones geométricas y visuales de productos notables y casos de factorización en Canvas.
+*   **[UNIDAD2TEMA2/actividad_ecuaciones_va.html](UNIDAD2TEMA2/actividad_ecuaciones_va.html)**: Ecuaciones e inecuaciones de valor absoluto, graficador de intervalos solución y quiz aplicado a la ingeniería.
+
+### 3. 📗 Unidad 2 - Tema 3: Ecuaciones, Inecuaciones y Sucesiones
+Ubicado en la subcarpeta **[UNIDAD2TEMA3/](UNIDAD2TEMA3/)**:
+*   **[UNIDAD2TEMA3/index.html](UNIDAD2TEMA3/index.html)**: Panel del Tema 3 con teoría de ecuaciones lineales y cuadráticas, y solucionador interactivo formal paso a paso.
+*   **[UNIDAD2TEMA3/actividad_inecuaciones.html](UNIDAD2TEMA3/actividad_inecuaciones.html)**: Solucionador de inecuaciones de primer y segundo grado con graficador de intervalos solución en Canvas.
+*   **[UNIDAD2TEMA3/actividad_sucesiones.html](UNIDAD2TEMA3/actividad_sucesiones.html)**: Explorador analítico y visualizador dinámico de sucesiones y progresiones aritméticas y geométricas.
+
+### 4. 📕 Unidad 3 - Tema 1: Funciones de Variable Real
+Ubicado en la subcarpeta **[UNIDAD3TEMA1/](UNIDAD3TEMA1/)**:
+*   **[UNIDAD3TEMA1/index.html](UNIDAD3TEMA1/index.html)**: Introducción formal a funciones de variable real, dominios, rangos y representaciones gráficas.
+*   **[UNIDAD3TEMA1/actividad_tipos.html](UNIDAD3TEMA1/actividad_tipos.html)**: Clasificación de funciones (inyectiva, sobreyectiva, biyectiva) y análisis de paridad/simetría con quiz de autoevaluación.
+*   **[UNIDAD3TEMA1/actividad_asintotas.html](UNIDAD3TEMA1/actividad_asintotas.html)**: Graficador interactivo de asíntotas (verticales, horizontales y oblicuas) en Canvas.
+
+### 5. 🟪 Unidad 3 - Tema 2: Funciones por Tramos y Optimización
+Ubicado en la subcarpeta **[UNIDAD3TEMA2/](UNIDAD3TEMA2/)**:
+*   **[UNIDAD3TEMA2/index.html](UNIDAD3TEMA2/index.html)**: Modelos lineales y cuadráticos con un optimizador y graficador dinámico del vértice de parábolas.
+*   **[UNIDAD3TEMA2/actividad_tramos.html](UNIDAD3TEMA2/actividad_tramos.html)**: Visualizador interactivo de funciones definidas por tramos (control de extremos abiertos y cerrados) y laboratorio de transformaciones geométricas.
+*   **[UNIDAD3TEMA2/actividad_aplicaciones.html](UNIDAD3TEMA2/actividad_aplicaciones.html)**: Laboratorio de optimización de ingeniería (maximización de ingresos y perímetros perimetrales).
+
+### 6. 💎 Proyecto Especial: Investigaciones de Geometría Métrica
+Ubicado en la subcarpeta **[GEOMETRIA_METRICA/](GEOMETRIA_METRICA/)**:
+*   **[GEOMETRIA_METRICA/index.html](GEOMETRIA_METRICA/index.html)**: Portal de Investigaciones Aplicativas. Cuenta con modales informativos detallados para los 6 temas de proyectos de ingeniería y un **Simulador Métrico en Canvas** que modela dinámicamente en tiempo real:
+    1.  *Ingeniería Civil*: Cúpulas geodésicas (triangulaciones proyectadas en isométrica).
+    2.  *Ingeniería Mecánica/Petróleos*: Rotación excéntrica de un Rotor de Reuleaux dentro de su estator.
+    3.  *Ingeniería Agroindustrial*: Triangulación de parcelas y optimización de redes de riego por goteo.
+    4.  *Ingeniería Marina*: Hexágonos vs. Dodecágonos en estabilidad hidrostática marina.
+    5.  *Ingeniería en Energías*: Empaquetamiento y ángulo de paneles solares en techos poligonales en L.
+    6.  *Topografía y Geomática*: Levantamiento catastral (Fórmula de Gauss) y pérdida de terreno por erosión marina.
+
+---
+
+## 🛠️ Tecnologías Empleadas
+
+*   **Estructura y Lógica**: HTML5 semántico y JavaScript ES6 (Vanilla JS).
+*   **Estilos y Animaciones**: CSS3 puro con variables dinámicas, animaciones clave y efectos de transparencia *Glassmorphism*.
+*   **Rigor Matemático**: [KaTeX](https://katex.org/) y [MathJax](https://www.mathjax.org/) cargados por CDN para la renderización de ecuaciones científicas.
+*   **Gráficos en Tiempo Real**: HTML5 Canvas API para renderizado dinámico e interactivo a 60 FPS.
+*   **Iconografía**: Lucide Icons y FontAwesome.
+
+---
+
+## 🚀 Despliegue en GitHub Pages
+
+Para publicar este proyecto de forma gratuita en la web utilizando **GitHub Pages**, sigue estos pasos:
+
+1.  **Crear un Repositorio en GitHub**:
+    *   Ingresa a tu cuenta de GitHub y crea un nuevo repositorio público (ej. `PROYECTOS-ALGEBRA`).
+2.  **Vincular y Subir el Código**:
+    *   Abre una consola en la carpeta raíz del proyecto y ejecuta el archivo `subir_a_github.bat` (o hazlo manualmente mediante comandos de Git).
+3.  **Activar GitHub Pages**:
+    *   En tu repositorio de GitHub, ve a la pestaña **Settings** (Configuración) en el menú superior.
+    *   En la barra lateral izquierda, selecciona la sección **Pages** (Páginas).
+    *   Bajo la sección **Build and deployment**, configura:
+        *   **Source**: *Deploy from a branch*.
+        *   **Branch**: Selecciona `main` y en la carpeta mantén `/ (root)`.
+    *   Haz clic en **Save** (Guardar).
+4.  **Acceder a las Secciones**:
+    *   Tu sitio principal estará en: `https://<tu-usuario>.github.io/<nombre-repo>/`
+    *   Los subtemas y proyectos especiales se accederán añadiendo las rutas correspondientes:
+        *   `/UNIDAD2TEMA2/`
+        *   `/UNIDAD2TEMA3/`
+        *   `/UNIDAD3TEMA1/`
+        *   `/UNIDAD3TEMA2/`
+        *   `/GEOMETRIA_METRICA/`
